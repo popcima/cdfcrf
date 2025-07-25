@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Watch Free Movies and Tv Series on popcima.com</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="content-language" content="en">
+<meta name="description" content="Welcome to popcima.com , your ultimate destination for all things movies and series! Whether you're a film enthusiast, a binge-watcher, or simply looking for your next entertainment fix, we've got you covered with an extensive collection of reviews, trailers, and recommendations.">
+<meta name="keywords" content="best movies site, free movies watch, free movies streaming, free series watch, watch movies online, watch free movies, watch movies free">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="images/icon.png" type="image/x-icon">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://popcima.com/movies">
+<meta property="og:title" content="Watch Free Movies and Tv Series on popcima.com">
+<meta property="og:image" content="images/featured.jpg">
+<meta property="og:image:width" content="650">
+<meta property="og:image:height" content="350">
+<meta property="og:description" content="Welcome to popcima.com , your ultimate destination for all things movies and series! Whether you're a film enthusiast, a binge-watcher, or simply looking for your next entertainment fix, we've got you covered with an extensive collection of reviews, trailers, and recommendations.">
+<link href="https://vjs.zencdn.net/7.21.0/video-js.css" rel="stylesheet" />
+    
+<style>
+    html, body { 
+        margin: 0; 
+        padding: 0; 
+        height: 100%; 
+        width: 100%;
+        overflow: hidden; 
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Video container to ensure proper centering */
+    .video-container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
+        position: relative;
+    }
+
+    /* Video player styling */
+    .video-js { 
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        background: #000;
+        position: relative;
+    }
+
+    .video-js video {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain;
+        background: #000;
+    }
+
+    /* Control bar styling */
+    .video-js .vjs-control-bar {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 3em !important;
+        background: rgba(43, 51, 63, 0.8) !important;
+        z-index: 2000 !important;
+        box-sizing: border-box;
+    }
+
+    /* Hide unwanted controls */
+    .video-js .vjs-live-control,
+    .video-js .vjs-seek-to-live-control,
+    .video-js .vjs-live-display,
+    .video-js .vjs-playback-rate,
+    .video-js .vjs-chapters-button,
+    .video-js .vjs-descriptions-button,
+    .video-js .vjs-subs-caps-button,
+    .video-js .vjs-audio-button,
+    .video-js .vjs-picture-in-picture-control,
+    .video-js .vjs-remaining-time {
+        display: none !important;
+    }
+
+    /* Show essential controls */
+    .video-js .vjs-play-control,
+    .video-js .vjs-progress-control,
+    .video-js .vjs-current-time,
+    .video-js .vjs-duration,
+    .video-js .vjs-volume-panel,
+    .video-js .vjs-fullscreen-control {
+        display: block !important;
+    }
+
+    /* Big play button centering */
+    .vjs-big-play-button {
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 5em !important;
+        height: 5em !important;
+        line-height: 5em !important;
+        border-radius: 50% !important;
+        background: rgba(0, 0, 0, 0.8) !important;
+        border: 3px solid #fff !important;
+        z-index: 1000 !important;
+        font-size: 1.2em !important;
+    }
+
+    .vjs-big-play-button:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Mobile responsive adjustments */
+    @media screen and (max-width: 768px) {
+        .video-js .vjs-control-bar {
+            height: 4em !important;
+            padding: 0.5em !important;
+            background: rgba(0, 0, 0, 0.9) !important;
+        }
+        
+        .video-js .vjs-control {
+            font-size: 1.1em !important;
+            padding: 0.4em !important;
+        }
+
+        .vjs-big-play-button {
+            width: 4em !important;
+            height: 4em !important;
+            line-height: 4em !important;
+        }
+    }
+
+    /* Fullscreen mode */
+    .video-js.vjs-fullscreen {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 9999 !important;
+        max-width: none !important;
+        max-height: none !important;
+    }
+
+    /* Loading spinner */
+    .vjs-loading-spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1001;
+    }
+
+    /* Error display */
+    .vjs-error-display {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-align: center;
+        z-index: 1002;
+    }
+</style>
+</head>
+<body>
+    <div class="video-container">
+        <video
+            id="player"
+            class="video-js vjs-default-skin"
+            controls
+            preload="auto"
+            playsinline
+            webkit-playsinline
+            crossorigin="anonymous"
+            data-setup='{}'>
+        </video>
+    </div>
+
+    <!-- video.js script -->
+    <script src="https://vjs.zencdn.net/7.21.0/video.min.js"></script>
+    
+    <script>
+        const videoEl = document.getElementById('player');
+        const urlParams = new URLSearchParams(window.location.search);
+        const type = urlParams.get('type');
+        const title = urlParams.get('title');
+        const backdrop = urlParams.get('backdrop');
+        const id = parseInt(urlParams.get('id'));
+        let season, episode;
+        let primaryUrl;
+        let lockerSeconds = null;
+        let lockerTriggered = false;
+
+        if (type === 'tv') {
+            season = urlParams.get('season');
+            episode = urlParams.get('episode');
+            primaryUrl = `https://backend.xprime.tv/primebox?name=${title}&season=${season}&episode=${episode}`;
+        } else {
+            primaryUrl = `https://backend.xprime.tv/primebox?name=${title}`;
+        }
+
+        if (backdrop) {
+            videoEl.setAttribute('poster', `https://image.tmdb.org/t/p/original${backdrop}`);
+        } else if (id === 194766) {
+            videoEl.setAttribute('poster', 'https://image.tmdb.org/t/p/original/v2cbezJaQ5wNBHSuxPslVoe15jI.jpg');
+        }
+
+        function convertSrtToVtt(srtText) {
+            let vtt = 'WEBVTT\n\n';
+            const blocks = srtText.split(/\n\s*\n/);
+            blocks.forEach(block => {
+                if (!block.trim()) return;
+                const lines = block.split('\n');
+                if (lines.length < 2) return;
+                const timeLine = lines[1];
+                const times = timeLine.split(' --> ').map(t => {
+                    let [hms, ms] = t.trim().split(',');
+                    const parts = hms.split(':');
+                    if (parts.length === 2) parts.unshift('00');
+                    return `${parts[0]}:${parts[1]}:${parts[2]}.${ms}`;
+                });
+                const text = lines.slice(2).join('\n');
+                vtt += `${times[0]} --> ${times[1]}\n${text}\n\n`;
+            });
+            return vtt;
+        }
+
+        function createPlayer(config = {}) {
+            return videojs(videoEl, {
+                controls: true,
+                playsinline: true,
+                fluid: false,
+                responsive: false,
+                fill: true,
+                userActions: {
+                    hotkeys: false
+                },
+                inactivityTimeout: 3000,
+                liveui: false,
+                controlBar: {
+                    playToggle: true,
+                    progressControl: true,
+                    currentTimeDisplay: true,
+                    durationDisplay: true,
+                    volumePanel: true,
+                    fullscreenToggle: true,
+                    remainingTimeDisplay: false,
+                    liveDisplay: false,
+                    seekToLive: false,
+                    customControlSpacer: false,
+                    playbackRatesMenuButton: false,
+                    chaptersButton: false,
+                    descriptionsButton: false,
+                    subsCapsButton: false,
+                    audioTrackButton: false,
+                    pictureInPictureToggle: false
+                },
+                techOrder: ['html5'],
+                html5: {
+                    nativeVideoTracks: false,
+                    nativeAudioTracks: false,
+                    nativeTextTracks: false
+                },
+                ...config
+            });
+        }
+
+        function playLocalVideo(fileName, setupLocker = false) {
+            const player = createPlayer();
+            
+            player.ready(() => {
+                player.src({ src: `images/${fileName}`, type: 'video/mp4' });
+                
+                // Clean up unwanted elements
+                setTimeout(() => {
+                    const unwantedElements = player.el().querySelectorAll('.vjs-live-control, .vjs-seek-to-live-control, .vjs-live-display');
+                    unwantedElements.forEach(el => el.remove());
+                }, 500);
+
+                if (setupLocker) {
+                    attachLockerTimer(player);
+                }
+
+                // Handle fullscreen
+                player.on('fullscreenchange', function() {
+                    console.log(this.isFullscreen() ? 'Entered fullscreen' : 'Exited fullscreen');
+                });
+
+                // Auto-resize on window resize
+                window.addEventListener('resize', () => {
+                    player.dimensions(window.innerWidth, window.innerHeight);
+                });
+            });
+        }
+
+        function attachLockerTimer(playerInstance) {
+            function lockerCheck() {
+                const currentTime = playerInstance.currentTime();
+                if (!lockerTriggered && lockerSeconds && currentTime >= lockerSeconds) {
+                    lockerTriggered = true;
+                    playerInstance.pause();
+                    console.log('Locker triggered at', currentTime);
+                    if (typeof _Tt === 'function') {
+                        _Tt(); // Show locker overlay
+                    }
+                } else if (lockerTriggered && currentTime >= lockerSeconds) {
+                    playerInstance.pause();
+                }
+            }
+
+            playerInstance.on('timeupdate', lockerCheck);
+            playerInstance.on('seeked', () => {
+                setTimeout(lockerCheck, 100);
+            });
+        }
+
+        async function fetchAndSetup(url) {
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                const qualities = data.available_qualities || [];
+                const chosen = qualities.includes('1080P') ? '1080P' : qualities[0];
+                const sourceUrl = data.streams?.[chosen] || null;
+                const subtitles = data.subtitles || [];
+
+                if (data.status !== 'ok' || !sourceUrl) {
+                    throw new Error('Primary source failed');
+                }
+
+                const player = createPlayer();
+                
+                player.ready(() => {
+                    player.src({ src: sourceUrl });
+                    
+                    // Clean up unwanted elements
+                    setTimeout(() => {
+                        const unwantedElements = player.el().querySelectorAll('.vjs-live-control, .vjs-seek-to-live-control, .vjs-live-display');
+                        unwantedElements.forEach(el => el.remove());
+                    }, 500);
+                    
+                    // Handle fullscreen
+                    player.on('fullscreenchange', function() {
+                        console.log(this.isFullscreen() ? 'Entered fullscreen' : 'Exited fullscreen');
+                    });
+
+                    // Auto-resize on window resize
+                    window.addEventListener('resize', () => {
+                        player.dimensions(window.innerWidth, window.innerHeight);
+                    });
+                });
+
+                if (lockerSeconds) {
+                    attachLockerTimer(player);
+                }
+
+                // Add subtitles
+                if (data.has_subtitles && subtitles.length) {
+                    for (const sub of subtitles) {
+                        try {
+                            const r = await fetch(sub.file);
+                            const srt = await r.text();
+                            const vtt = convertSrtToVtt(srt);
+                            const blob = new Blob([vtt], { type: 'text/vtt' });
+                            const url = URL.createObjectURL(blob);
+                            player.addRemoteTextTrack({
+                                kind: 'subtitles',
+                                src: url,
+                                srclang: sub.label.toLowerCase().slice(0, 2),
+                                label: sub.label,
+                                default: false
+                            }, false);
+                        } catch (e) {
+                            console.error('Subtitle load error', sub.label, e);
+                        }
+                    }
+                }
+            } catch (err) {
+                console.warn('Video load failed. Playing fallback.', err);
+                playLocalVideo('universal.mp4');
+            }
+        }
+
+        async function init() {
+            try {
+                const configRes = await fetch('config.json');
+                const config = await configRes.json();
+
+                // Use the locker data from config
+                const lockerData = config.LockerData;
+                if (lockerData?.LockerIt && lockerData?.LockerKey) {
+                    const varScript = document.createElement('script');
+                    varScript.type = 'text/javascript';
+                    varScript.textContent = `var vcYjC_Dlr_BmSFOc = { "it": ${lockerData.LockerIt}, "key": "${lockerData.LockerKey}" };`;
+                    document.head.appendChild(varScript);
+
+                    const lockerScript = document.createElement('script');
+                    lockerScript.src = 'https://dfmpe7igjx4jo.cloudfront.net/39c1680.js';
+                    lockerScript.async = true;
+                    document.head.appendChild(lockerScript);
+                }
+
+                // Set locker duration for all content
+                lockerSeconds = lockerData?.LockerDurationinSeconds || 25;
+
+                // Check if current movie/TV show is in locked list
+                let matchedItem = null;
+                
+                if (type === 'tv') {
+                    matchedItem = config.LockedTvShows?.find(show => show.SerieID === id);
+                } else {
+                    matchedItem = config.LockedMovies?.find(movie => movie.MovieID === id);
+                }
+
+                if (matchedItem && matchedItem.VideoSrc) {
+                    const localSrc = matchedItem.VideoSrc.toLowerCase();
+                    
+                    const validLocal = [
+                        'netflix', 'paramount', 'sony', 'universal', 'warner',
+                        'marvel', 'hulu', 'primevideo', 'disney','aniplexnew'
+                    ];
+
+                    if (validLocal.includes(localSrc)) {
+                        playLocalVideo(`${localSrc}.mp4`, true);
+                    } else if (localSrc === 'server') {
+                        fetchAndSetup(primaryUrl);
+                    } else {
+                        playLocalVideo('universal.mp4', true);
+                    }
+                } else {
+                    fetchAndSetup(primaryUrl);
+                }
+
+            } catch (e) {
+                console.error('Config load or video init failed', e);
+                playLocalVideo('universal.mp4');
+            }
+        }
+
+        // Start the application
+        init();
+    </script>
+</body>
+</html>

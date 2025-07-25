@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Watch Free Movies and Tv Series on popcima.com</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="content-language" content="en">
+<meta name="description" content="Welcome to popcima.com , your ultimate destination for all things movies and series! Whether you're a film enthusiast, a binge-watcher, or simply looking for your next entertainment fix, we've got you covered with an extensive collection of reviews, trailers, and recommendations.">
+<meta name="keywords" content="best movies site, free movies watch, free movies streaming, free series watch, watch movies online, watch free movies, watch movies free">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="images/icon.png" type="image/x-icon">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://popcima.com/movies">
+<meta property="og:title" content="Watch Free Movies and Tv Series on popcima.com">
+<meta property="og:image" content="images/featured.jpg">
+<meta property="og:image:width" content="650">
+<meta property="og:image:height" content="350">
+<meta property="og:description" content="Welcome to popcima.com , your ultimate destination for all things movies and series! Whether you're a film enthusiast, a binge-watcher, or simply looking for your next entertainment fix, we've got you covered with an extensive collection of reviews, trailers, and recommendations.">
+<!--Begin: Stylesheet-->
+<link rel="stylesheet" href="css/Pvq5Z12mGY4f.css">
+<link rel="stylesheet" href="css/8n31zTeH0XHr.css">
+<link rel="stylesheet" href="css/1UQYHyIhUvds.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L23YZD83ZH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L23YZD83ZH');
+</script>
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SKYXYJCQ9D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SKYXYJCQ9D');
+</script>
+</head>
+<body id="gMNrTK" style="background-color: black;">
+<div id="mobile-overlay"></div>
+<div id="menu-display"></div>
+<div id="app" style="background-color: black;">
+    <!--/// Header ///-->
+    <header class="over-air">
+        <div class="container">
+            <div id="header_elements" style="display: flex; align-items: center; justify-content: space-between;">
+                <a href="/" id="header_logo" style="margin-right: 32px;">
+                    <img src="images/logo.png" alt="popcima.com">
+                </a>
+                <!-- Desktop Navigation -->
+                <nav class="desktop-nav" style="display: flex; gap: 32px; align-items: center;">
+                    <a href="/movies.html" class="nav-link" style="margin-right: 16px;">Movies</a>
+                    <a href="/series.html" class="nav-link" style="margin-right: 16px;">Series</a>
+                    <form id="desktop-search-form" action="/search.html" method="get" style="display: inline; margin-left: 16px;">
+                        <input type="text" name="q" placeholder="Search..." style="padding: 5px 10px; border-radius: 4px; border: 1px solid #ccc;">
+                        <button type="submit" style="padding: 5px 16px; border-radius: 6px; border: none; background: #00acc1; color: #fff; font-weight: 600; font-size: 1rem; box-shadow: 0 2px 8px rgba(229,9,20,0.15); transition: background 0.2s; display: inline-flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-search" style="margin-right: 6px;"></i>Search
+                        </button>
+                    </form>
+                </nav>
+                <!-- Mobile Menu Toggle -->
+                <button id="mobile-menu-toggle" aria-label="Open menu" style="background: none; border: none; font-size: 2rem; color: #fff; display: none; margin-left: 32px;">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" style="display: none; position: fixed; top: 0; right: 0; width: 80vw; max-width: 320px; height: 100vh; background: #18191a; z-index: 1000; box-shadow: -2px 0 8px rgba(0,0,0,0.2); padding: 32px 20px;">
+            <button id="mobile-menu-close" aria-label="Close menu" style="background: none; border: none; font-size: 2rem; color: #fff; position: absolute; top: 16px; right: 16px;">
+                <i class="fas fa-times"></i>
+            </button>
+            <nav style="display: flex; flex-direction: column; gap: 32px; margin-top: 40px;">
+                <a href="/movies.html" class="nav-link" style="color: #fff; font-size: 1.2rem;">Movies</a>
+                <a href="/series.html" class="nav-link" style="color: #fff; font-size: 1.2rem;">Series</a>
+               <form id="mobile-search-form" action="/search.html" method="get" style="display: flex; gap: 12px;">
+    <input type="text" name="q" placeholder="Search..." style="flex:1; padding: 7px 10px; border-radius: 4px; border: 1px solid #ccc;">
+    <button type="submit" style="padding: 7px 10px; border-radius: 4px; border: none; background: #00acc1; color: #fff;">Go</button>
+</form>
+
+            </nav>
+        </div>
+        <style>
+            .badge-tag.quality{
+                background-color: aqua;
+                border-radius: 10px;
+                padding: 5px;
+                font-size: small;
+            }
+            @media (max-width: 900px) {
+                .desktop-nav { display: none !important; }
+                #mobile-menu-toggle { display: inline-block !important; }
+            }
+            @media (min-width: 901px) {
+                #mobile-menu-toggle { display: none !important; }
+                #mobile-menu { display: none !important; }
+            }
+        </style>
+        <script>
+            // Mobile menu toggle logic
+            const menuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuClose = document.getElementById('mobile-menu-close');
+            const mobileOverlay = document.getElementById('mobile-overlay');
+            menuToggle && menuToggle.addEventListener('click', () => {
+                mobileMenu.style.display = 'block';
+                if (mobileOverlay) mobileOverlay.style.display = 'block';
+            });
+            menuClose && menuClose.addEventListener('click', () => {
+                mobileMenu.style.display = 'none';
+                if (mobileOverlay) mobileOverlay.style.display = 'none';
+            });
+            if (mobileOverlay) {
+                mobileOverlay.addEventListener('click', () => {
+                    mobileMenu.style.display = 'none';
+                    mobileOverlay.style.display = 'none';
+                });
+            }
+        </script>
+    </header>
+
+    <!--/// End Header ///-->
+    
+
+<div class="billboard" style="position: relative;" >
+
+  <!-- Centered Play Button -->
+
+
+
+  <img id="hero-image" class="billboard-backdrop" src="" alt="Backdrop">
+
+  <!-- Top gradient overlay -->
+  <div class="billboard-gradient top"></div>
+
+  <!-- Bottom gradient overlay -->
+  <div class="billboard-gradient"></div>
+
+
+</div>
+
+  <div class="billboard-gradient"></div>
+
+  <div class="billboard-overlay">
+    <div class="billboard-left">
+        <div class="billboard-left">
+  <div id="movie-details-overlay">
+    
+  </div>
+</div>
+    </div>
+  </div>
+  <div style="
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.5);  /* semi-transparent dark background */
+  backdrop-filter: blur(10px);     /* blur effect like material UI */
+  border-radius: 50%;
+  padding: 15px;                   /* spacing around button */
+  box-shadow: 0 8px 24px rgba(192, 189, 189, 0.6);  /* deep shadow */
+">
+
+  <button  id="play-button" class="play-button" style="
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
+">
+  <img src="images/playbtn.svg" alt="Play" style="width: 50px; height: 50px; color: orange;">
+</button>
+
+
+</div>
+</div>
+  <div class="seasons-episodes" style="margin-top: 20px; margin-bottom: 20px; margin-left: 40px; margin-right: 20px;">
+  
+
+  <!-- Modal for Seasons -->
+  <div class="filter-group svelte-nghlsj" style="position: relative; margin-top: 20px;">
+  <button class="filter-btn genres-btn svelte-nghlsj" id="season-toggle-btn" type="button">
+    <span class="btn-content svelte-nghlsj">
+      <span class="btn-text" id="season-button-label" style="font-size: 1.4rem;">Season 1</span>
+      <span class="arrow svelte-nghlsj">
+        <svg fill="none" height="6" viewBox="0 0 10 6" width="10">
+          <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+        </svg>
+      </span>
+    </span>
+  </button>
+  <div id="season-collapse" style="display:none; background:#18191a; border-radius:6px; margin-top:8px; padding:10px 0; position:absolute; z-index:10; min-width:180px; box-shadow:0 4px 16px rgba(0,0,0,0.15);">
+    <ul id="season-list" style="list-style:none; margin:0; padding:0; max-height:300px; overflow-y:auto;">
+      <li style="color:#aaa; padding:8px 18px;">Loading...</li>
+    </ul>
+  </div>
+</div>
+
+
+
+  <!-- Episodes List -->
+<div id="tmdb-season-episodes" class="episode-carousel" style="display: flex; overflow-x: auto; gap: 16px; scroll-snap-type: x mandatory; padding: 20px 0;"></div>
+</div>
+
+<style>
+/* Mobile responsive adjustments for seasons-episodes container */
+@media (max-width: 768px) {
+  .seasons-episodes {
+    margin-left: 20px !important;
+    margin-right: 15px !important;
+  }
+  
+  .filter-btn .btn-text {
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .seasons-episodes {
+    margin-left: 15px !important;
+    margin-right: 10px !important;
+  }
+  
+  .filter-btn .btn-text {
+    font-size: 1rem !important;
+  }
+  
+  .filter-btn {
+    padding: 8px 12px !important;
+  }
+}
+</style>
+
+  <div class="ddss" style="margin-top: 20px; margin-bottom: 20px; margin-left: 40px; margin-right: 20px;">
+     <h2 class="heading-md" style="margin-top:40px;">Recommended Series</h2>
+                    <div id="tmdb-trending-movies" class="film-list">
+                        <!-- Trending movies will be loaded here by JavaScript -->
+                    </div>
+  </div>
+
+
+
+
+
+
+<style>
+.billboard {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+.billboard-gradient.top {
+  top: 0;
+  bottom: auto;
+  height: 30%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+}
+.billboard-backdrop {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* This is the new bottom fade overlay */
+.billboard-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.billboard-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 2rem;
+  /* You may keep the old overlay fade here or remove if redundant */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 10%, transparent 60%);
+}
+
+.billboard-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.billboard-logo {
+  width: 250px;
+  height: auto;
+}
+
+.billboard-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.btn.play {
+  background-color: white;
+  color: black;
+}
+
+.btn.more-info {
+  background-color: rgba(109, 109, 110, 0.7);
+  color: white;
+}
+
+.billboard-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn.audio-toggle {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+}
+
+.rating {
+  color: white;
+  background-color: rgba(51, 51, 51, 0.7);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.filters-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+     }
+
+     .filter-btn {
+        background-color: #1c1c1e;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 0.9rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+     }
+
+     .filter-btn.active {
+        background-color: #00acc1;
+     }
+
+     .filter-btn:hover {
+        background-color: #00acc1;
+     }
+
+     .btn-content {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+     }
+
+     .btn-text {
+        font-weight: 900;
+     }
+
+     .arrow svg {
+        transition: transform 0.2s;
+     }
+
+     .filter-btn:hover .arrow svg {
+        transform: rotate(180deg);
+     }
+.episode-carousel {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+
+.episode-card {
+  min-width: 200px;
+  background: #1e1e1e;
+  color: white;
+  border-radius: 8px;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Mobile responsive episode cards */
+@media (max-width: 768px) {
+  .episode-carousel {
+    gap: 12px !important;
+    padding: 15px 0 !important;
+  }
+  
+  .episode-card {
+    min-width: 150px !important;
+    max-width: 180px;
+  }
+  
+  .episode-card img {
+    height: 140px !important;
+  }
+  
+  .episode-card-title {
+    padding: 6px 8px !important;
+    font-size: 0.9rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .episode-carousel {
+    gap: 8px !important;
+    padding: 10px 0 !important;
+  }
+  
+  .episode-card {
+    min-width: 120px !important;
+    max-width: 140px;
+  }
+  
+  .episode-card img {
+    height: 100px !important;
+  }
+  
+  .episode-card-title {
+    padding: 4px 6px !important;
+    font-size: 0.8rem !important;
+    line-height: 1.2;
+  }
+}
+
+.episode-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.episode-card-title {
+  padding: 8px 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.hero-container {
+  position: relative;
+  z-index: 1;
+}
+
+.overlay {
+  pointer-events: none;
+}
+
+</style>
+
+  <script>
+  const API_KEY = "84259f99204eeb7d45c7e3d8e36c6123";
+  const BASE_IMG_URL = "https://image.tmdb.org/t/p/original";
+  const BASE_LOGO_URL = "https://image.tmdb.org/t/p/w500";
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const movieId = urlParams.get("id");
+      console.log("Loaded movie ID:", movieId);
+      const playButton = document.getElementById("play-button");
+
+      if (playButton) {
+        playButton.addEventListener("click", () => {
+          const episodesSection = document.querySelector('.episode-carousel');
+if (episodesSection) {
+  episodesSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+      });
+      }
+
+     
+      if (!movieId) {
+        document.getElementById("movie-details-overlay").innerHTML = '<p style="color:white;">Missing TV show ID in URL.</p>';
+        return;
+      }
+
+      const detailsRes = await fetch(`https://api.themoviedb.org/3/tv/${movieId}?api_key=${API_KEY}&append_to_response=images`);
+      const details = await detailsRes.json();
+      console.log("Fetched TV details:", details);
+
+      if (!details || !details.name) {
+        document.getElementById("movie-details-overlay").innerHTML = '<p style="color:white;">Failed to fetch TV series details.</p>';
+        return;
+      }
+
+      const backdropPath = details.backdrop_path || details.images?.backdrops?.[0]?.file_path;
+      let backdropImage;
+      
+      // Special handling for ID 194766
+      if (movieId == 194766) {
+        backdropImage = "https://image.tmdb.org/t/p/original/v2cbezJaQ5wNBHSuxPslVoe15jI.jpg";
+      } else {
+        backdropImage = backdropPath ? `${BASE_IMG_URL}${backdropPath}` : "";
+      }
+      
+      document.getElementById("hero-image").src = backdropImage;
+
+      // Inject detailed content
+      if (document.querySelector("#movie-details-overlay")) {
+        document.querySelector("#movie-details-overlay").innerHTML = `
+          <h1 style="color:white; font-size:2rem; font-weight:bold;">${details.name}</h1>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="color:white;">${details.vote_average.toFixed(1)}</span>
+            <span style="color:white;">${new Date(details.first_air_date).getFullYear()}</span>
+          </div>
+          <p style="color:white; max-width:600px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis;">${details.overview}</p>
+          <div style="color:white;"><strong>Genres:</strong> ${details.genres.map(g => g.name).join(", ")}</div>
+        `;
+      }
+
+      renderSeasonDropdown(movieId, details.seasons);
+      
+      // Load Season 3 by default for ID 194766, otherwise Season 1
+      const defaultSeason = movieId == 194766 ? 3 : 1;
+      loadEpisodes(movieId, defaultSeason);
+
+      const seasonSelector = document.getElementById('season-selector');
+      if (seasonSelector) {
+        seasonSelector.addEventListener('click', () => {
+          const modal = document.getElementById('season-modal');
+          if (modal) modal.style.display = 'flex';
+        });
+      }
+
+      const seasonModal = document.getElementById('season-modal');
+      if (seasonModal) {
+        seasonModal.addEventListener('click', (e) => {
+          if (e.target.id === 'season-modal') {
+            seasonModal.style.display = 'none';
+          }
+        });
+      }
+
+      await loadRecommendations(movieId);
+
+    } catch (err) {
+      console.error("Failed to load movie data:", err);
+    }
+  });
+
+  async function loadRecommendations(movieId) {
+    const container = document.getElementById('tmdb-trending-movies');
+    container.innerHTML = '';
+
+    try {
+      const recRes = await fetch(`https://api.themoviedb.org/3/tv/${movieId}/recommendations?api_key=${API_KEY}&language=en-US`);
+      const recData = await recRes.json();
+      let results = recData.results || [];
+
+      // Fallback to trending if empty
+      if (results.length === 0) {
+        const trendRes = await fetch(`https://api.themoviedb.org/3/trending/tv/week?api_key=${API_KEY}&page=1`);
+        const trendData = await trendRes.json();
+        results = trendData.results || [];
+      }
+
+      if (results.length === 0) {
+        container.innerHTML = '<div style="color:#fff">No recommendations or trending shows found.</div>';
+        return;
+      }
+
+      results.forEach(movie => {
+        if (!movie.poster_path || movie.adult) return;
+
+        const poster = `https://image.tmdb.org/t/p/w342${movie.poster_path}`;
+        const title = movie.name || movie.original_name || 'Untitled';
+        const year = movie.first_air_date ? movie.first_air_date.slice(0, 4) : '';
+        const movieUrl = `seriedetails.html?id=${movie.id}`;
+
+        const item = document.createElement('div');
+        item.className = 'item-film';
+        item.innerHTML = `
+          <a href="${movieUrl}" class="film-mask"></a>
+          <div class="film-thumbnail">
+            <img class="film-thumbnail-img" src="${poster}" alt="${title}">
+          </div>
+          <div class="film-detail">
+            <h3 class="film-name sum-2">
+              <a href="${movieUrl}" title="${title}">${title}</a>
+            </h3>
+            <div class="film-info">
+              <span class="item">TV</span>
+              ${year ? `<span class="item">${year}</span>` : ''}
+            </div>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    } catch (err) {
+      container.innerHTML = '<div style="color:#fff">Failed to load recommended or trending shows.</div>';
+      console.error('Error loading recommendations or trending fallback:', err);
+    }
+  }
+
+  async function loadEpisodes(tvId, seasonNumber = 1) {
+  const episodeContainer = document.getElementById('tmdb-season-episodes');
+  episodeContainer.innerHTML = '<p style="color: #aaa;">Loading episodes...</p>';
+
+  try {
+    const seriesDetails = await fetch(`https://api.themoviedb.org/3/tv/${tvId}?api_key=${API_KEY}`);
+    const seriesData = await seriesDetails.json();
+    const seriesName = encodeURIComponent(seriesData.name);
+
+    const res = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/season/${seasonNumber}?api_key=${API_KEY}`);
+    const data = await res.json();
+
+    episodeContainer.innerHTML = ''; // Clear loading
+
+    // Get the series backdrop as fallback
+    const seriesBackdrop = seriesData.backdrop_path 
+      ? `https://image.tmdb.org/t/p/original${seriesData.backdrop_path}` 
+      : 'images/no-poster.png';
+
+    data.episodes.forEach(ep => {
+      let image;
+      if (ep.still_path) {
+        image = `https://image.tmdb.org/t/p/original${ep.still_path}`;
+      } else {
+        // Check if series ID is 194766 and use specific image, otherwise use series backdrop
+        if (tvId == 194766) {
+          image = 'https://image.tmdb.org/t/p/original/v2cbezJaQ5wNBHSuxPslVoe15jI.jpg';
+        } else {
+          image = seriesBackdrop;
+        }
+      }
+
+      const playerURL = `player.html?title=${seriesName}&season=${seasonNumber}&episode=${ep.episode_number}&type=tv&backdrop=${image}&id=${tvId}`;
+
+      const epCard = document.createElement('a');
+      epCard.href = playerURL;
+      epCard.className = 'episode-card';
+      epCard.style.textDecoration = 'none';
+
+      epCard.innerHTML = `
+        <div style="position: relative;">
+          <img src="${image}" alt="${ep.name}" style="width: 100%; height: 220px; display: block;">
+          <div style="
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;">
+            <i class="fas fa-play" style="color: white; font-size: 20px;"></i>
+          </div>
+        </div>
+        <div class="episode-card-title">${ep.name}</div>
+      `;
+
+      episodeContainer.appendChild(epCard);
+    });
+
+  } catch (err) {
+    console.error('Failed to load episodes:', err);
+    episodeContainer.innerHTML = '<p style="color: red;">Failed to load episodes.</p>';
+  }
+}
+
+    
+
+  function renderSeasonDropdown(tvId, seasons) {
+    const list = document.getElementById('season-list');
+    const toggleBtn = document.getElementById('season-toggle-btn');
+    const label = document.getElementById('season-button-label');
+    const collapse = document.getElementById('season-collapse');
+
+    list.innerHTML = '';
+
+    // Set default season label based on series ID
+    const defaultSeasonNumber = tvId == 194766 ? 3 : 1;
+    const defaultSeasonName = seasons.find(s => s.season_number === defaultSeasonNumber)?.name || `Season ${defaultSeasonNumber}`;
+    label.textContent = defaultSeasonName;
+
+    seasons.forEach(season => {
+      const li = document.createElement('li');
+      li.textContent = season.name;
+      li.style.cssText = 'padding: 8px 18px; cursor: pointer; color: #fff;';
+      li.addEventListener('click', () => {
+        label.textContent = season.name;
+        collapse.style.display = 'none';
+        loadEpisodes(tvId, season.season_number);
+      });
+      li.addEventListener('mouseover', () => li.style.background = '#232325');
+      li.addEventListener('mouseout', () => li.style.background = 'none');
+      list.appendChild(li);
+    });
+
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      collapse.style.display = (collapse.style.display === 'none' || collapse.style.display === '') ? 'block' : 'none';
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!collapse.contains(e.target) && e.target !== toggleBtn) {
+        collapse.style.display = 'none';
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+    <footer>
+        <div class="footer-top" style="background-color: #121315;">
+            <div class="container">
+                <div class="d-flex footer-elements">
+                    <div class="footer-logo">
+                        <a href="https://popcima.com" class="is-logo"><img src="images/logo.png" alt="popcima.com"></a>
+                    </div>
+                    <div class="footer-about">
+                        <div class="heading-sm mb-3">About Us</div>
+                        <p>
+                            Welcome to <a href="https://popcima.com">
+                                <strong>popcima.com</strong>
+                            </a>, your ultimate destination for all things movies and series! Whether you're a film enthusiast, a binge-watcher, or simply looking for your next entertainment fix, we've got you covered with an extensive collection of reviews, trailers, and recommendations.
+                        </p>
+                        <small>This site does not store any files on our server, we only linked to the media which is hosted
+                            on 3rd party services.</small>
+                    </div>
+                    <!--
+                    <div class="footer-links" style="min-width:180px;">
+                        <div class="heading-sm mb-3">Quick Links</div>
+                        <ul style="list-style:none; padding:0; margin:0;">
+                            <li style="display:inline; margin-right:15px;">
+                                <a href="/index.html" style="color:#fff; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#00acc1'" onmouseout="this.style.color='#fff'">Home</a>
+                            </li>
+                            <li style="display:inline; margin-right:15px;">
+                                <a href="/movies.html" style="color:#ffff; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#00acc1'" onmouseout="this.style.color='#fff'">Movies</a>
+                            </li>
+                            <li style="display:inline; margin-right:15px;">
+                                <a href="/series.html" style="color:#00acc1; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#00acc1'" onmouseout="this.style.color='#fff'">Series</a>
+                            </li>
+                            <li style="display:inline; margin-right:15px;">
+                                <a href="/privacy-policy.html" style="color:#fff; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#00acc1'" onmouseout="this.style.color='#fff'">Privacy Policy</a>
+                            </li>
+                            <li style="display:inline;">
+                                <a href="/terms-of-use.html" style="color:#fff; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#00acc1'" onmouseout="this.style.color='#fff'">Terms of Use</a>
+                            </li>
+                        </ul>
+                    </div>
+                  -->
+                    <div class="flex-grow"></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+<!-- Existing site-wide bundle (leave as-is) -->
+<script src="js/upaSRmVXHEek.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+    "HomeMovieSLiders":[
+        194766,
+        1311031,
+        1243341,
+        1061474,
+        1071585,
+        1119878
+    ],
+    "HomeMoviesMostPopular":[
+        194766,
+        1311031,
+        1243341,
+        1061474,
+        1071585,
+         1119878,
+        1234821,
+        803796,
+        1022787,
+        93405,
+        1100988,
+        1338799,
+        1136867,
+        552524,
+        574475,
+        1233413,
+        950387
+
+
+    ],
+    "LockedMovies":[
+        {
+            "MovieID":1311031,
+            "VideoSrc":"aniplexnew"
+
+        }
+    ],
+    "LockedTvShows":[
+        {
+            "SerieID": 194766,
+            "VideoSrc":"primevideo"
+        }
+    ],
+"LockerData":{
+    "LockerIt":"4151330",
+    "LockerKey":"14e55",
+    "LockerDurationinSeconds": 10
+}
+}
