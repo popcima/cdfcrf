@@ -530,6 +530,8 @@ if (episodesSection) {
       // Special handling for ID 194766
       if (movieId == 194766) {
         backdropImage = "https://image.tmdb.org/t/p/original/v2cbezJaQ5wNBHSuxPslVoe15jI.jpg";
+      } else if (movieId == 119051) {
+        backdropImage = "https://image.tmdb.org/t/p/original/mvAAyU4cTTEV2TTRQWjDNJoYyVi.jpg";
       } else {
         backdropImage = backdropPath ? `${BASE_IMG_URL}${backdropPath}` : "";
       }
@@ -538,11 +540,18 @@ if (episodesSection) {
 
       // Inject detailed content
       if (document.querySelector("#movie-details-overlay")) {
+        let displayYear;
+        if (movieId == 119051) {
+          displayYear = '2025';
+        } else {
+          displayYear = new Date(details.first_air_date).getFullYear();
+        }
+        
         document.querySelector("#movie-details-overlay").innerHTML = `
           <h1 style="color:white; font-size:2rem; font-weight:bold;">${details.name}</h1>
           <div style="display:flex; align-items:center; gap:10px;">
             <span style="color:white;">${details.vote_average.toFixed(1)}</span>
-            <span style="color:white;">${new Date(details.first_air_date).getFullYear()}</span>
+            <span style="color:white;">${displayYear}</span>
           </div>
           <p style="color:white; max-width:600px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis;">${details.overview}</p>
           <div style="color:white;"><strong>Genres:</strong> ${details.genres.map(g => g.name).join(", ")}</div>
@@ -551,8 +560,13 @@ if (episodesSection) {
 
       renderSeasonDropdown(movieId, details.seasons);
       
-      // Load Season 3 by default for ID 194766, otherwise Season 1
-      const defaultSeason = movieId == 194766 ? 3 : 1;
+      // Load Season 3 by default for ID 194766, Season 2 for ID 119051, otherwise Season 1
+      let defaultSeason = 1;
+      if (movieId == 194766) {
+        defaultSeason = 3;
+      } else if (movieId == 119051) {
+        defaultSeason = 2;
+      }
       loadEpisodes(movieId, defaultSeason);
 
       const seasonSelector = document.getElementById('season-selector');
@@ -654,7 +668,31 @@ if (episodesSection) {
 
     data.episodes.forEach(ep => {
       let image;
-      if (ep.still_path) {
+      
+      // Special handling for series ID 119051 with custom episode images
+      if (tvId == 119051 && seasonNumber == 2) {
+        const customImages = [
+          'https://image.tmdb.org/t/p/original/mvAAyU4cTTEV2TTRQWjDNJoYyVi.jpg',
+          'https://image.tmdb.org/t/p/original/cMqf3gXP4Yk3NMqUENxoBXTD96K.jpg',
+          'https://image.tmdb.org/t/p/original/sbe5fN4NxKTe5CitlIj8zjnv3V1.jpg',
+          'https://image.tmdb.org/t/p/original/93suWsImGE7cfMILvTPS8OUeDSw.jpg',
+          'https://image.tmdb.org/t/p/original/ijKIuo4v3WPbyro3T1wOC77HUIw.jpg'
+        ];
+        const remainingImages = [
+          'https://image.tmdb.org/t/p/original/45OEsQB1khglKSHS6ftk8QFT9uW.jpg',
+          'https://image.tmdb.org/t/p/original/z3JWP0OhkMlnu7VA2YYfr8qa2GI.jpg',
+          'https://image.tmdb.org/t/p/original/ozIVTnunychKpjGLHCZxQIuQKls.jpg'
+        ];
+        
+        // Use episode number - 1 as array index
+        if (ep.episode_number <= customImages.length) {
+          image = customImages[ep.episode_number - 1];
+        } else {
+          // For episodes beyond 5, cycle through the remaining images
+          const remainingIndex = (ep.episode_number - customImages.length - 1) % remainingImages.length;
+          image = remainingImages[remainingIndex];
+        }
+      } else if (ep.still_path) {
         image = `https://image.tmdb.org/t/p/original${ep.still_path}`;
       } else {
         // Check if series ID is 194766 and use specific image, otherwise use series backdrop
@@ -713,7 +751,12 @@ if (episodesSection) {
     list.innerHTML = '';
 
     // Set default season label based on series ID
-    const defaultSeasonNumber = tvId == 194766 ? 3 : 1;
+    let defaultSeasonNumber = 1;
+    if (tvId == 194766) {
+      defaultSeasonNumber = 3;
+    } else if (tvId == 119051) {
+      defaultSeasonNumber = 2;
+    }
     const defaultSeasonName = seasons.find(s => s.season_number === defaultSeasonNumber)?.name || `Season ${defaultSeasonNumber}`;
     label.textContent = defaultSeasonName;
 
