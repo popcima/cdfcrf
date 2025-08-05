@@ -212,6 +212,8 @@ async function loadBillboardSlides() {
       // Special handling for ID 194766
       if (movieId === 194766) {
         backdropImage = "https://image.tmdb.org/t/p/original/v2cbezJaQ5wNBHSuxPslVoe15jI.jpg";
+      } else if (movieId === 119051) {
+        backdropImage = "https://image.tmdb.org/t/p/original/mvAAyU4cTTEV2TTRQWjDNJoYyVi.jpg";
       } else if (movieId === 1311031) {
         backdropImage = "https://image.tmdb.org/t/p/original/5L9eAk0YUxN7xfUGrxCDqjY2xaz.jpg";
       } else{
@@ -645,8 +647,13 @@ validResults.forEach(item => {
   }
               
               const title = item.title || item.name || 'Untitled';
-              const year = item.release_date ? item.release_date.slice(0, 4) : 
-                          (item.first_air_date ? item.first_air_date.slice(0, 4) : '');
+              let year;
+              if (item.id === 119051) {
+                year = '2025';
+              } else {
+                year = item.release_date ? item.release_date.slice(0, 4) : 
+                       (item.first_air_date ? item.first_air_date.slice(0, 4) : '');
+              }
               const detailsUrl = item.contentType === 'tv' ? `seriedetails.html?id=${item.id}` : `moviedetails.html?id=${item.id}`;
               const contentLabel = item.contentType === 'tv' ? 'TV' : 'Movie';
               
@@ -801,7 +808,12 @@ validResults.forEach(item => {
               ? `https://image.tmdb.org/t/p/w342${tv.poster_path}`
               : 'images/no-poster.png';
             const title = tv.name || tv.original_name || 'Untitled';
-            const year = tv.first_air_date ? tv.first_air_date.slice(0, 4) : '';
+            let year;
+            if (tv.id === 119051) {
+              year = '2025';
+            } else {
+              year = tv.first_air_date ? tv.first_air_date.slice(0, 4) : '';
+            }
             const tvUrl = `seriedetails.html?id=${tv.id}`;
             const item = document.createElement('div');
             item.className = 'item-film';
