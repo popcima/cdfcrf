@@ -62,6 +62,10 @@
         {
             "SerieID": 194766,
             "VideoSrc":"primevideo"
+        }, 
+        {
+            "SerieID": 119051,
+            "VideoSrc":"netflix"
         }
     ],
 "LockerData":{
