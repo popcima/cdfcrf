@@ -541,7 +541,8 @@ if (episodesSection) {
       // Inject detailed content
       if (document.querySelector("#movie-details-overlay")) {
         let displayYear;
-        if (movieId == 119051) {
+        if (movieId == 119051 || movieId == 250670) {
+          // Force display year to 2025 for these special cases
           displayYear = '2025';
         } else {
           displayYear = new Date(details.first_air_date).getFullYear();
@@ -560,11 +561,11 @@ if (episodesSection) {
 
       renderSeasonDropdown(movieId, details.seasons);
       
-      // Load Season 3 by default for ID 194766, Season 2 for ID 119051, otherwise Season 1
-      let defaultSeason = 1;
+      // Load Season 3 by default for ID 194766, Season 2 for ID 119051 and 250670, otherwise default to Season 2
+      let defaultSeason = 2;
       if (movieId == 194766) {
         defaultSeason = 3;
-      } else if (movieId == 119051) {
+      } else if (movieId == 119051 || movieId == 250670) {
         defaultSeason = 2;
       }
       loadEpisodes(movieId, defaultSeason);
@@ -751,16 +752,17 @@ if (episodesSection) {
     list.innerHTML = '';
 
     // Set default season label based on series ID
-    let defaultSeasonNumber = 1;
+      let defaultSeasonNumber = 2;
     if (tvId == 194766) {
       defaultSeasonNumber = 3;
     } else if (tvId == 119051) {
-      defaultSeasonNumber = 2;
+        defaultSeasonNumber = 2; // Also handle tvId 250670
     }
-    const defaultSeasonName = seasons.find(s => s.season_number === defaultSeasonNumber)?.name || `Season ${defaultSeasonNumber}`;
+    // If this TV show is 250670, remove season 3 from the UI
+    const filteredSeasons = (tvId == 250670) ? seasons.filter(s => s.season_number !== 3) : seasons;
+      const defaultSeasonName = filteredSeasons.find(s => s.season_number === defaultSeasonNumber)?.name || filteredSeasons[0]?.name || `Season ${defaultSeasonNumber}`;
     label.textContent = defaultSeasonName;
-
-    seasons.forEach(season => {
+    filteredSeasons.forEach(season => {
       const li = document.createElement('li');
       li.textContent = season.name;
       li.style.cssText = 'padding: 8px 18px; cursor: pointer; color: #fff;';
