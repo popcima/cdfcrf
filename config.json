@@ -1,5 +1,6 @@
 {
     "HomeMovieSLiders":[
+        250670,
         1242898,
         94954,
         1156594,
@@ -20,6 +21,7 @@
         1119878
     ],
     "HomeMoviesMostPopular":[
+        250670,
         1242898,
         94954,
         1156594,
@@ -101,6 +103,10 @@
     "LockedTvShows":[
         {
             "SerieID": 194766,
+            "VideoSrc":"primevideo"
+        },
+        {
+            "SerieID": 250670,
             "VideoSrc":"primevideo"
         },
         {
