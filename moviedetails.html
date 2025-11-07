@@ -300,91 +300,123 @@
 
       if (!movieId) throw new Error("Movie ID not provided in URL.");
 
-      const detailsRes = await fetch(
-        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=images`
-      );
-      const details = await detailsRes.json();
+      // Determine whether to load movie or TV details (special-case ID 250670 -> TV)
+      let details;
+      let isTV = false;
+      if (movieId == 250670) {
+        // Known TV series ID - use TV endpoint
+        const tvRes = await fetch(`https://api.themoviedb.org/3/tv/${movieId}?api_key=${API_KEY}&append_to_response=images`);
+        details = await tvRes.json();
+        isTV = true;
+      } else {
+        const detailsRes = await fetch(
+          `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=images`
+        );
+        details = await detailsRes.json();
+      }
 
       let backdropImage;
       let posterImage;
-      
-      // Special handling for ID 194766
+
+      // Special handling for ID 1311031
       if (movieId == 1311031) {
         backdropImage = "https://image.tmdb.org/t/p/original/5L9eAk0YUxN7xfUGrxCDqjY2xaz.jpg";
         posterImage = "https://image.tmdb.org/t/p/w1280/yMMD3vX6Grt3jjpVeFdIAUgIHWV.jpg";
       } else {
         const backdropPath = details.backdrop_path || details.images?.backdrops?.[0]?.file_path;
         backdropImage = backdropPath ? `${BASE_IMG_URL}${backdropPath}` : "";
-        posterImage = details.poster_path ? `${BASE_POSTER_URL}${details.poster_path}` : "";
+        // TV objects use still_path or poster_path; prefer poster_path when available
+        posterImage = details.poster_path ? `${BASE_POSTER_URL}${details.poster_path}` : (details.still_path ? `${BASE_POSTER_URL}${details.still_path}` : "");
       }
 
       document.getElementById("hero-image").src = backdropImage;
 
-      // Inject movie details into overlay
+      // Prepare displayed fields with fallbacks for TV vs Movie
+      const displayTitle = details.title || details.name || 'Untitled';
+      const displayOverview = details.overview || '';
+      const displayRating = typeof details.vote_average === 'number' ? details.vote_average.toFixed(1) : '';
+      const displayYear = (details.release_date || details.first_air_date) ? new Date(details.release_date || details.first_air_date).getFullYear() : '';
+      // runtime: movie.runtime (minutes), tv.episode_run_time is array
+      let hours = '';
+      let mins = '';
+      if (!isTV && details.runtime) {
+        hours = Math.floor(details.runtime / 60);
+        mins = details.runtime % 60;
+      } else if (isTV && Array.isArray(details.episode_run_time) && details.episode_run_time.length) {
+        const rt = details.episode_run_time[0];
+        hours = Math.floor(rt / 60);
+        mins = rt % 60;
+      }
+
+      // Inject movie/TV details into overlay
       document.querySelector("#movie-details-overlay").innerHTML = `
-        <h1 style="color:white; font-size:2rem; font-weight:bold;">${details.title}</h1>
+        <h1 style="color:white; font-size:2rem; font-weight:bold;">${displayTitle}</h1>
         <div style="display:flex; align-items:center; gap:10px;">
-          <span style="color:white;">${details.vote_average.toFixed(1)}</span>
-          <span style="color:white;">${new Date(details.release_date).getFullYear()}</span>
-          <span style="color:white;">${Math.floor(details.runtime / 60)}h ${details.runtime % 60}min</span>
+          <span style="color:white;">${displayRating}</span>
+          <span style="color:white;">${displayYear}</span>
+          <span style="color:white;">${hours ? hours + 'h ' + mins + 'min' : ''}</span>
         </div>
-        <p style="color:white; max-width:600px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis;">${details.overview}</p>
-        <div style="color:white;"><strong>Genre:</strong> ${details.genres.map(g => g.name).join(", ")}</div>
+        <p style="color:white; max-width:600px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis;">${displayOverview}</p>
+        <div style="color:white;"><strong>Genre:</strong> ${Array.isArray(details.genres) ? details.genres.map(g => g.name).join(", ") : ''}</div>
       `;
 
-      await loadMovieRecommendations(movieId);
-  const movieTitle = details.title;
-const playButton = document.getElementById('play-button');
-  const playLink = document.getElementById('play-link');
-  playLink.style.color = 'black';
-  const redirectToPlayer = () => {
-    const playerUrl = `player.html?title=${movieTitle}&type=movie&backdrop=${backdropImage}&id=${movieId}`;
-    window.location.href = playerUrl;
-  };
+      await loadMovieRecommendations(movieId, isTV);
+      const movieTitle = displayTitle;
+      const playButton = document.getElementById('play-button');
+      const playLink = document.getElementById('play-link');
+      playLink.style.color = 'black';
+      const redirectToPlayer = () => {
+        const playerUrl = `player.html?title=${encodeURIComponent(movieTitle)}&type=${isTV ? 'tv' : 'movie'}&backdrop=${encodeURIComponent(backdropImage)}&id=${movieId}`;
+        window.location.href = playerUrl;
+      };
 
-  if (playButton) {
-    playButton.addEventListener('click', redirectToPlayer);
-  }
+      if (playButton) {
+        playButton.addEventListener('click', redirectToPlayer);
+      }
 
-  if (playLink) {
-    playLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      redirectToPlayer();
-    });
-  }
+      if (playLink) {
+        playLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          redirectToPlayer();
+        });
+      }
     } catch (err) {
       console.error("Failed to load movie data:", err);
     }
   });
 
-  async function loadMovieRecommendations(movieId) {
+  async function loadMovieRecommendations(movieId, isTV = false) {
     const container = document.getElementById('tmdb-trending-movies');
     container.innerHTML = '';
 
     try {
-      const recRes = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/recommendations?api_key=${API_KEY}&language=en-US`);
+      const endpoint = isTV ? `https://api.themoviedb.org/3/tv/${movieId}/recommendations?api_key=${API_KEY}&language=en-US` : `https://api.themoviedb.org/3/movie/${movieId}/recommendations?api_key=${API_KEY}&language=en-US`;
+      const recRes = await fetch(endpoint);
       const recData = await recRes.json();
       let results = recData.results || [];
 
       // Fallback to trending if empty
       if (results.length === 0) {
-        const trendRes = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}&page=1`);
+        const trendEndpoint = isTV ? `https://api.themoviedb.org/3/trending/tv/week?api_key=${API_KEY}&page=1` : `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}&page=1`;
+        const trendRes = await fetch(trendEndpoint);
         const trendData = await trendRes.json();
         results = trendData.results || [];
       }
 
       if (results.length === 0) {
-        container.innerHTML = '<div style="color:#fff">No recommendations or trending movies found.</div>';
+        container.innerHTML = '<div style="color:#fff">No recommendations or trending content found.</div>';
         return;
       }
 
       results.forEach(movie => {
-        if (!movie.poster_path || movie.adult) return;
+        // For TV recommendations, 'poster_path' is used; for some endpoints it may be 'still_path'
+        const posterPath = movie.poster_path || movie.still_path;
+        if (!posterPath || movie.adult) return;
 
-        const poster = `${BASE_POSTER_URL}${movie.poster_path}`;
-        const title = movie.title || movie.original_title || 'Untitled';
-        const year = movie.release_date ? movie.release_date.slice(0, 4) : '';
-        const movieUrl = `moviedetails.html?id=${movie.id}`;
+        const poster = `${BASE_POSTER_URL}${posterPath}`;
+        const title = movie.title || movie.name || movie.original_title || movie.original_name || 'Untitled';
+        const year = movie.release_date ? movie.release_date.slice(0, 4) : (movie.first_air_date ? movie.first_air_date.slice(0, 4) : '');
+        const movieUrl = (movie.name || movie.first_air_date) ? `seriedetails.html?id=${movie.id}` : `moviedetails.html?id=${movie.id}`;
 
         const item = document.createElement('div');
         item.className = 'item-film';
@@ -398,7 +430,7 @@ const playButton = document.getElementById('play-button');
               <a href="${movieUrl}" title="${title}">${title}</a>
             </h3>
             <div class="film-info">
-              <span class="item">Movie</span>
+              <span class="item">${movie.name || movie.first_air_date ? 'TV' : 'Movie'}</span>
               ${year ? `<span class="item">${year}</span>` : ''}
             </div>
           </div>
@@ -407,8 +439,8 @@ const playButton = document.getElementById('play-button');
       });
 
     } catch (err) {
-      container.innerHTML = '<div style="color:#fff">Failed to load recommended or trending movies.</div>';
-      console.error('Error loading movie recommendations or trending fallback:', err);
+      container.innerHTML = '<div style="color:#fff">Failed to load recommended or trending content.</div>';
+      console.error('Error loading recommendations or trending fallback:', err);
     }
   }
 </script>
