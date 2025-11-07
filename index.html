@@ -185,14 +185,21 @@ async function loadBillboardSlides() {
       let isTV = false;
       
       try {
-        const detailsRes = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=images`);
-        details = await detailsRes.json();
-        
-        // If movie request fails or returns error, try TV
-        if (!details.title && !details.name) {
+        // If this specific ID is known to be a TV series (250670), call the TV endpoint directly
+        if (movieId === 250670) {
           const tvDetailsRes = await fetch(`https://api.themoviedb.org/3/tv/${movieId}?api_key=${API_KEY}&append_to_response=images`);
           details = await tvDetailsRes.json();
           isTV = true;
+        } else {
+          const detailsRes = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=images`);
+          details = await detailsRes.json();
+
+          // If movie request fails or returns no title, try TV
+          if (!details.title && !details.name) {
+            const tvDetailsRes = await fetch(`https://api.themoviedb.org/3/tv/${movieId}?api_key=${API_KEY}&append_to_response=images`);
+            details = await tvDetailsRes.json();
+            isTV = true;
+          }
         }
       } catch (err) {
         // Fallback to TV if movie fails
@@ -351,8 +358,15 @@ document.addEventListener("DOMContentLoaded", loadBillboardSlides);
       const movieId = firstMovie.id;
 
       // Step 2: Get detailed movie info with images
-      const detailsRes = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=images`);
-      const details = await detailsRes.json();
+      let details;
+      // Ensure we call TV endpoint for ID 250670
+      if (movieId === 250670) {
+        const tvDetailsRes = await fetch(`https://api.themoviedb.org/3/tv/${movieId}?api_key=${API_KEY}&append_to_response=images`);
+        details = await tvDetailsRes.json();
+      } else {
+        const detailsRes = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=images`);
+        details = await detailsRes.json();
+      }
 
       const backdropPath = details.backdrop_path || details.images?.backdrops?.[0]?.file_path;
       const backdropImage = backdropPath ? `${BASE_IMG_URL}${backdropPath}` : "";
@@ -611,9 +625,16 @@ document.addEventListener("DOMContentLoaded", loadBillboardSlides);
           Promise.all(ids.map(async id => {
             // Try movie first, then TV if movie fails
             try {
+              // If this ID is the known TV series, call TV endpoint directly
+              if (id === 250670) {
+                const tvRes = await fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=84259f99204eeb7d45c7e3d8e36c6123&language=en-US`);
+                const tvData = await tvRes.json();
+                return { ...tvData, contentType: 'tv' };
+              }
+
               const movieRes = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=84259f99204eeb7d45c7e3d8e36c6123&language=en-US`);
               const movieData = await movieRes.json();
-              
+
               // If movie request successful and has title, return movie data with type
               if (movieData.title) {
                 return { ...movieData, contentType: 'movie' };
