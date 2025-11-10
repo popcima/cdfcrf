@@ -561,12 +561,16 @@ if (episodesSection) {
 
       renderSeasonDropdown(movieId, details.seasons);
       
-      // Load Season 3 by default for ID 194766, Season 2 for ID 119051 and 250670, otherwise default to Season 2
+      // Load Season 3 by default for ID 194766, Season 2 for ID 119051 and 250670,
+      // default to Season 2 for others, but force Season 1 for ID 200875
       let defaultSeason = 2;
       if (movieId == 194766) {
         defaultSeason = 3;
       } else if (movieId == 119051 || movieId == 250670) {
         defaultSeason = 2;
+      } else if (movieId == 200875) {
+        // Known series that should default to season 1
+        defaultSeason = 1;
       }
       loadEpisodes(movieId, defaultSeason);
 
