@@ -1,6 +1,7 @@
 {
     "HomeMovieSLiders":[
         967941,
+        1539104,
         1242898,
         94954,
         425274,
@@ -24,6 +25,7 @@
     ],
     "HomeMoviesMostPopular":[
         967941,
+        1539104,
         1242898,
         94954,
         425274,
@@ -60,6 +62,11 @@
     "LockedMovies":[
         {
             "MovieID":1311031,
+            "VideoSrc":"aniplexnew"
+
+        },
+        {
+            "MovieID":1539104,
             "VideoSrc":"aniplexnew"
 
         },
