@@ -1,6 +1,7 @@
 {
     "HomeMovieSLiders":[
         967941,
+        66732,
         1539104,
         1242898,
         94954,
@@ -25,6 +26,7 @@
     ],
     "HomeMoviesMostPopular":[
         967941,
+        66732,
         1539104,
         1242898,
         94954,
@@ -125,6 +127,10 @@
         {
             "SerieID": 194766,
             "VideoSrc":"primevideo"
+        },
+        {
+            "SerieID": 66732,
+            "VideoSrc":"netflix"
         },
         {
             "SerieID": 250670,
