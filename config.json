@@ -1,6 +1,7 @@
 {
     "HomeMovieSLiders":[
         967941,
+        1429520,
         66732,
         1539104,
         1242898,
@@ -26,6 +27,7 @@
     ],
     "HomeMoviesMostPopular":[
         967941,
+        1429520,
         66732,
         1539104,
         1242898,
@@ -65,6 +67,11 @@
         {
             "MovieID":1311031,
             "VideoSrc":"aniplexnew"
+
+        },
+        {
+            "MovieID":1429520,
+            "VideoSrc":"primevideo"
 
         },
         {
@@ -142,7 +149,7 @@
         }, 
         {
             "SerieID": 200875,
-            "VideoSrc":"derry.mp4"
+            "VideoSrc":"derry"
         },
         {
             "SerieID": 119051,
