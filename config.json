@@ -1,5 +1,6 @@
 {
     "HomeMovieSLiders":[
+        1218925,
         1228246,
         1084242,
         200875,
@@ -33,6 +34,7 @@
         1084242,
         1539104,
         66732,
+        1218925,
        200875,
         967941,
        1429520,
@@ -70,6 +72,11 @@
 
     ],
     "LockedMovies":[
+        {
+            "MovieID":1218925,
+            "VideoSrc":"aniplexnew"
+
+        },
         {
             "MovieID":1311031,
             "VideoSrc":"aniplexnew"
