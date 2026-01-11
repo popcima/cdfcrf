@@ -1,6 +1,7 @@
 {
     "HomeMovieSLiders":[
         83533,
+        117465,
         1033148,
         1218925,
         1228246,
@@ -35,6 +36,7 @@
     ],
     "HomeMoviesMostPopular":[
         83533,
+        117465,
         1228246,
         1379963,
         1084242,
@@ -180,7 +182,11 @@
         {
             "SerieID": 103540,
             "VideoSrc":"disney"
-        }, 
+        },
+        {
+            "SerieID": 117465,
+            "VideoSrc":"aniplexnew"
+        },
         {
             "SerieID": 106379,
             "VideoSrc":"primevideo"
