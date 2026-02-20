@@ -1,5 +1,6 @@
 {
     "HomeMovieSLiders":[
+        241372,
         1297842,
         1316092,
         83533,
@@ -36,6 +37,7 @@
         1119878
     ],
     "HomeMoviesMostPopular":[
+        241372,
         1297842,
         1316092,
         83533,
@@ -194,6 +196,10 @@
         {
             "SerieID": 103540,
             "VideoSrc":"disney"
+        },
+        {
+            "SerieID": 241372,
+            "VideoSrc":"primevideo"
         },
         {
             "SerieID": 117465,
