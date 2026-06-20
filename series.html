@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Series - Popcima</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0A0A0A;
+  --card:#141414;
+  --surface:#1F1F1F;
+  --border:#2A2A2A;
+  --accent:#E50914;
+  --text:#FFFFFF;
+  --muted:#888888;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* ── NAVBAR ── */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:rgba(10,10,10,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo-bars{display:flex;gap:3.5px;align-items:center}
+.logo-bar{width:5px;height:20px;background:var(--accent);transform:skewX(-12deg);border-radius:1px}
+.logo-bar:nth-child(2){height:14px;opacity:.65}
+.logo-wordmark{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;line-height:1;letter-spacing:1px}
+.logo-flix{color:var(--accent)}
+.logo-gx{color:#fff}
+.nav-links{display:flex;gap:28px;list-style:none;align-items:center}
+.nav-links a{font-family:'Outfit',sans-serif;font-size:14px;font-weight:400;color:var(--muted);text-decoration:none;transition:color 0.2s;padding-bottom:4px;border-bottom:2px solid transparent}
+.nav-links a:hover{color:#fff}
+.nav-links a.active{color:var(--accent);border-bottom-color:var(--accent)}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.btn-icon{width:36px;height:36px;border:none;border-radius:6px;background:transparent;color:#aaa;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color 0.2s}
+.btn-icon:hover{color:#fff}
+.hamburger{display:none}
+@media(max-width:1024px){.nav-links{display:none}.hamburger{display:flex}}
+@media(max-width:640px){.navbar{padding:0 16px}}
+
+/* MOBILE DRAWER */
+.mobile-drawer{position:fixed;top:56px;left:0;right:0;z-index:999;background:rgba(10,10,10,0.98);max-height:0;overflow:hidden;transition:max-height 0.35s ease}
+.mobile-drawer.open{max-height:200px}
+.mobile-drawer ul{list-style:none;padding:8px 0}
+.mobile-drawer a{display:block;font-family:'Outfit',sans-serif;font-size:16px;font-weight:500;color:var(--muted);text-decoration:none;padding:14px 24px;border-left:3px solid transparent;transition:color 0.2s,border-color 0.2s}
+.mobile-drawer a:hover,.mobile-drawer a.active{color:var(--accent);border-left-color:var(--accent)}
+
+/* ── PAGE HERO ── */
+.page-hero{margin-top:56px;position:relative;height:300px;display:flex;align-items:center;overflow:hidden;background:#0A0A0A}
+.page-hero-backdrop{position:absolute;inset:0;background:
+  radial-gradient(ellipse 70% 100% at 70% 0%, rgba(229,9,20,0.10) 0%, transparent 60%),
+  radial-gradient(ellipse 50% 70% at 0% 50%, rgba(229,9,20,0.06) 0%, transparent 60%),
+  linear-gradient(225deg, rgba(229,9,20,0.08) 0%, transparent 50%)}
+.page-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(229,9,20,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(229,9,20,0.03) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,0.3) 30%,rgba(0,0,0,0.1) 100%)}
+.page-hero-content{position:relative;z-index:2;padding:0 40px;max-width:900px}
+.page-hero-eyebrow{font-family:'Roboto Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.page-hero-eyebrow::before{content:'';display:inline-block;width:24px;height:2px;background:var(--accent)}
+.page-hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,8vw,88px);line-height:0.9;color:#fff;letter-spacing:2px}
+.page-hero-title span{color:var(--accent)}
+.page-hero-desc{font-family:'Outfit',sans-serif;font-size:15px;color:var(--muted);margin-top:16px;max-width:480px;line-height:1.6}
+.page-hero-stats{display:flex;gap:28px;margin-top:20px;flex-wrap:wrap}
+.hero-stat{display:flex;flex-direction:column;gap:2px}
+.hero-stat-num{font-family:'Bebas Neue',sans-serif;font-size:24px;color:#fff;line-height:1}
+.hero-stat-label{font-family:'Outfit',sans-serif;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.page-hero-fade{position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to top,#0A0A0A,transparent);pointer-events:none;z-index:3}
+
+/* ── FILTER BAR ── */
+.filter-bar{position:sticky;top:56px;z-index:100;background:rgba(10,10,10,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 40px}
+.filter-inner{display:flex;align-items:center;gap:16px;height:56px;overflow-x:auto;scrollbar-width:none}
+.filter-inner::-webkit-scrollbar{display:none}
+.genre-pills{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.genre-pill{font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;color:var(--muted);background:transparent;border:1px solid var(--border);border-radius:9999px;padding:5px 14px;cursor:pointer;white-space:nowrap;transition:all 0.2s;flex-shrink:0}
+.genre-pill:hover{color:#fff;border-color:#555}
+.genre-pill.active{color:#fff;background:var(--accent);border-color:var(--accent)}
+.filter-divider{width:1px;height:24px;background:var(--border);flex-shrink:0}
+.sort-wrap{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0}
+.sort-label{font-family:'Outfit',sans-serif;font-size:12px;color:var(--muted);white-space:nowrap}
+.sort-select{background:var(--surface);color:#fff;border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center}
+.sort-select option{background:#1F1F1F}
+@media(max-width:640px){.filter-bar{padding:0 16px}}
+
+/* ── SERIES GRID ── */
+.series-section{padding:32px 40px 64px;max-width:1400px;margin:0 auto}
+.series-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px}
+@media(max-width:640px){.series-section{padding:24px 16px 48px}.series-grid{grid-template-columns:repeat(2,1fr);gap:4px}}
+@media(min-width:641px) and (max-width:900px){.series-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:901px) and (max-width:1200px){.series-grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:1201px){.series-grid{grid-template-columns:repeat(5,1fr)}}
+
+/* ── SERIES CARD (t10 style) ── */
+.series-card-item{cursor:pointer;min-width:0;position:relative}
+.card-img-wrap{width:100%;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.05);margin-bottom:10px;transition:box-shadow .2s;position:relative}
+.series-card-item:hover .card-img-wrap{box-shadow:0 0 0 2px rgba(220,38,38,.4)}
+.series-card-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.series-card-item:hover img{transform:scale(1.05)}
+/* ON AIR badge */
+.on-air-badge{position:absolute;top:8px;left:8px;background:#DC2626;color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px;z-index:2}
+.card-label-title{font-size:13px;font-weight:500;color:#EEF1F6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:4px;transition:color .15s}
+.series-card-item:hover .card-label-title{color:#DC2626}
+.card-label-year{display:flex;align-items:center;gap:5px;font-size:11px;color:#8A94A6}
+.card-star{color:#DC2626;font-size:10px}
+.card-dot{color:rgba(238,241,246,.18)}
+
+/* ── LOAD MORE ── */
+.load-more-wrap{display:flex;justify-content:center;padding:16px 0 64px}
+.btn-load-more{background:transparent;border:1px solid var(--border);color:#ccc;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;padding:12px 40px;border-radius:4px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px}
+.btn-load-more:hover{border-color:var(--accent);color:#fff;background:rgba(229,9,20,0.06)}
+.btn-load-more:disabled{opacity:0.4;cursor:default;pointer-events:none}
+.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;display:none}
+.btn-load-more.loading .spinner{display:block}
+.btn-load-more.loading .load-more-text{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── SKELETON ── */
+.skeleton{background:linear-gradient(90deg,var(--card) 0%,var(--surface) 50%,var(--card) 100%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite;border-radius:6px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skeleton-card{min-width:0}
+.skeleton-img{width:100%;aspect-ratio:2/3;background:var(--surface);border-radius:8px}
+.skeleton-label{padding:8px 0 4px}
+.skeleton-title{height:13px;border-radius:3px;margin-bottom:6px;width:80%}
+.skeleton-year{height:11px;border-radius:3px;width:40%}
+
+/* ── EMPTY STATE ── */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;text-align:center;grid-column:1/-1}
+.empty-icon{font-size:48px;margin-bottom:16px;opacity:0.3}
+.empty-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:#fff;margin-bottom:8px}
+.empty-sub{font-family:'Outfit',sans-serif;font-size:14px;color:var(--muted)}
+
+/* ── RESULTS BAR ── */
+.results-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.results-count{font-family:'Outfit',sans-serif;font-size:13px;color:var(--muted)}
+.results-count span{color:#fff;font-weight:600}
+
+/* ── SEARCH OVERLAY ── */
+.search-overlay{position:fixed;inset:0;z-index:9999;background:rgba(8,8,8,.97);backdrop-filter:blur(20px);display:none;flex-direction:column;align-items:center;padding-top:76px}
+.search-overlay.open{display:flex}
+.search-wrap{width:min(700px,88%);margin-bottom:24px}
+.search-bar{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:12px;padding:15px 20px;transition:border-color .2s,background .2s}
+.search-bar:focus-within{border-color:rgba(255,255,255,.38);background:rgba(255,255,255,.08)}
+.search-bar svg{flex-shrink:0;color:rgba(255,255,255,.4)}
+.search-input{flex:1;background:none;border:none;outline:none;color:#fff;font-family:'Outfit',sans-serif;font-size:20px;font-weight:400}
+.search-input::placeholder{color:rgba(255,255,255,.2)}
+.search-clear{background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.5);font-size:15px;line-height:1;cursor:pointer;padding:7px 11px;border-radius:6px;transition:all .15s;flex-shrink:0}
+.search-clear:hover{background:rgba(255,255,255,.18);color:#fff}
+.search-meta{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding:0 2px}
+.search-label{font-family:'Outfit',sans-serif;font-size:12px;color:rgba(255,255,255,.3);letter-spacing:.3px}
+.search-hint{font-family:'Roboto Mono',monospace;font-size:10px;color:rgba(255,255,255,.18)}
+.search-results{width:min(1100px,90%);display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;overflow-y:auto;max-height:calc(100vh - 220px);padding-bottom:40px;scrollbar-width:none;align-content:start}
+.search-results::-webkit-scrollbar{display:none}
+@keyframes srIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.sr-card{text-decoration:none;color:#fff;display:block;background:#1c1c1c;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.07);box-shadow:0 4px 16px rgba(0,0,0,.4);transition:transform .25s cubic-bezier(.4,0,.2,1),border-color .25s,box-shadow .25s;animation:srIn .3s ease backwards;cursor:pointer}
+.sr-card:hover{transform:scale(1.05);border-color:rgba(255,255,255,.22);box-shadow:0 12px 36px rgba(0,0,0,.7)}
+.sr-poster{position:relative;aspect-ratio:2/3;background:#111;overflow:hidden}
+.sr-poster img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.sr-card:hover .sr-poster img{transform:scale(1.07)}
+.sr-poster-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:52px;color:rgba(255,255,255,.07);background:linear-gradient(135deg,#1a1a1a,#111)}
+.sr-play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);opacity:0;transition:opacity .2s}
+.sr-card:hover .sr-play-overlay{opacity:1}
+.sr-play-circle{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center}
+.sr-play-circle svg{margin-left:3px}
+.sr-info{padding:10px 12px 13px}
+.sr-title{font-size:13px;font-weight:600;color:#e0e0e0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px;transition:color .15s;line-height:1.3}
+.sr-card:hover .sr-title{color:#fff}
+.sr-foot{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.sr-badge{font-family:'Roboto Mono',monospace;font-size:8px;font-weight:700;padding:3px 7px;border-radius:4px;letter-spacing:1px;text-transform:uppercase;flex-shrink:0}
+.sr-badge.movie{background:var(--accent,#E50914);color:#fff}
+.sr-badge.tv{background:transparent;border:1px solid rgba(70,211,105,.6);color:#46d369}
+.sr-year{font-size:11px;color:rgba(255,255,255,.32);flex-shrink:0}
+.sr-rating{margin-left:auto;font-family:'Roboto Mono',monospace;font-size:11px;color:#f5c518;flex-shrink:0}
+.search-empty{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:14px;padding:70px 0;color:rgba(255,255,255,.28)}
+.search-empty svg{opacity:.2}
+.search-empty p{font-family:'Outfit',sans-serif;font-size:15px}
+.search-spinner{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:10px;padding:70px 0;color:rgba(255,255,255,.3);font-family:'Outfit',sans-serif;font-size:14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.search-spinner svg{animation:spin .9s linear infinite;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="nav-logo" aria-label="Popcima Home">
+    <div class="logo-bars" aria-hidden="true">
+      <div class="logo-bar"></div>
+      <div class="logo-bar"></div>
+    </div>
+    <div class="logo-wordmark"><span class="logo-flix">POP</span><span class="logo-gx">CIMA</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="movies.html">Movies</a></li>
+    <li><a href="series.html" class="active">Series</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-icon" aria-label="Search">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6.5" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/></svg>
+    </button>
+    <button class="btn-icon hamburger" aria-label="Open menu" aria-expanded="false">
+      <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="0" y1="1" x2="18" y2="1"/><line x1="0" y1="7" x2="18" y2="7"/><line x1="0" y1="13" x2="18" y2="13"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" role="navigation" aria-label="Mobile navigation">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="movies.html">Movies</a></li>
+    <li><a href="series.html" class="active">Series</a></li>
+  </ul>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero" aria-label="Series page header">
+  <div class="page-hero-backdrop" aria-hidden="true"></div>
+  <div class="page-hero-grid" aria-hidden="true"></div>
+  <div class="page-hero-content">
+    <div class="page-hero-eyebrow">Browse Collection</div>
+    <h1 class="page-hero-title">ALL <span>SERIES</span></h1>
+    <p class="page-hero-desc">Every episode, every season — from prestige dramas to binge-worthy thrillers, all in one place.</p>
+    <div class="page-hero-stats">
+      <div class="hero-stat"><span class="hero-stat-num">100K+</span><span class="hero-stat-label">Shows</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">HD</span><span class="hero-stat-label">Quality</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">Live</span><span class="hero-stat-label">Airing</span></div>
+    </div>
+  </div>
+  <div class="page-hero-fade" aria-hidden="true"></div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" role="navigation" aria-label="Genre filters">
+  <div class="filter-inner">
+    <div class="genre-pills" role="group" aria-label="Filter by genre">
+      <button class="genre-pill active" data-genre="">All</button>
+      <button class="genre-pill" data-genre="10759">Action & Adventure</button>
+      <button class="genre-pill" data-genre="16">Animation</button>
+      <button class="genre-pill" data-genre="35">Comedy</button>
+      <button class="genre-pill" data-genre="80">Crime</button>
+      <button class="genre-pill" data-genre="99">Documentary</button>
+      <button class="genre-pill" data-genre="18">Drama</button>
+      <button class="genre-pill" data-genre="10751">Family</button>
+      <button class="genre-pill" data-genre="9648">Mystery</button>
+      <button class="genre-pill" data-genre="10764">Reality</button>
+      <button class="genre-pill" data-genre="10765">Sci-Fi & Fantasy</button>
+      <button class="genre-pill" data-genre="10768">War & Politics</button>
+      <button class="genre-pill" data-genre="37">Western</button>
+    </div>
+    <div class="filter-divider" aria-hidden="true"></div>
+    <div class="sort-wrap">
+      <span class="sort-label">Sort by</span>
+      <select class="sort-select" id="sort-select" aria-label="Sort series by">
+        <option value="popular">Most Popular</option>
+        <option value="top_rated">Top Rated</option>
+        <option value="on_the_air">Now Airing</option>
+        <option value="airing_today">Airing Today</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main>
+  <div class="series-section">
+    <div class="results-bar">
+      <p class="results-count" id="results-count">Loading series…</p>
+    </div>
+    <div class="series-grid" id="series-grid" aria-label="Series grid"></div>
+  </div>
+  <div class="load-more-wrap">
+    <button class="btn-load-more" id="load-more-btn" aria-label="Load more series">
+      <div class="spinner" aria-hidden="true"></div>
+      <span class="load-more-text">Load More</span>
+    </button>
+  </div>
+</main>
+
+<script>
+const TMDB_KEY = '893e1103dea135f74d571b3ae1794603';
+const API      = 'https://api.themoviedb.org/3';
+const IMG      = 'https://image.tmdb.org/t/p';
+
+const TV_GENRE_MAP = {
+  10759:'Action & Adventure',16:'Animation',35:'Comedy',80:'Crime',
+  99:'Documentary',18:'Drama',10751:'Family',10762:'Kids',9648:'Mystery',
+  10763:'News',10764:'Reality',10765:'Sci-Fi & Fantasy',10766:'Soap',
+  10767:'Talk',10768:'War & Politics',37:'Western'
+};
+
+function getGenres(ids) {
+  return (ids||[]).slice(0,2).map(id => TV_GENRE_MAP[id]).filter(Boolean).join(' · ');
+}
+
+let currentPage   = 1;
+let currentGenre  = '';
+let currentSort   = 'popular';
+let totalPages    = 1;
+let isLoading     = false;
+
+const grid        = document.getElementById('series-grid');
+const loadMoreBtn = document.getElementById('load-more-btn');
+const resultsCount= document.getElementById('results-count');
+
+// ── SKELETON ─────────────────────────────────────────────
+function showSkeletons(n = 20) {
+  grid.innerHTML = Array(n).fill(0).map(() => `
+    <div class="skeleton-card">
+      <div class="skeleton skeleton-img"></div>
+      <div class="skeleton-label">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-year"></div>
+      </div>
+    </div>`).join('');
+}
+
+// ── CARD BUILDER ─────────────────────────────────────────
+function makeCard(s) {
+  const title    = s.name || s.title || 'Untitled';
+  const year     = (s.first_air_date || '').slice(0, 4);
+  const score    = s.vote_average ? s.vote_average.toFixed(1) : '—';
+  const g        = getGenres(s.genre_ids);
+  const match    = (78 + Math.floor(Math.random() * 21)) + '%';
+  const seasons  = s.number_of_seasons;
+  const isOnAir  = s.in_production || currentSort === 'on_the_air' || currentSort === 'airing_today';
+  const poster   = s.poster_path
+    ? `${IMG}/w342${s.poster_path}`
+    : `https://picsum.photos/342/513?random=${s.id}`;
+
+  const card = document.createElement('div');
+  card.className = 'series-card-item';
+  card.innerHTML = `
+    <div class="card-img-wrap">
+      ${isOnAir ? '<div class="on-air-badge">On Air</div>' : ''}
+      <img src="${poster}" alt="${title}" loading="lazy">
+    </div>
+    <div class="card-label-title">${title}</div>
+    <div class="card-label-year">
+      ${score ? `<span class="card-star">★</span><span>${score}</span><span class="card-dot">·</span>` : ''}
+      ${year ? `<span>${year}</span><span class="card-dot">·</span>` : ''}
+      <span>Series</span>
+    </div>`;
+  card.addEventListener('click', () => { location.href = `series-watch.html?id=${s.id}`; });
+  return card;
+}
+
+// ── FETCH ─────────────────────────────────────────────────
+async function fetchSeries(page = 1, append = false) {
+  if (isLoading) return;
+  isLoading = true;
+
+  if (!append) showSkeletons(20);
+  loadMoreBtn.classList.add('loading');
+  loadMoreBtn.disabled = true;
+
+  try {
+    let url;
+    if (currentGenre) {
+      // Discover with genre filter
+      const sortMap = {
+        popular: 'popularity.desc',
+        top_rated: 'vote_average.desc',
+        on_the_air: 'popularity.desc',
+        airing_today: 'popularity.desc'
+      };
+      const sortBy = sortMap[currentSort] || 'popularity.desc';
+      url = `${API}/discover/tv?api_key=${TMDB_KEY}&language=en-US&sort_by=${sortBy}&with_genres=${currentGenre}&vote_count.gte=20&page=${page}`;
+    } else {
+      // Use specific endpoints for curated results
+      url = `${API}/tv/${currentSort}?api_key=${TMDB_KEY}&language=en-US&page=${page}`;
+    }
+
+    const res  = await fetch(url);
+    const data = await res.json();
+
+    totalPages = data.total_pages || 1;
+    const shows = data.results || [];
+
+    if (!append) {
+      grid.innerHTML = '';
+      const total = data.total_results || 0;
+      resultsCount.innerHTML = `Showing <span>${shows.length}</span> of <span>${total.toLocaleString()}</span> series`;
+    }
+
+    if (shows.length === 0 && !append) {
+      grid.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">📺</div>
+        <div class="empty-title">No series found</div>
+        <div class="empty-sub">Try a different genre or sort option</div>
+      </div>`;
+      loadMoreBtn.style.display = 'none';
+    } else {
+      // Fetch details for first page to get season count
+      const detailed = page === 1 && !append
+        ? await Promise.all(shows.slice(0,5).map(s =>
+            fetch(`${API}/tv/${s.id}?api_key=${TMDB_KEY}`).then(r=>r.json()).catch(()=>s)
+          ))
+        : [];
+
+      shows.forEach((s, i) => {
+        const merged = (i < detailed.length) ? {...s, ...detailed[i]} : s;
+        grid.appendChild(makeCard(merged));
+      });
+
+      loadMoreBtn.style.display = page >= totalPages ? 'none' : 'flex';
+    }
+  } catch (e) {
+    console.error('TMDB error:', e);
+    if (!append) {
+      grid.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">⚠️</div>
+        <div class="empty-title">Failed to load</div>
+        <div class="empty-sub">Check your connection and try again</div>
+      </div>`;
+    }
+  } finally {
+    isLoading = false;
+    loadMoreBtn.classList.remove('loading');
+    loadMoreBtn.disabled = false;
+  }
+}
+
+// ── GENRE PILLS ──────────────────────────────────────────
+document.querySelectorAll('.genre-pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.genre-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentGenre = btn.dataset.genre;
+    currentPage  = 1;
+    loadMoreBtn.style.display = 'flex';
+    fetchSeries(1, false);
+  });
+});
+
+// ── SORT SELECT ───────────────────────────────────────────
+document.getElementById('sort-select').addEventListener('change', function() {
+  currentSort = this.value;
+  currentPage = 1;
+  loadMoreBtn.style.display = 'flex';
+  fetchSeries(1, false);
+});
+
+// ── LOAD MORE ─────────────────────────────────────────────
+loadMoreBtn.addEventListener('click', () => {
+  if (currentPage < totalPages) {
+    currentPage++;
+    fetchSeries(currentPage, true);
+  }
+});
+
+// ── HAMBURGER ─────────────────────────────────────────────
+document.querySelector('.hamburger').addEventListener('click', function() {
+  const open = document.querySelector('.mobile-drawer').classList.toggle('open');
+  this.setAttribute('aria-expanded', open.toString());
+});
+
+// ── INIT ──────────────────────────────────────────────────
+fetchSeries(1, false);
+
+document.addEventListener('DOMContentLoaded', function(){
+  const SKEY = '893e1103dea135f74d571b3ae1794603';
+  const IMG  = 'https://image.tmdb.org/t/p';
+  const overlay = document.getElementById('search-overlay');
+  const input   = document.getElementById('search-input');
+  const results = document.getElementById('search-results');
+  const lbl     = document.getElementById('search-label');
+  let timer = null;
+
+  function open()  { overlay.classList.add('open'); input.focus(); }
+  function close() { overlay.classList.remove('open'); input.value=''; results.innerHTML=''; lbl.textContent='Type to search'; }
+
+  document.querySelector('[aria-label="Search"]').addEventListener('click', open);
+  document.getElementById('search-close').addEventListener('click', close);
+  overlay.addEventListener('click', e => { if (e.target===overlay) close(); });
+  document.addEventListener('keydown', e => { if (e.key==='Escape' && overlay.classList.contains('open')) close(); });
+
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    const q = input.value.trim();
+    if (!q) { results.innerHTML=''; lbl.textContent='Type to search'; return; }
+    lbl.textContent='Searching…';
+    results.innerHTML='<div class="search-spinner"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M10 2a8 8 0 0 1 8 8"/></svg>Searching…</div>';
+    timer = setTimeout(() => doSearch(q), 360);
+  });
+
+  async function doSearch(q) {
+    try {
+      const r = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${SKEY}&query=${encodeURIComponent(q)}&language=en-US&include_adult=false`);
+      const d = await r.json();
+      render(d.results||[], q);
+    } catch(e) { lbl.textContent='Search error'; }
+  }
+
+  function render(items, q) {
+    const list = items.filter(r=>(r.media_type==='movie'||r.media_type==='tv')&&(r.poster_path||r.backdrop_path)).slice(0,20);
+    lbl.textContent = list.length ? `${list.length} result${list.length!==1?'s':''} for "${q}"` : `No results for "${q}"`;
+    if (!list.length) {
+      results.innerHTML = `<div class="search-empty"><svg width="52" height="52" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="22" cy="22" r="14"/><line x1="32" y1="32" x2="47" y2="47"/></svg><p>No matches for <strong style="color:rgba(255,255,255,.55)">"${q}"</strong></p></div>`;
+      return;
+    }
+    const IMG2 = 'https://image.tmdb.org/t/p';
+    results.innerHTML = list.map((r, i) => {
+      const title  = (r.title||r.name||'');
+      const poster = r.poster_path ? `${IMG2}/w342${r.poster_path}` : (r.backdrop_path ? `${IMG2}/w500${r.backdrop_path}` : '');
+      const year   = (r.release_date||r.first_air_date||'').slice(0,4);
+      const url    = r.media_type==='tv' ? `series-watch.html?id=${r.id}` : `movie-watch.html?id=${r.id}`;
+      const cls    = r.media_type==='tv' ? 'tv' : 'movie';
+      const rating = r.vote_average && r.vote_average > 0 ? r.vote_average.toFixed(1) : null;
+      return `<a href="${url}" class="sr-card" style="animation-delay:${i*30}ms">
+        <div class="sr-poster">
+          ${poster
+            ? `<img src="${poster}" alt="${title.replace(/"/g,'&quot;')}" loading="lazy">`
+            : `<div class="sr-poster-ph">${(title[0]||'?').toUpperCase()}</div>`}
+          <div class="sr-play-overlay"><div class="sr-play-circle"><svg width="16" height="16" viewBox="0 0 16 16" fill="#000"><polygon points="4,2 13,8 4,14"/></svg></div></div>
+        </div>
+        <div class="sr-info">
+          <div class="sr-title">${title||'Untitled'}</div>
+          <div class="sr-foot">
+            <span class="sr-badge ${cls}">${cls==='tv'?'SERIES':'MOVIE'}</span>
+            ${year ? `<span class="sr-year">${year}</span>` : ''}
+            ${rating ? `<span class="sr-rating">★ ${rating}</span>` : ''}
+          </div>
+        </div>
+      </a>`;
+    }).join('');
+  }
+});
+</script>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="search-overlay">
+  <div class="search-wrap">
+    <div class="search-bar">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="5"/><line x1="12" y1="12" x2="16" y2="16"/></svg>
+      <input type="text" class="search-input" id="search-input" placeholder="Search movies, shows, actors…" autocomplete="off" spellcheck="false">
+      <button class="search-clear" id="search-close" aria-label="Close search">✕</button>
+    </div>
+    <div class="search-meta"><div class="search-label" id="search-label">Type to search</div><div class="search-hint">ESC to close</div></div>
+  </div>
+  <div class="search-results" id="search-results"></div>
+</div>
+</body>
+</html>

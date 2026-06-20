@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ═══════════════════════════════════════════
+     PRIMARY SEO
+     ═══════════════════════════════════════════ -->
+<title>Watch Free Movies & Series Online – Popcima | No Sign-Up, No Ads</title>
+<meta name="description" content="Stream thousands of free movies and TV series in 4K on Popcima. No account required. No ads. Watch the latest blockbusters, trending shows, and classic films online — updated daily and completely free.">
+<meta name="keywords" content="watch free movies online, free streaming, watch series online free, free movie streaming, watch movies without account, stream TV shows free, 4K streaming free, watch new movies online, free online movies no sign up, Popcima streaming">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="author" content="Popcima">
+<meta name="theme-color" content="#DC2626">
+<link rel="canonical" href="https://popcima.com/">
+
+<!-- ═══════════════════════════════════════════
+     OPEN GRAPH (Facebook, WhatsApp, Discord…)
+     ═══════════════════════════════════════════ -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://popcima.com/">
+<meta property="og:site_name"   content="Popcima">
+<meta property="og:title"       content="Watch Free Movies & Series Online – Popcima">
+<meta property="og:description" content="Stream thousands of movies and TV series in 4K for free. No sign-up, no ads. Updated daily. Watch on any device at Popcima.com.">
+<meta property="og:image"       content="https://popcima.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt"   content="Popcima – Watch Free Movies & Series Online">
+<meta property="og:locale"      content="en_US">
+
+<!-- ═══════════════════════════════════════════
+     TWITTER / X CARD
+     ═══════════════════════════════════════════ -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"        content="@popcima">
+<meta name="twitter:title"       content="Watch Free Movies & Series Online – Popcima">
+<meta name="twitter:description" content="Stream thousands of movies and TV shows in 4K. No account needed. No ads. Updated daily. Always free.">
+<meta name="twitter:image"       content="https://popcima.com/og-image.jpg">
+
+<!-- ═══════════════════════════════════════════
+     STRUCTURED DATA (JSON-LD)
+     ═══════════════════════════════════════════ -->
+<script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Popcima",
+    "alternateName": ["Popcima Streaming", "Popcima Movies"],
+    "url": "https://popcima.com",
+    "description": "Free online streaming platform for movies and TV series in 4K. No account required.",
+    "inLanguage": "en",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://popcima.com/index.html?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Popcima",
+    "url": "https://popcima.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://popcima.com/og-image.jpg",
+      "width": 512,
+      "height": 512
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "contact@popcima.com",
+      "contactType": "customer support"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": "Popcima – Free Movie & Series Streaming",
+    "description": "Watch thousands of movies and TV series online for free in 4K. No sign-up, no ads.",
+    "thumbnailUrl": "https://popcima.com/og-image.jpg",
+    "uploadDate": "2024-01-01",
+    "contentUrl": "https://popcima.com"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": ["Movies", "Series", "Homepage"],
+    "url": ["https://popcima.com/movies.html", "https://popcima.com/series.html", "https://popcima.com/index.html"]
+  }
+]
+</script>
+
+<!-- ═══════════════════════════════════════════
+     PERFORMANCE / RESOURCE HINTS
+     ═══════════════════════════════════════════ -->
+<link rel="dns-prefetch" href="https://api.themoviedb.org">
+<link rel="dns-prefetch" href="https://image.tmdb.org">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05070A;
+  --accent:#DC2626;
+  --hi:#EEF1F6;
+  --muted:#8A94A6;
+  --border:rgba(255,255,255,.08);
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--hi);font-family:'Inter',system-ui,sans-serif}
+
+/* ── ENTRANCE ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.75)}}
+@keyframes go-l{to{transform:translateX(-50%)}}
+@keyframes go-r{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@keyframes glow{0%,100%{opacity:.5}50%{opacity:.9}}
+
+.a1{animation:fadeUp .8s cubic-bezier(.22,1,.36,1) both .05s}
+.a2{animation:fadeUp .8s cubic-bezier(.22,1,.36,1) both .18s}
+.a3{animation:fadeUp .8s cubic-bezier(.22,1,.36,1) both .30s}
+.a4{animation:fadeUp .8s cubic-bezier(.22,1,.36,1) both .42s}
+.a5{animation:fadeUp .8s cubic-bezier(.22,1,.36,1) both .54s}
+.a6{animation:fadeUp .8s cubic-bezier(.22,1,.36,1) both .64s}
+
+/* ── POSTER ROWS ── */
+.rows-bg{
+  position:fixed;inset:-10% -5%;
+  display:flex;flex-direction:column;gap:8px;
+  transform:perspective(1600px) rotateX(15deg) scale(1.08);
+  transform-origin:50% 36%;
+  pointer-events:none;z-index:0;
+}
+.row-track{flex:1;overflow:hidden}
+.row{display:flex;gap:8px;height:100%;width:max-content;will-change:transform}
+.rt-1 .row{animation:go-l 50s linear infinite}
+.rt-2 .row{animation:go-r 40s linear infinite}
+.rt-3 .row{animation:go-l 58s linear infinite}
+.rt-4 .row{animation:go-r 44s linear infinite}
+.rt-5 .row{animation:go-l 38s linear infinite}
+.poster{height:100%;aspect-ratio:2/3;border-radius:6px;overflow:hidden;flex-shrink:0;background:rgba(255,255,255,.03)}
+.poster img{width:100%;height:100%;object-fit:cover;display:block;opacity:.38}
+
+/* ── LAYERED OVERLAYS ── */
+.ov-base  {position:fixed;inset:0;z-index:1;background:rgba(5,7,10,.52)}
+.ov-glow  {position:fixed;bottom:-15%;left:50%;transform:translateX(-50%);width:90%;height:65%;z-index:2;background:radial-gradient(ellipse at 50% 100%,rgba(220,38,38,.14) 0%,transparent 70%);animation:glow 5s ease-in-out infinite}
+.ov-center{position:fixed;inset:0;z-index:3;background:radial-gradient(ellipse 65% 72% at 50% 50%,transparent 5%,rgba(5,7,10,.88) 100%)}
+.ov-top   {position:fixed;inset:0 0 auto;height:26%;z-index:4;background:linear-gradient(to bottom,#05070A,transparent)}
+.ov-bot   {position:fixed;inset:auto 0 0;height:26%;z-index:4;background:linear-gradient(to top,#05070A,transparent)}
+.ov-l     {position:fixed;inset:0 auto 0 0;width:15%;z-index:4;background:linear-gradient(to right,#05070A,transparent)}
+.ov-r     {position:fixed;inset:0 0 0 auto;width:15%;z-index:4;background:linear-gradient(to left,#05070A,transparent)}
+
+/* ── TOP BAR ── */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  padding:20px 44px;
+  display:flex;align-items:center;justify-content:space-between;
+  animation:fadeIn .6s ease both;
+}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo-bars{display:flex;gap:3.5px;align-items:center}
+.lb{width:5px;height:20px;background:var(--accent);transform:skewX(-12deg);border-radius:1px}
+.lb:nth-child(2){height:14px;opacity:.6}
+.logo-txt{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:1px;line-height:1}
+.logo-txt .r{color:var(--accent)}.logo-txt .w{color:#fff}
+.topbar-nav{display:flex;align-items:center;gap:6px}
+.nav-link{
+  font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;
+  padding:7px 15px;border-radius:8px;transition:color .18s,background .18s;
+}
+.nav-link:hover{color:var(--hi);background:rgba(255,255,255,.06)}
+.nav-btn{
+  font-size:13px;font-weight:600;color:#fff;text-decoration:none;
+  padding:8px 18px;border-radius:9999px;
+  background:var(--accent);
+  transition:background .18s,transform .15s;
+}
+.nav-btn:hover{background:#b91c1c;transform:translateY(-1px)}
+@media(max-width:600px){.topbar{padding:16px 20px}.nav-link{display:none}}
+
+/* ── CENTER STAGE ── */
+.center{
+  position:fixed;inset:0;z-index:10;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:80px 24px 40px;text-align:center;
+  pointer-events:none;
+}
+.center>*{pointer-events:auto}
+
+/* Badge */
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  color:rgba(220,38,38,.9);
+  border:1px solid rgba(220,38,38,.25);
+  background:rgba(220,38,38,.07);
+  border-radius:9999px;padding:6px 16px;margin-bottom:26px;
+  backdrop-filter:blur(8px);
+}
+.badge-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:pulse 2.2s ease-in-out infinite}
+
+/* Headline */
+.headline{
+  font-size:clamp(46px,8.5vw,96px);
+  font-weight:900;line-height:.95;
+  letter-spacing:-2.5px;
+  margin-bottom:20px;
+  color:#fff;
+}
+.hl-top{
+  display:block;
+  background:linear-gradient(180deg,#fff 40%,rgba(238,241,246,.55) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hl-bot{
+  display:block;margin-top:4px;
+  background:linear-gradient(135deg,var(--accent) 0%,#f87171 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* Sub */
+.sub{
+  font-size:16px;font-weight:400;
+  color:rgba(138,148,166,.9);
+  line-height:1.6;max-width:420px;
+  margin-bottom:40px;
+}
+
+/* Search */
+.search-wrap{width:min(600px,92%);margin-bottom:22px;position:relative}
+.search-box{
+  display:flex;align-items:center;
+  background:rgba(255,255,255,.07);
+  border:1.5px solid rgba(255,255,255,.12);
+  border-radius:16px;overflow:hidden;
+  backdrop-filter:blur(20px);
+  box-shadow:0 0 0 0 rgba(220,38,38,0),0 8px 32px rgba(0,0,0,.3);
+  transition:border-color .25s,box-shadow .25s,background .25s;
+}
+.search-box:focus-within{
+  border-color:rgba(220,38,38,.5);
+  background:rgba(255,255,255,.09);
+  box-shadow:0 0 0 4px rgba(220,38,38,.1),0 8px 40px rgba(0,0,0,.35);
+}
+.si{flex-shrink:0;padding-left:20px;color:var(--muted)}
+.search-box input{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--hi);font-family:'Inter',sans-serif;
+  font-size:15px;font-weight:400;
+  padding:17px 14px;caret-color:var(--accent);
+}
+.search-box input::placeholder{color:rgba(138,148,166,.65)}
+.search-box button{
+  flex-shrink:0;margin:6px;
+  background:var(--accent);color:#fff;border:none;
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:700;
+  padding:11px 22px;border-radius:12px;cursor:pointer;
+  display:flex;align-items:center;gap:7px;letter-spacing:.01em;
+  transition:background .18s,transform .15s;
+}
+.search-box button:hover{background:#b91c1c;transform:scale(1.02)}
+
+/* CTAs */
+.cta-row{display:flex;align-items:center;gap:10px;margin-bottom:44px;flex-wrap:wrap;justify-content:center}
+.btn-home{
+  display:inline-flex;align-items:center;gap:9px;
+  background:#fff;color:#000;
+  font-size:15px;font-weight:700;letter-spacing:-.01em;
+  padding:14px 30px;border-radius:9999px;
+  text-decoration:none;
+  box-shadow:0 2px 24px rgba(255,255,255,.12);
+  transition:background .18s,transform .18s,box-shadow .18s;
+}
+.btn-home:hover{background:rgba(255,255,255,.9);transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,255,255,.18)}
+.btn-home svg{transition:transform .22s}
+.btn-home:hover svg{transform:translateX(3px)}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.06);color:var(--hi);
+  border:1px solid rgba(255,255,255,.1);
+  font-size:13px;font-weight:500;
+  padding:13px 20px;border-radius:9999px;
+  text-decoration:none;
+  backdrop-filter:blur(10px);
+  transition:background .18s,border-color .18s,transform .15s;
+}
+.btn-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);transform:translateY(-1px)}
+
+/* Stats strip */
+.stats-strip{
+  display:flex;align-items:center;gap:0;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;overflow:hidden;
+  backdrop-filter:blur(12px);
+}
+.stt{padding:14px 26px;text-align:center;border-right:1px solid rgba(255,255,255,.07)}
+.stt:last-child{border-right:none}
+.stn{font-family:'Bebas Neue',sans-serif;font-size:21px;color:#fff;line-height:1;display:block}
+.stl{font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;display:block;margin-top:3px}
+
+/* Mobile */
+@media(max-width:600px){
+  .center{padding:72px 18px 32px}
+  .headline{font-size:clamp(40px,12vw,56px);letter-spacing:-1.5px}
+  .sub{font-size:14px;margin-bottom:28px}
+  .search-box input{font-size:14px;padding:15px 10px}
+  .search-box button{font-size:13px;padding:9px 16px}
+  .cta-row{margin-bottom:28px;gap:8px}
+  .btn-home{font-size:14px;padding:12px 22px}
+  .btn-ghost{font-size:12px;padding:11px 16px}
+  .stt{padding:12px 16px}.stn{font-size:18px}
+}
+@media(max-width:380px){
+  .headline{font-size:36px;letter-spacing:-1px}
+  .badge{font-size:10px;padding:5px 12px}
+  .cta-row{flex-direction:column;width:100%}
+  .btn-home,.btn-ghost{width:100%;justify-content:center}
+}
+
+/* ── SEARCH OVERLAY ── */
+.srch-overlay{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(5,7,10,.97);backdrop-filter:blur(24px);
+  display:none;flex-direction:column;align-items:center;
+  padding-top:68px;overflow-y:auto;
+}
+.srch-overlay.open{display:flex}
+.srch-overlay-bar{
+  width:min(640px,90%);display:flex;align-items:center;
+  background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.13);
+  border-radius:14px;overflow:hidden;margin-bottom:24px;flex-shrink:0;
+  transition:border-color .2s;
+}
+.srch-overlay-bar:focus-within{border-color:rgba(220,38,38,.45)}
+.si2{flex-shrink:0;padding-left:18px;color:var(--muted)}
+.srch-overlay-bar input{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--hi);font-family:'Inter',sans-serif;font-size:16px;
+  padding:15px 14px;caret-color:var(--accent);
+}
+.srch-overlay-bar input::placeholder{color:var(--muted)}
+.srch-close{
+  flex-shrink:0;background:none;border:none;color:var(--muted);
+  cursor:pointer;padding:0 18px;font-size:24px;line-height:1;height:100%;
+  transition:color .15s;
+}
+.srch-close:hover{color:var(--hi)}
+.srch-label{font-size:12px;color:var(--muted);margin-bottom:20px;flex-shrink:0}
+.srch-label b{color:var(--hi);font-weight:600}
+.srch-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:12px;width:min(900px,90%);padding-bottom:60px;
+}
+@media(max-width:500px){.srch-grid{grid-template-columns:repeat(2,1fr)}}
+.sr-card{cursor:pointer;min-width:0;text-decoration:none;color:inherit;display:block}
+.sr-img-wrap{
+  width:100%;aspect-ratio:2/3;border-radius:9px;overflow:hidden;
+  background:rgba(255,255,255,.05);margin-bottom:9px;
+  transition:box-shadow .2s;
+}
+.sr-card:hover .sr-img-wrap{box-shadow:0 0 0 2px rgba(220,38,38,.5)}
+.sr-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.sr-card:hover .sr-img-wrap img{transform:scale(1.05)}
+.sr-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;color:rgba(255,255,255,.08);font-family:'Bebas Neue',sans-serif}
+.sr-title{font-size:12px;font-weight:500;color:var(--hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;transition:color .15s}
+.sr-card:hover .sr-title{color:var(--accent)}
+.sr-meta{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)}
+.sr-type{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:4px}
+.sr-type.movie{background:rgba(220,38,38,.14);color:#f87171}
+.sr-type.tv{background:rgba(59,130,246,.14);color:#93c5fd}
+.sr-dot{color:rgba(255,255,255,.18)}
+.srch-spinner{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:14px;padding:48px 0;flex-shrink:0}
+.srch-spinner svg{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.srch-empty{color:var(--muted);font-size:14px;padding:48px 0;flex-shrink:0;text-align:center}
+.srch-empty strong{display:block;font-size:28px;margin-bottom:8px;color:rgba(255,255,255,.12);font-family:'Bebas Neue',sans-serif;letter-spacing:1px}
+</style>
+</head>
+<body>
+
+<!-- POSTER ROWS -->
+<div class="rows-bg" aria-hidden="true">
+  <div class="row-track rt-1"><div class="row" id="r1"></div></div>
+  <div class="row-track rt-2"><div class="row" id="r2"></div></div>
+  <div class="row-track rt-3"><div class="row" id="r3"></div></div>
+  <div class="row-track rt-4"><div class="row" id="r4"></div></div>
+  <div class="row-track rt-5"><div class="row" id="r5"></div></div>
+</div>
+
+<!-- OVERLAYS -->
+<div class="ov-base"   aria-hidden="true"></div>
+<div class="ov-glow"   aria-hidden="true"></div>
+<div class="ov-center" aria-hidden="true"></div>
+<div class="ov-top"    aria-hidden="true"></div>
+<div class="ov-bot"    aria-hidden="true"></div>
+<div class="ov-l"      aria-hidden="true"></div>
+<div class="ov-r"      aria-hidden="true"></div>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <a class="logo" href="landing.html" aria-label="Popcima">
+    <div class="logo-bars" aria-hidden="true">
+      <div class="lb"></div><div class="lb"></div><div class="lb"></div>
+    </div>
+    <div class="logo-txt"><span class="r">POP</span><span class="w">CIMA</span></div>
+  </a>
+  <nav class="topbar-nav">
+    <a class="nav-link" href="movies.html">Movies</a>
+    <a class="nav-link" href="series.html">Series</a>
+    <a class="nav-btn"  href="index.html">Homepage</a>
+  </nav>
+</header>
+
+<!-- CENTER CONTENT -->
+<main class="center" role="main">
+
+  <div class="badge a1">
+    <span class="badge-dot"></span>
+    Free &middot; No Sign-up &middot; No Ads
+  </div>
+
+  <h1 class="headline a2">
+    <span class="hl-top">Free Movies &amp; Series</span>
+    <span class="hl-bot">Stream Online.</span>
+  </h1>
+
+  <p class="sub a3">Watch thousands of movies and TV shows online in 4K.<br>No account needed. No ads. Updated daily. Always free.</p>
+
+  <div class="search-wrap a4">
+    <div class="search-box">
+      <span class="si">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="8" cy="8" r="5.5"/><line x1="12.5" y1="12.5" x2="16.5" y2="16.5"/></svg>
+      </span>
+      <input type="text" id="srch" placeholder="Search movies, series, actors…" autocomplete="off" spellcheck="false">
+      <button id="srch-btn" aria-label="Search">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/></svg>
+        Search
+      </button>
+    </div>
+  </div>
+
+  <div class="cta-row a5">
+    <a class="btn-home" href="index.html">
+      Go to Homepage
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+    </a>
+    <a class="btn-ghost" href="movies.html">Movies</a>
+    <a class="btn-ghost" href="series.html">Series</a>
+  </div>
+
+  <div class="stats-strip a6">
+    <div class="stt"><span class="stn">500K+</span><span class="stl">Titles</span></div>
+    <div class="stt"><span class="stn">4K</span><span class="stl">Quality</span></div>
+    <div class="stt"><span class="stn">Daily</span><span class="stl">Updated</span></div>
+    <div class="stt"><span class="stn">Free</span><span class="stl">Forever</span></div>
+  </div>
+
+</main>
+
+<!-- SEARCH OVERLAY -->
+<div class="srch-overlay" id="srch-overlay" role="dialog" aria-label="Search results">
+  <div class="srch-overlay-bar">
+    <span class="si2">
+      <svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="7.5" cy="7.5" r="5"/><line x1="11.5" y1="11.5" x2="15.5" y2="15.5"/></svg>
+    </span>
+    <input type="text" id="srch2" placeholder="Search movies, series, actors…" autocomplete="off" spellcheck="false">
+    <button class="srch-close" id="srch-close" aria-label="Close">×</button>
+  </div>
+  <div class="srch-label" id="srch-label">Type to search</div>
+  <div class="srch-grid" id="srch-grid"></div>
+</div>
+
+<script>
+const KEY = '893e1103dea135f74d571b3ae1794603';
+const API = 'https://api.themoviedb.org/3';
+const IMG = 'https://image.tmdb.org/t/p/w342';
+
+/* ── SEARCH ──────────────────────────────── */
+const srch      = document.getElementById('srch');
+const srchBtn   = document.getElementById('srch-btn');
+const overlay   = document.getElementById('srch-overlay');
+const srch2     = document.getElementById('srch2');
+const srchClose = document.getElementById('srch-close');
+const srchLabel = document.getElementById('srch-label');
+const srchGrid  = document.getElementById('srch-grid');
+let   timer     = null;
+
+function openSearch(q) {
+  overlay.classList.add('open');
+  srch2.value = q || '';
+  srch2.focus();
+  if (q) runSearch(q);
+}
+function closeSearch() {
+  overlay.classList.remove('open');
+  srch2.value = '';
+  srchGrid.innerHTML = '';
+  srchLabel.innerHTML = 'Type to search';
+  srch.value = '';
+}
+
+srchBtn.addEventListener('click', () => openSearch(srch.value.trim()));
+srch.addEventListener('keydown', e => { if (e.key === 'Enter') openSearch(srch.value.trim()); });
+srch.addEventListener('focus', () => openSearch(srch.value.trim()));
+srchClose.addEventListener('click', closeSearch);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
+overlay.addEventListener('click', e => { if (e.target === overlay) closeSearch(); });
+
+srch2.addEventListener('input', () => {
+  clearTimeout(timer);
+  const q = srch2.value.trim();
+  if (!q) { srchGrid.innerHTML = ''; srchLabel.innerHTML = 'Type to search'; return; }
+  srchLabel.innerHTML = 'Searching…';
+  srchGrid.innerHTML = '<div class="srch-spinner"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 2a7 7 0 0 1 7 7"/></svg>Searching…</div>';
+  timer = setTimeout(() => runSearch(q), 340);
+});
+
+async function runSearch(q) {
+  try {
+    const res  = await fetch(`${API}/search/multi?api_key=${KEY}&language=en-US&query=${encodeURIComponent(q)}&page=1&include_adult=false`);
+    const data = await res.json();
+    const items = (data.results || []).filter(r => r.media_type === 'movie' || r.media_type === 'tv');
+    if (!items.length) {
+      srchGrid.innerHTML = '<div class="srch-empty"><strong>¯\\_(ツ)_/¯</strong>Nothing found for "' + q + '"</div>';
+      srchLabel.innerHTML = 'No results for <b>"' + q + '"</b>';
+      return;
+    }
+    srchLabel.innerHTML = '<b>' + items.length + '</b> results for <b>"' + q + '"</b>';
+    srchGrid.innerHTML = '';
+    items.slice(0, 20).forEach(item => {
+      const isMovie = item.media_type === 'movie';
+      const title   = item.title || item.name || '—';
+      const year    = (item.release_date || item.first_air_date || '').slice(0, 4);
+      const score   = item.vote_average ? item.vote_average.toFixed(1) : '';
+      const href    = isMovie ? `movie-watch.html?id=${item.id}` : `series-watch.html?id=${item.id}`;
+      const a       = document.createElement('a');
+      a.className   = 'sr-card';
+      a.href        = href;
+      a.innerHTML   =
+        '<div class="sr-img-wrap">' +
+          (item.poster_path
+            ? '<img src="' + IMG + item.poster_path + '" alt="" loading="lazy">'
+            : '<div class="sr-img-ph">' + title[0] + '</div>') +
+        '</div>' +
+        '<div class="sr-title">' + title + '</div>' +
+        '<div class="sr-meta">' +
+          '<span class="sr-type ' + (isMovie ? 'movie' : 'tv') + '">' + (isMovie ? 'Movie' : 'TV') + '</span>' +
+          (year  ? '<span class="sr-dot">·</span><span>' + year + '</span>' : '') +
+          (score ? '<span class="sr-dot">·</span><span>★ ' + score + '</span>' : '') +
+        '</div>';
+      srchGrid.appendChild(a);
+    });
+  } catch(_) {
+    srchGrid.innerHTML = '<div class="srch-empty">Search failed. Try again.</div>';
+  }
+}
+
+/* ── POSTER ROWS ─────────────────────────── */
+function buildRow(el, items) {
+  const doubled = [...items, ...items];
+  doubled.forEach(item => {
+    if (!item.poster_path) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'poster';
+    const img = document.createElement('img');
+    img.src      = IMG + item.poster_path;
+    img.alt      = '';
+    img.loading  = 'lazy';
+    img.decoding = 'async';
+    wrap.appendChild(img);
+    el.appendChild(wrap);
+  });
+}
+
+async function loadPosters() {
+  try {
+    const [m1, m2, tv1, tv2, top] = await Promise.all([
+      fetch(`${API}/movie/popular?api_key=${KEY}&page=1`).then(r => r.json()),
+      fetch(`${API}/movie/popular?api_key=${KEY}&page=2`).then(r => r.json()),
+      fetch(`${API}/tv/popular?api_key=${KEY}&page=1`).then(r => r.json()),
+      fetch(`${API}/tv/popular?api_key=${KEY}&page=2`).then(r => r.json()),
+      fetch(`${API}/movie/top_rated?api_key=${KEY}&page=1`).then(r => r.json()),
+    ]);
+    buildRow(document.getElementById('r1'), m1.results  || []);
+    buildRow(document.getElementById('r2'), tv1.results || []);
+    buildRow(document.getElementById('r3'), m2.results  || []);
+    buildRow(document.getElementById('r4'), tv2.results || []);
+    buildRow(document.getElementById('r5'), top.results || []);
+  } catch(_) {}
+}
+loadPosters();
+</script>
+
+<!-- SEO: Semantic content readable by search crawlers, not visible to users -->
+<footer style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+  <nav>
+    <a href="https://popcima.com/movies.html">Watch Free Movies Online</a>
+    <a href="https://popcima.com/series.html">Watch Free TV Series Online</a>
+    <a href="https://popcima.com/index.html">Free Movie Streaming Homepage</a>
+  </nav>
+  <section itemscope itemtype="https://schema.org/EntertainmentBusiness">
+    <h2 itemprop="name">Popcima – Free Movie and Series Streaming</h2>
+    <p itemprop="description">
+      Popcima is a free online streaming platform where you can watch movies and TV series without signing up.
+      Stream the latest blockbuster movies, popular TV shows, trending series, and classic films — all in 4K quality.
+      No subscription, no credit card, no account required. Popcima is updated daily with new titles across all genres
+      including action, drama, comedy, thriller, horror, romance, animation, documentary, and more.
+      Available on any device — desktop, mobile, tablet. Completely free, forever.
+    </p>
+    <meta itemprop="url" content="https://popcima.com">
+    <meta itemprop="priceRange" content="Free">
+    <span itemprop="contactPoint" itemscope itemtype="https://schema.org/ContactPoint">
+      <meta itemprop="email" content="contact@popcima.com">
+      <meta itemprop="contactType" content="customer support">
+    </span>
+  </section>
+  <ul>
+    <li>Watch movies online free without downloading</li>
+    <li>Free HD and 4K movie streaming</li>
+    <li>Stream TV series online without account</li>
+    <li>Watch new movies online free no sign up</li>
+    <li>Best free streaming site 2024 2025</li>
+    <li>Watch popular movies and trending series free</li>
+    <li>Free streaming no ads no subscription</li>
+    <li>Stream action movies thriller comedy horror romance free</li>
+  </ul>
+  <address>
+    <a href="mailto:contact@popcima.com">contact@popcima.com</a>
+  </address>
+</footer>
+</body>
+</html>

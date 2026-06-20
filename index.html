@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Popcima — Watch Free Movies & Series Online</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05070A;--accent:#DC2626;--muted:#8A94A6;--hi:#EEF1F6;
+  --card-bg:rgba(255,255,255,.05);--card-border:rgba(255,255,255,.08);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--hi);font-family:'Inter',system-ui,sans-serif;overflow-x:hidden;min-height:100vh;line-height:1.5}
+
+/* ── LAYOUT ── */
+.lc{max-width:1400px;margin:0 auto;padding:0 48px}
+@media(max-width:1024px){.lc{padding:0 32px}}
+@media(max-width:640px){.lc{padding:0 16px}}
+
+/* ── NAVBAR ── */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;height:72px;transition:background .3s,backdrop-filter .3s}
+.navbar.opaque{background:rgba(5,7,10,.95);backdrop-filter:blur(12px)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:100%;max-width:1400px;margin:0 auto;padding:0 48px}
+@media(max-width:1024px){.nav-inner{padding:0 32px}}
+@media(max-width:640px){.nav-inner{padding:0 16px}}
+/* gradient overlay so nav is always readable */
+.navbar::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,7,10,.75) 0%,transparent 100%);pointer-events:none;z-index:-1}
+.navbar.opaque::before{display:none}
+
+.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
+.logo-bars{display:flex;gap:3.5px;align-items:center}
+.logo-bar{width:5px;height:20px;background:var(--accent);transform:skewX(-12deg);border-radius:1px}
+.logo-bar:nth-child(2){height:14px;opacity:.65}
+.logo-wordmark{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:1px;line-height:1}
+.logo-flix{color:var(--accent)}
+.logo-gx{color:#fff}
+
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-link{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:8px;font-size:14px;font-weight:500;color:rgba(238,241,246,.75);text-decoration:none;border:none;background:none;cursor:pointer;transition:color .2s,background .2s;white-space:nowrap}
+.nav-link:hover,.nav-link.active{color:#fff;background:rgba(255,255,255,.07)}
+.nav-right{display:flex;align-items:center;gap:2px}
+.nav-icon-btn{width:40px;height:40px;border-radius:8px;background:none;border:none;color:rgba(238,241,246,.75);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .2s,background .2s}
+.nav-icon-btn:hover{color:#fff;background:rgba(255,255,255,.07)}
+.hamburger{display:none}
+@media(max-width:768px){.nav-links{display:none}.hamburger{display:flex}}
+
+/* Mobile drawer */
+.mobile-drawer{position:fixed;top:72px;left:0;right:0;z-index:99;background:rgba(5,7,10,.97);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,.06);max-height:0;overflow:hidden;transition:max-height .3s ease}
+.mobile-drawer.open{max-height:280px}
+.mobile-drawer ul{list-style:none;padding:8px 16px 16px}
+.mobile-drawer li a,.mobile-drawer li button{display:flex;align-items:center;gap:10px;width:100%;padding:14px 12px;border-radius:10px;font-size:16px;font-weight:500;color:rgba(238,241,246,.75);text-decoration:none;background:none;border:none;cursor:pointer;transition:color .2s,background .2s}
+.mobile-drawer li a:hover,.mobile-drawer li button:hover{color:#fff;background:rgba(255,255,255,.05)}
+
+/* ── HERO ── */
+.hero-section{position:relative;width:100%;height:100dvh;min-height:520px;overflow:hidden;background:#000}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease;pointer-events:none}
+.hero-slide.active{opacity:1;pointer-events:auto}
+.hero-slide-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top}
+.hero-slide.active .hero-slide-img{animation:kburn 18s ease-in-out forwards}
+@keyframes kburn{from{transform:scale(1)}to{transform:scale(1.06)}}
+.hero-grad-l{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,7,10,.95) 0%,rgba(5,7,10,.65) 38%,rgba(5,7,10,0) 70%)}
+.hero-grad-b{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,10,.4) 0%,rgba(5,7,10,0) 28%,rgba(5,7,10,0) 52%,rgba(5,7,10,.8) 78%,#05070A 100%)}
+
+.hero-content{position:absolute;bottom:18%;left:0;right:0;z-index:10;transition:opacity .5s,transform .5s}
+.hero-content-inner{max-width:580px}
+.hero-logo-img{display:none;max-width:min(360px,75%);max-height:120px;object-fit:contain;object-position:left bottom;margin-bottom:14px;filter:drop-shadow(0 2px 16px rgba(0,0,0,.7))}
+.hero-logo-img.vis{display:block}
+.hero-title{font-size:clamp(34px,5.5vw,64px);font-weight:900;color:#fff;line-height:1;letter-spacing:-.03em;text-transform:uppercase;margin-bottom:14px;text-shadow:0 8px 24px rgba(0,0,0,.55)}
+.hero-meta-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:15px;margin-bottom:12px}
+.hero-star{color:var(--accent);font-size:13px}
+.hero-score{color:#fff;font-weight:600}
+.hero-sep{color:rgba(238,241,246,.25);font-size:12px}
+.hero-genre{color:var(--muted)}
+.hero-desc{font-size:15px;line-height:1.65;color:rgba(238,241,246,.72);margin-bottom:22px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.hero-ctas{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.btn-hero-play{display:flex;align-items:center;gap:8px;background:var(--hi);color:#05070A;font-size:15px;font-weight:600;padding:10px 28px;border-radius:9999px;border:none;cursor:pointer;transition:background .2s,transform .15s;text-decoration:none;white-space:nowrap}
+.btn-hero-play:hover{background:#fff;box-shadow:0 0 50px rgba(220,38,38,.35)}
+.btn-hero-play:active{transform:scale(.97)}
+.btn-hero-more{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);color:var(--hi);font-size:15px;font-weight:500;padding:10px 24px;border-radius:9999px;border:1px solid rgba(238,241,246,.1);cursor:pointer;transition:border-color .2s,box-shadow .2s;text-decoration:none;white-space:nowrap;backdrop-filter:blur(4px)}
+.btn-hero-more:hover{border-color:rgba(220,38,38,.4);box-shadow:0 0 30px rgba(220,38,38,.2)}
+
+/* Hero dots */
+.hero-dots{position:absolute;bottom:max(28px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:7px}
+.hero-dot{width:7px;height:7px;border-radius:9999px;background:rgba(255,255,255,.25);border:none;cursor:pointer;padding:0;transition:all .3s;flex-shrink:0}
+.hero-dot.active{width:26px;background:rgba(255,255,255,.18);position:relative;overflow:hidden;cursor:default}
+.hero-dot-fill{position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;animation:dotfill 7s linear forwards}
+@keyframes dotfill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* Hero nav arrows */
+.hero-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(4px);border-radius:50%;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:20;opacity:0;transition:opacity .2s,background .2s}
+.hero-section:hover .hero-nav{opacity:1}
+.hero-nav:hover{background:rgba(255,255,255,.2)}
+.hero-prev{left:24px}
+.hero-next{right:24px}
+@media(max-width:640px){
+  .hero-content-inner{max-width:100%}
+  .hero-content{bottom:80px}
+  .hero-title{font-size:clamp(28px,8vw,42px);margin-bottom:10px}
+  .hero-desc{display:none}
+  .hero-grad-l{background:linear-gradient(180deg,rgba(5,7,10,.35) 0%,rgba(5,7,10,0) 20%,rgba(5,7,10,0) 48%,rgba(5,7,10,.9) 72%,#05070A 100%)}
+  .btn-hero-play{font-size:14px;padding:9px 22px}
+  .btn-hero-more{font-size:14px;padding:9px 18px}
+  .hero-nav{opacity:1}
+}
+
+/* ── MAIN CONTENT ── */
+main{padding-bottom:24px}
+.content-sec{padding:44px 0}
+.content-sec:first-child{padding-top:40px}
+
+/* Section header */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.sec-title{display:inline-flex;align-items:center;gap:10px;font-size:22px;font-weight:600;color:var(--hi);min-width:0}
+.sec-title::before{content:'';display:block;width:3px;height:20px;background:var(--accent);border-radius:2px;flex-shrink:0}
+@media(max-width:640px){.sec-title{font-size:18px}}
+
+/* ── DROPDOWN ── */
+.dd-wrap{position:relative;display:inline-flex;align-items:center}
+.dd-trigger{display:inline-flex;align-items:baseline;gap:5px;border:none;background:none;cursor:pointer;padding:0;font-size:inherit;font-weight:inherit;color:inherit;font-family:inherit;line-height:inherit}
+.dd-label{border-bottom:2px solid var(--accent);padding-bottom:1px;transition:color .15s}
+.dd-trigger:hover .dd-label{color:#fff}
+.dd-menu{position:absolute;top:calc(100% + 10px);left:0;z-index:200;min-width:170px;background:#111318;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:8px;box-shadow:0 16px 40px rgba(0,0,0,.65);display:none}
+.dd-menu.open{display:block}
+.dd-opt{padding:9px 14px;border-radius:8px;font-size:14px;font-weight:500;color:var(--hi);cursor:pointer;transition:background .15s;white-space:nowrap}
+.dd-opt:hover{background:rgba(255,255,255,.06)}
+.dd-opt.sel{color:var(--accent)}
+
+/* ── TAB TOGGLE ── */
+.tab-row{display:flex;align-items:center;gap:0;border-bottom:1px solid rgba(255,255,255,.1)}
+.tab-btn{padding:5px 14px;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap}
+.tab-btn.active{color:#fff;border-bottom-color:var(--accent)}
+.tab-btn:hover:not(.active){color:var(--hi)}
+
+/* ── SCROLL OUTER & ARROWS ── */
+.scroll-outer{position:relative}
+.scroll-track{display:flex;gap:8px;overflow-x:auto;overflow-y:visible;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-ms-overflow-style:none;padding:4px 0 8px}
+.scroll-track::-webkit-scrollbar{display:none}
+.scroll-arrow{position:absolute;top:0;bottom:8px;width:56px;z-index:20;display:flex;align-items:center;justify-content:center;background:none;border:none;color:#fff;cursor:pointer;opacity:0;transition:opacity .2s;pointer-events:none}
+.scroll-outer:hover .scroll-arrow{opacity:1;pointer-events:auto}
+.scroll-arrow-l{left:-8px;background:linear-gradient(90deg,rgba(5,7,10,.9) 0%,rgba(5,7,10,0) 100%)}
+.scroll-arrow-r{right:-8px;background:linear-gradient(270deg,rgba(5,7,10,.9) 0%,rgba(5,7,10,0) 100%)}
+.scroll-arrow svg{filter:drop-shadow(0 1px 4px rgba(0,0,0,.6))}
+@media(max-width:640px){.scroll-arrow{display:none}}
+
+/* ── MEDIA CARD (landscape 16:9) ── */
+.mc{flex-shrink:0;width:220px;cursor:pointer;scroll-snap-align:start}
+@media(max-width:1024px){.mc{width:190px}}
+@media(max-width:640px){.mc{width:160px}}
+.mc-img-wrap{width:100%;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.05);margin-bottom:10px;transition:box-shadow .2s}
+.mc:hover .mc-img-wrap{box-shadow:0 0 0 2px rgba(220,38,38,.4)}
+.mc-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.mc:hover .mc-img{transform:scale(1.05)}
+.mc-title{font-size:13px;font-weight:500;color:var(--hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;transition:color .15s}
+.mc:hover .mc-title{color:var(--accent)}
+.mc-meta{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.mc-star{color:var(--accent)}
+.mc-dot{color:rgba(238,241,246,.2)}
+
+/* ── TOP 10 CARD (poster 2:3) ── */
+.t10{flex-shrink:0;width:145px;cursor:pointer;scroll-snap-align:start}
+@media(max-width:640px){.t10{width:120px}}
+.t10-img-wrap{width:100%;aspect-ratio:2/3;border-radius:8px;overflow:hidden;position:relative;background:rgba(255,255,255,.05);margin-bottom:10px;transition:box-shadow .2s}
+.t10:hover .t10-img-wrap{box-shadow:0 0 0 2px rgba(220,38,38,.4)}
+.t10-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.t10:hover .t10-img{transform:scale(1.05)}
+.t10-badge{position:absolute;top:0;left:0;z-index:5;width:30px;height:40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;clip-path:polygon(0 0,100% 0,100% 100%,50% 84%,0 100%);background:var(--accent);box-shadow:0 4px 10px rgba(220,38,38,.4)}
+.t10-badge-top{font-size:7.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#fff;line-height:1}
+.t10-badge-num{font-size:11px;font-weight:700;color:#fff;line-height:1.1;margin-top:1px}
+.t10-title{font-size:13px;font-weight:500;color:var(--hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;transition:color .15s}
+.t10:hover .t10-title{color:var(--accent)}
+.t10-meta{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+
+/* ── SKELETONS ── */
+.skel{background:linear-gradient(90deg,rgba(255,255,255,.04) 0%,rgba(255,255,255,.09) 50%,rgba(255,255,255,.04) 100%);background-size:200%;animation:sh 1.5s ease-in-out infinite;border-radius:8px}
+@keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ── FOOTER ── */
+.site-footer{padding:48px 0 40px;border-top:1px solid rgba(255,255,255,.06);margin-top:12px}
+.footer-inner{display:flex;flex-direction:column;gap:6px}
+.footer-brand{font-size:15px;font-weight:600;color:var(--hi)}
+.footer-desc{font-size:13px;color:var(--muted);max-width:520px;line-height:1.65}
+.footer-contact{font-size:12px;color:var(--muted)}
+
+/* ── SEARCH OVERLAY ── */
+.search-overlay{position:fixed;inset:0;z-index:9999;background:rgba(5,7,10,.97);backdrop-filter:blur(20px);display:none;flex-direction:column;align-items:center;padding-top:80px}
+.search-overlay.open{display:flex}
+.srch-wrap{width:min(700px,88%);margin-bottom:24px}
+.srch-bar{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:14px;padding:15px 20px;transition:border-color .2s,background .2s}
+.srch-bar:focus-within{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.08)}
+.srch-bar>svg{flex-shrink:0;color:rgba(255,255,255,.35)}
+.srch-input{flex:1;background:none;border:none;outline:none;color:#fff;font-family:'Inter',sans-serif;font-size:20px;font-weight:400}
+.srch-input::placeholder{color:rgba(255,255,255,.2)}
+.srch-close{background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.5);font-size:18px;line-height:1;cursor:pointer;width:34px;height:34px;border-radius:8px;transition:all .15s;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.srch-close:hover{background:rgba(255,255,255,.16);color:#fff}
+.srch-meta{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding:0 2px}
+.srch-lbl{font-size:12px;color:rgba(255,255,255,.3);letter-spacing:.3px}
+.srch-hint{font-size:10px;color:rgba(255,255,255,.16)}
+.srch-results{width:min(1100px,90%);display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;overflow-y:auto;max-height:calc(100vh - 220px);padding-bottom:40px;scrollbar-width:none;align-content:start}
+.srch-results::-webkit-scrollbar{display:none}
+@keyframes srIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+/* Search result cards — same style as TOP 10 poster cards */
+.sr-card{text-decoration:none;color:#fff;display:block;cursor:pointer;animation:srIn .3s ease backwards}
+.sr-poster{position:relative;width:100%;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.05);margin-bottom:10px;transition:box-shadow .2s}
+.sr-card:hover .sr-poster{box-shadow:0 0 0 2px rgba(220,38,38,.4)}
+.sr-poster img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.sr-card:hover .sr-poster img{transform:scale(1.05)}
+.sr-poster-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:48px;color:rgba(255,255,255,.06)}
+/* Red bookmark badge (same shape as t10) */
+.sr-num-badge{position:absolute;top:0;left:0;z-index:5;width:30px;height:40px;display:flex;flex-direction:column;align-items:center;justify-content:center;clip-path:polygon(0 0,100% 0,100% 100%,50% 84%,0 100%);background:var(--accent);box-shadow:0 4px 10px rgba(220,38,38,.4)}
+.sr-num-top{font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#fff;line-height:1}
+.sr-num-val{font-size:11px;font-weight:700;color:#fff;line-height:1.1;margin-top:1px}
+.sr-play-ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);opacity:0;transition:opacity .2s}
+.sr-card:hover .sr-play-ov{opacity:1}
+.sr-play-circ{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center}
+.sr-play-circ svg{margin-left:3px}
+.sr-title{font-size:13px;font-weight:500;color:var(--hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:4px;transition:color .15s}
+.sr-card:hover .sr-title{color:var(--accent)}
+.sr-meta{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.sr-star{color:var(--accent)}
+.sr-dot{color:rgba(238,241,246,.2)}
+.srch-empty{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:14px;padding:70px 0;color:rgba(255,255,255,.28)}
+.srch-empty p{font-size:15px}
+.srch-spinner{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:10px;padding:70px 0;color:rgba(255,255,255,.3);font-size:14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.srch-spinner svg{animation:spin .9s linear infinite;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <div class="logo-bars" aria-hidden="true">
+        <div class="logo-bar"></div>
+        <div class="logo-bar"></div>
+        <div class="logo-bar"></div>
+      </div>
+      <div class="logo-wordmark"><span class="logo-flix">POP</span><span class="logo-gx">CIMA</span></div>
+    </a>
+    <nav class="nav-links">
+      <a class="nav-link active" href="index.html">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        <span>Home</span>
+      </a>
+      <a class="nav-link" href="movies.html">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+        <span>Movies</span>
+      </a>
+      <a class="nav-link" href="series.html">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17,2 12,7 7,2"/></svg>
+        <span>Series</span>
+      </a>
+    </nav>
+    <div class="nav-right">
+      <button class="nav-icon-btn" onclick="openSearch()" aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="nav-icon-btn" aria-label="Account">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+      <button class="hamburger nav-icon-btn" id="hamburger" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobile-drawer">
+  <ul>
+    <li><a href="index.html">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+      Home
+    </a></li>
+    <li><a href="movies.html">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+      Movies
+    </a></li>
+    <li><a href="series.html">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17,2 12,7 7,2"/></svg>
+      Series
+    </a></li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<section class="hero-section" id="hero-section">
+  <div id="hero-slides-wrap"></div>
+  <div class="hero-grad-l"></div>
+  <div class="hero-grad-b"></div>
+
+  <div class="hero-content lc">
+    <div class="hero-content-inner">
+      <img class="hero-logo-img" id="hero-logo" src="" alt="">
+      <h1 class="hero-title" id="hero-title">Loading…</h1>
+      <div class="hero-meta-row">
+        <span class="hero-star">★</span>
+        <span class="hero-score" id="hero-score">—</span>
+        <span class="hero-sep" id="hero-year-sep">·</span>
+        <span class="hero-genre" id="hero-year">—</span>
+        <span class="hero-sep" id="hero-g1-sep" style="display:none">·</span>
+        <span class="hero-genre" id="hero-g1" style="display:none"></span>
+        <span class="hero-sep" id="hero-g2-sep" style="display:none">·</span>
+        <span class="hero-genre" id="hero-g2" style="display:none"></span>
+      </div>
+      <p class="hero-desc" id="hero-desc"></p>
+      <div class="hero-ctas">
+        <a class="btn-hero-play" id="hero-play-btn" href="#">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><polygon points="2,1 13,7.5 2,14"/></svg>
+          Play
+        </a>
+        <a class="btn-hero-more" id="hero-more-btn" href="#">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          See More
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-dots" id="hero-dots"></div>
+
+  <button class="hero-nav hero-prev" id="hero-prev">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15,18 9,12 15,6"/></svg>
+  </button>
+  <button class="hero-nav hero-next" id="hero-next">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9,18 15,12 9,6"/></svg>
+  </button>
+</section>
+
+<!-- MAIN -->
+<main>
+
+  <!-- TOP 10 TODAY -->
+  <section class="content-sec">
+    <div class="lc">
+      <div class="sec-header">
+        <h2 class="sec-title">TOP 10 Today</h2>
+      </div>
+      <div class="scroll-outer" id="top10-outer">
+        <button class="scroll-arrow scroll-arrow-l" onclick="scrollSec('top10-track',-1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15,18 9,12 15,6"/></svg>
+        </button>
+        <div class="scroll-track" id="top10-track">
+          <!-- skeleton -->
+          <div class="t10" style="pointer-events:none"><div class="skel" style="aspect-ratio:2/3;border-radius:8px"></div><div class="skel" style="height:13px;margin-top:10px;width:80%;border-radius:4px"></div></div>
+          <div class="t10" style="pointer-events:none"><div class="skel" style="aspect-ratio:2/3;border-radius:8px"></div><div class="skel" style="height:13px;margin-top:10px;width:65%;border-radius:4px"></div></div>
+          <div class="t10" style="pointer-events:none"><div class="skel" style="aspect-ratio:2/3;border-radius:8px"></div><div class="skel" style="height:13px;margin-top:10px;width:75%;border-radius:4px"></div></div>
+          <div class="t10" style="pointer-events:none"><div class="skel" style="aspect-ratio:2/3;border-radius:8px"></div><div class="skel" style="height:13px;margin-top:10px;width:60%;border-radius:4px"></div></div>
+          <div class="t10" style="pointer-events:none"><div class="skel" style="aspect-ratio:2/3;border-radius:8px"></div><div class="skel" style="height:13px;margin-top:10px;width:80%;border-radius:4px"></div></div>
+        </div>
+        <button class="scroll-arrow scroll-arrow-r" onclick="scrollSec('top10-track',1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9,18 15,12 9,6"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRENDING TODAY -->
+  <section class="content-sec">
+    <div class="lc">
+      <div class="sec-header">
+        <h2 class="sec-title">Trending Today</h2>
+        <div class="tab-row" id="trending-tabs">
+          <button class="tab-btn active" data-type="movie">Movies</button>
+          <button class="tab-btn" data-type="tv">Series</button>
+        </div>
+      </div>
+      <div class="scroll-outer">
+        <button class="scroll-arrow scroll-arrow-l" onclick="scrollSec('trending-track',-1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15,18 9,12 15,6"/></svg>
+        </button>
+        <div class="scroll-track" id="trending-track"></div>
+        <button class="scroll-arrow scroll-arrow-r" onclick="scrollSec('trending-track',1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9,18 15,12 9,6"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONLY ON [PROVIDER] -->
+  <section class="content-sec">
+    <div class="lc">
+      <div class="sec-header">
+        <h2 class="sec-title">
+          Only on&nbsp;
+          <div class="dd-wrap" id="provider-dd">
+            <button class="dd-trigger" id="provider-trigger">
+              <span class="dd-label" id="provider-label">Netflix</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6,9 12,15 18,9"/></svg>
+            </button>
+            <div class="dd-menu" id="provider-menu"></div>
+          </div>
+        </h2>
+      </div>
+      <div class="scroll-outer">
+        <button class="scroll-arrow scroll-arrow-l" onclick="scrollSec('provider-track',-1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15,18 9,12 15,6"/></svg>
+        </button>
+        <div class="scroll-track" id="provider-track">
+          <div class="mc" style="pointer-events:none"><div class="skel" style="aspect-ratio:16/9;border-radius:8px"></div><div class="skel" style="height:13px;margin-top:10px;width:75%;border-radius:4px"></div></div>
+          <div class="mc" style="pointer-events:none"><div class="skel" style="aspect-ratio:16/9;border-radius:8px"></div><div class="skel" style="height:13px;margin-top:10px;width:60%;border-radius:4px"></div></div>
+          <div class="mc" style="pointer-events:none"><div class="skel" style="aspect-ratio:16/9;border-radius:8px"></div><div class="skel" style="height:13px;margin-top:10px;width:80%;border-radius:4px"></div></div>
+          <div class="mc" style="pointer-events:none"><div class="skel" style="aspect-ratio:16/9;border-radius:8px"></div><div class="skel" style="height:13px;margin-top:10px;width:65%;border-radius:4px"></div></div>
+        </div>
+        <button class="scroll-arrow scroll-arrow-r" onclick="scrollSec('provider-track',1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9,18 15,12 9,6"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP RATED -->
+  <section class="content-sec">
+    <div class="lc">
+      <div class="sec-header">
+        <h2 class="sec-title">Top Rated</h2>
+        <div class="tab-row" id="toprated-tabs">
+          <button class="tab-btn active" data-type="movie">Movies</button>
+          <button class="tab-btn" data-type="tv">Series</button>
+        </div>
+      </div>
+      <div class="scroll-outer">
+        <button class="scroll-arrow scroll-arrow-l" onclick="scrollSec('toprated-track',-1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15,18 9,12 15,6"/></svg>
+        </button>
+        <div class="scroll-track" id="toprated-track"></div>
+        <button class="scroll-arrow scroll-arrow-r" onclick="scrollSec('toprated-track',1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9,18 15,12 9,6"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GENRE SECTION -->
+  <section class="content-sec">
+    <div class="lc">
+      <div class="sec-header">
+        <h2 class="sec-title">
+          <div class="dd-wrap" id="genre-dd">
+            <button class="dd-trigger" id="genre-trigger">
+              <span class="dd-label" id="genre-label">Comedy</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6,9 12,15 18,9"/></svg>
+            </button>
+            <div class="dd-menu" id="genre-menu"></div>
+          </div>
+        </h2>
+        <div class="tab-row" id="genre-tabs">
+          <button class="tab-btn active" data-type="movie">Movies</button>
+          <button class="tab-btn" data-type="tv">Series</button>
+        </div>
+      </div>
+      <div class="scroll-outer">
+        <button class="scroll-arrow scroll-arrow-l" onclick="scrollSec('genre-track',-1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15,18 9,12 15,6"/></svg>
+        </button>
+        <div class="scroll-track" id="genre-track"></div>
+        <button class="scroll-arrow scroll-arrow-r" onclick="scrollSec('genre-track',1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9,18 15,12 9,6"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="lc">
+    <div class="footer-inner">
+      <div class="footer-brand">Popcima</div>
+      <p class="footer-desc">This site does not store any files on our server, we only linked to the media which is hosted on 3rd party services.</p>
+      <div class="footer-contact">contact@popcima.com</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const KEY = '893e1103dea135f74d571b3ae1794603';
+const API = 'https://api.themoviedb.org/3';
+const IMG = 'https://image.tmdb.org/t/p';
+
+const GENRE_MAP = {
+  28:'Action',12:'Adventure',16:'Animation',35:'Comedy',80:'Crime',
+  99:'Documentary',18:'Drama',10751:'Family',14:'Fantasy',36:'History',
+  27:'Horror',10402:'Music',9648:'Mystery',10749:'Romance',878:'Sci-Fi',
+  53:'Thriller',10752:'War',37:'Western',10759:'Action & Adventure',
+  10762:'Kids',10765:'Sci-Fi & Fantasy',10768:'War & Politics',10766:'Soap'
+};
+
+const PROVIDERS = [
+  {id:8,   name:'Netflix'},
+  {id:119, name:'Prime Video'},
+  {id:337, name:'Disney+'},
+  {id:350, name:'Apple TV+'},
+  {id:15,  name:'Hulu'},
+  {id:1899,name:'Max'},
+];
+
+const GENRES = [
+  {id:35,   name:'Comedy'},
+  {id:28,   name:'Action'},
+  {id:27,   name:'Horror'},
+  {id:10749,name:'Romance'},
+  {id:878,  name:'Sci-Fi'},
+  {id:53,   name:'Thriller'},
+  {id:18,   name:'Drama'},
+  {id:16,   name:'Animation'},
+  {id:80,   name:'Crime'},
+];
+
+let currentProvider = 8;
+let currentGenreId  = 35;
+let currentGenreType = 'movie';
+let trendingType = 'movie';
+let topratedType = 'movie';
+let trendingCache = {};
+let topratedCache = {};
+let genreCache = {};
+let providerCache = {};
+
+async function tmdb(path, extra=''){
+  const r = await fetch(`${API}${path}?api_key=${KEY}&language=en-US${extra}`);
+  return r.json();
+}
+function genres(ids){ return (ids||[]).slice(0,2).map(id=>GENRE_MAP[id]).filter(Boolean) }
+function year(item){ return (item.release_date||item.first_air_date||'').slice(0,4) }
+function isTV(item){ return !!(item.media_type==='tv'||item.first_air_date) }
+
+// ── NAVBAR SCROLL ──────────────────────────────
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll',()=>navbar.classList.toggle('opaque',scrollY>60),{passive:true});
+
+// ── HAMBURGER ─────────────────────────────────
+document.getElementById('hamburger').addEventListener('click',()=>{
+  document.getElementById('mobile-drawer').classList.toggle('open');
+});
+
+// ── SCROLL ARROWS ─────────────────────────────
+function scrollSec(id, dir){
+  const el = document.getElementById(id);
+  el.scrollBy({left: dir * 680, behavior:'smooth'});
+}
+
+// ── HERO ──────────────────────────────────────
+let slides = [];
+let current = 0;
+let heroTimer = null;
+let slideData = [];
+
+function buildHero(items){
+  const wrap = document.getElementById('hero-slides-wrap');
+  wrap.innerHTML = '';
+  items.forEach((m,i)=>{
+    const bd = m.backdrop_path ? `${IMG}/original${m.backdrop_path}` : '';
+    if(!bd) return;
+    const div = document.createElement('div');
+    div.className = 'hero-slide'+(i===0?' active':'');
+    div.innerHTML = `<img class="hero-slide-img" src="${bd}" alt="" loading="${i===0?'eager':'lazy'}">`;
+    wrap.appendChild(div);
+  });
+  slides = wrap.querySelectorAll('.hero-slide');
+
+  const dotsEl = document.getElementById('hero-dots');
+  dotsEl.innerHTML = '';
+  slides.forEach((_,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'hero-dot'+(i===0?' active':'');
+    btn.innerHTML = i===0?'<div class="hero-dot-fill"></div>':'';
+    btn.addEventListener('click',()=>goTo(i));
+    dotsEl.appendChild(btn);
+  });
+}
+
+async function fetchLogos(items){
+  return Promise.all(items.map(m=>
+    fetch(`${API}/${isTV(m)?'tv':'movie'}/${m.id}/images?api_key=${KEY}&include_image_language=en,null`)
+      .then(r=>r.json())
+      .then(d=>{
+        const logos = (d.logos||[]);
+        const pick = logos.find(l=>l.iso_639_1==='en')||logos[0];
+        return pick ? `${IMG}/w500${pick.file_path}` : null;
+      }).catch(()=>null)
+  ));
+}
+
+function applyHero(d){
+  const logoEl = document.getElementById('hero-logo');
+  const titleEl = document.getElementById('hero-title');
+  if(d.logo){
+    logoEl.src = d.logo; logoEl.alt = d.title;
+    logoEl.classList.add('vis');
+    titleEl.style.display = 'none';
+  } else {
+    logoEl.classList.remove('vis');
+    titleEl.style.display = '';
+    titleEl.textContent = d.title;
+  }
+  document.getElementById('hero-score').textContent = d.score;
+  document.getElementById('hero-year').textContent = d.yr;
+  const g = d.gs;
+  ['hero-g1','hero-g2'].forEach((id,i)=>{
+    const el = document.getElementById(id);
+    const sep = document.getElementById(id+'-sep');
+    if(g[i]){el.textContent=g[i];el.style.display='';sep.style.display='';}
+    else{el.style.display='none';sep.style.display='none';}
+  });
+  document.getElementById('hero-desc').textContent = d.desc;
+  document.getElementById('hero-play-btn').href = d.url;
+  document.getElementById('hero-more-btn').href = d.url;
+}
+
+function goTo(n){
+  if(!slides.length) return;
+  slides[current].classList.remove('active');
+  document.querySelectorAll('.hero-dot')[current].classList.remove('active');
+  document.querySelectorAll('.hero-dot')[current].innerHTML = '';
+  current = (n+slides.length)%slides.length;
+  slides[current].classList.add('active');
+  const dot = document.querySelectorAll('.hero-dot')[current];
+  dot.classList.add('active');
+  dot.innerHTML = '<div class="hero-dot-fill"></div>';
+  applyHero(slideData[current]);
+  clearInterval(heroTimer);
+  heroTimer = setInterval(()=>goTo(current+1), 7000);
+}
+
+document.getElementById('hero-prev').addEventListener('click',()=>goTo(current-1));
+document.getElementById('hero-next').addEventListener('click',()=>goTo(current+1));
+
+// Swipe on hero
+(()=>{
+  let sx=0;
+  const s = document.getElementById('hero-section');
+  s.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+  s.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>50) goTo(current+(dx<0?1:-1));
+  },{passive:true});
+})();
+
+// ── CARD BUILDERS ────────────────────────────
+
+function makeMediaCard(m, typeOverride){
+  const type = typeOverride||(isTV(m)?'tv':'movie');
+  const url = type==='tv'?`series-watch.html?id=${m.id}`:`movie-watch.html?id=${m.id}`;
+  const img = m.backdrop_path ? `${IMG}/w780${m.backdrop_path}` : (m.poster_path?`${IMG}/w342${m.poster_path}`:'');
+  const title = m.title||m.name||'—';
+  const yr = year(m);
+  const score = m.vote_average>0?m.vote_average.toFixed(1):null;
+  const typeLabel = type==='tv'?'TV Show':'Movie';
+
+  const div = document.createElement('div');
+  div.className = 'mc';
+  div.innerHTML = `
+    <div class="mc-img-wrap">
+      ${img?`<img class="mc-img" src="${img}" alt="${title.replace(/"/g,'&quot;')}" loading="lazy">`:''}
+    </div>
+    <div class="mc-title">${title}</div>
+    <div class="mc-meta">
+      ${score?`<span class="mc-star">★</span><span>${score}</span><span class="mc-dot">·</span>`:''}
+      ${yr?`<span>${yr}</span><span class="mc-dot">·</span>`:''}
+      <span>${typeLabel}</span>
+    </div>`;
+  div.addEventListener('click',()=>location.href=url);
+  return div;
+}
+
+function makeTop10Card(m, rank){
+  const type = m._type || (isTV(m)?'tv':'movie');
+  const url = type==='tv'?`series-watch.html?id=${m.id}`:`movie-watch.html?id=${m.id}`;
+  const img = m.poster_path ? `${IMG}/w342${m.poster_path}` : (m.backdrop_path?`${IMG}/w500${m.backdrop_path}`:'');
+  const title = m.title||m.name||'—';
+  const yr = year(m);
+  const score = m.vote_average>0?m.vote_average.toFixed(1):null;
+  const typeLabel = type==='tv'?'TV Show':'Movie';
+  const n = String(rank).padStart(2,'0');
+
+  const div = document.createElement('div');
+  div.className = 't10';
+  div.innerHTML = `
+    <div class="t10-img-wrap">
+      ${img?`<img class="t10-img" src="${img}" alt="${title.replace(/"/g,'&quot;')}" loading="lazy">`:''}
+      <div class="t10-badge">
+        <span class="t10-badge-top">TOP</span>
+        <span class="t10-badge-num">${n}</span>
+      </div>
+    </div>
+    <div class="t10-title">${title}</div>
+    <div class="t10-meta">
+      ${score?`<span style="color:var(--accent)">★</span><span>${score}</span><span style="color:rgba(238,241,246,.2)">·</span>`:''}
+      ${yr?`<span>${yr}</span><span style="color:rgba(238,241,246,.2)">·</span>`:''}
+      <span>${typeLabel}</span>
+    </div>`;
+  div.addEventListener('click',()=>location.href=url);
+  return div;
+}
+
+function fillTrack(id, items, builder){
+  const el = document.getElementById(id);
+  el.innerHTML='';
+  items.forEach((m,i)=>el.appendChild(builder(m,i)));
+}
+
+// ── DROPDOWN SETUP ────────────────────────────
+
+function setupDropdown(trigId, menuId, opts, labelId, onSelect, activeId){
+  const menu = document.getElementById(menuId);
+  const trigger = document.getElementById(trigId);
+  const label = document.getElementById(labelId);
+  menu.innerHTML='';
+  opts.forEach(opt=>{
+    const div=document.createElement('div');
+    div.className='dd-opt'+(opt.id===activeId?' sel':'');
+    div.textContent=opt.name;
+    div.addEventListener('click',e=>{
+      e.stopPropagation();
+      menu.classList.remove('open');
+      label.textContent=opt.name;
+      menu.querySelectorAll('.dd-opt').forEach(o=>o.classList.remove('sel'));
+      div.classList.add('sel');
+      onSelect(opt);
+    });
+    menu.appendChild(div);
+  });
+  trigger.addEventListener('click',e=>{e.stopPropagation();menu.classList.toggle('open');});
+  document.addEventListener('click',()=>menu.classList.remove('open'));
+}
+
+// ── TAB SETUP ─────────────────────────────────
+
+function setupTabs(tabsId, onChange){
+  document.getElementById(tabsId).addEventListener('click',e=>{
+    const btn = e.target.closest('.tab-btn');
+    if(!btn) return;
+    document.getElementById(tabsId).querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    onChange(btn.dataset.type);
+  });
+}
+
+// ── SECTION LOADERS ───────────────────────────
+
+async function loadTop10(){
+  try {
+    const cfg = await fetch('config.json').then(r=>r.json());
+    if(cfg.top10 && cfg.top10.length){
+      const items = await Promise.all(
+        cfg.top10.map(entry=>
+          fetch(`${API}/${entry.type}/${entry.id}?api_key=${KEY}&language=en-US`)
+            .then(r=>r.json())
+            .then(d=>{ d._type=entry.type; return d; })
+            .catch(()=>null)
+        )
+      );
+      const valid = items.filter(m=>m && (m.poster_path||m.backdrop_path));
+      fillTrack('top10-track', valid, (m,i)=>makeTop10Card(m,i+1));
+      return;
+    }
+  } catch(e){}
+  // fallback: TMDB trending
+  const d = await tmdb('/trending/all/day');
+  const items = (d.results||[]).filter(m=>m.backdrop_path||m.poster_path).slice(0,10);
+  fillTrack('top10-track', items, (m,i)=>makeTop10Card(m,i+1));
+}
+
+async function loadProvider(pid){
+  if(providerCache[pid]){ fillTrack('provider-track',providerCache[pid],(m)=>makeMediaCard(m)); return; }
+  const [mv,tv] = await Promise.all([
+    tmdb('/discover/movie',`&watch_region=US&with_watch_providers=${pid}&sort_by=popularity.desc`),
+    tmdb('/discover/tv',`&watch_region=US&with_watch_providers=${pid}&sort_by=popularity.desc`),
+  ]);
+  const items = [...(mv.results||[]).slice(0,10), ...(tv.results||[]).slice(0,10)]
+    .sort((a,b)=>b.popularity-a.popularity).slice(0,20);
+  providerCache[pid] = items;
+  fillTrack('provider-track', items, (m)=>makeMediaCard(m));
+}
+
+async function loadTrending(type){
+  if(trendingCache[type]){ fillTrack('trending-track',trendingCache[type],(m)=>makeMediaCard(m,type)); return; }
+  try {
+    const cfg = await fetch('config.json').then(r=>r.json());
+    if(cfg.trending && cfg.trending.length){
+      const filtered = cfg.trending.filter(e=>e.type===type);
+      if(filtered.length){
+        const items = await Promise.all(
+          filtered.map(e=>
+            fetch(`${API}/${e.type}/${e.id}?api_key=${KEY}&language=en-US`)
+              .then(r=>r.json()).then(d=>{ d._type=e.type; return d; }).catch(()=>null)
+          )
+        );
+        const valid = items.filter(m=>m && (m.backdrop_path||m.poster_path));
+        trendingCache[type]=valid;
+        fillTrack('trending-track', valid, (m)=>makeMediaCard(m,type));
+        return;
+      }
+    }
+  } catch(e){}
+  const d = await tmdb(`/trending/${type}/week`);
+  const items = (d.results||[]).filter(m=>m.backdrop_path).slice(0,20);
+  trendingCache[type]=items;
+  fillTrack('trending-track', items, (m)=>makeMediaCard(m,type));
+}
+
+async function loadTopRated(type){
+  if(topratedCache[type]){ fillTrack('toprated-track',topratedCache[type],(m)=>makeMediaCard(m,type)); return; }
+  const d = await tmdb(`/${type}/top_rated`);
+  const items = (d.results||[]).filter(m=>m.backdrop_path).slice(0,20);
+  topratedCache[type]=items;
+  fillTrack('toprated-track', items, (m)=>makeMediaCard(m,type));
+}
+
+async function loadGenre(gid, type){
+  const k=`${gid}-${type}`;
+  if(genreCache[k]){ fillTrack('genre-track',genreCache[k],(m)=>makeMediaCard(m,type)); return; }
+  const d = await tmdb(`/discover/${type}`,`&with_genres=${gid}&sort_by=popularity.desc`);
+  const items = (d.results||[]).filter(m=>m.backdrop_path).slice(0,20);
+  genreCache[k]=items;
+  fillTrack('genre-track', items, (m)=>makeMediaCard(m,type));
+}
+
+// ── INIT ──────────────────────────────────────
+
+async function init(){
+  // Hero
+  const trending = await tmdb('/trending/all/week');
+  const heroItems = (trending.results||[]).filter(m=>m.backdrop_path).slice(0,6);
+  buildHero(heroItems);
+  const logos = await fetchLogos(heroItems);
+  slideData = heroItems.map((m,i)=>({
+    title: (m.title||m.name||'').toUpperCase(),
+    logo:  logos[i],
+    score: m.vote_average>0?m.vote_average.toFixed(1):'—',
+    yr:    year(m)||'—',
+    gs:    genres(m.genre_ids),
+    desc:  m.overview||'',
+    url:   isTV(m)?`series-watch.html?id=${m.id}`:`movie-watch.html?id=${m.id}`,
+  }));
+  applyHero(slideData[0]);
+  heroTimer = setInterval(()=>goTo(current+1), 7000);
+
+  // Provider dropdown
+  setupDropdown('provider-trigger','provider-menu',PROVIDERS,'provider-label',opt=>{
+    currentProvider=opt.id;
+    loadProvider(opt.id);
+  }, currentProvider);
+
+  // Genre dropdown
+  setupDropdown('genre-trigger','genre-menu',GENRES,'genre-label',opt=>{
+    currentGenreId=opt.id;
+    loadGenre(opt.id, currentGenreType);
+  }, currentGenreId);
+
+  // Trending tabs
+  setupTabs('trending-tabs', type=>{ trendingType=type; loadTrending(type); });
+
+  // Top rated tabs
+  setupTabs('toprated-tabs', type=>{ topratedType=type; loadTopRated(type); });
+
+  // Genre tabs
+  setupTabs('genre-tabs', type=>{ currentGenreType=type; loadGenre(currentGenreId,type); });
+
+  // Load all sections in parallel
+  await Promise.all([
+    loadTop10(),
+    loadProvider(currentProvider),
+    loadTrending('movie'),
+    loadTopRated('movie'),
+    loadGenre(currentGenreId,'movie'),
+  ]);
+}
+
+init().catch(console.error);
+</script>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="search-overlay">
+  <div class="srch-wrap">
+    <div class="srch-bar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="srch-input" id="srch-input" placeholder="Search movies, series, actors…" autocomplete="off" spellcheck="false">
+      <button class="srch-close" id="srch-close-btn">✕</button>
+    </div>
+    <div class="srch-meta">
+      <div class="srch-lbl" id="srch-lbl">Type to search</div>
+      <div class="srch-hint">ESC to close</div>
+    </div>
+  </div>
+  <div class="srch-results" id="srch-results"></div>
+</div>
+
+<script>
+const SKEY2 = '893e1103dea135f74d571b3ae1794603';
+const SIMG2 = 'https://image.tmdb.org/t/p';
+let srchTimer = null;
+
+function openSearch() {
+  document.getElementById('search-overlay').classList.add('open');
+  document.getElementById('srch-input').focus();
+}
+
+function closeSearch() {
+  document.getElementById('search-overlay').classList.remove('open');
+  document.getElementById('srch-input').value = '';
+  document.getElementById('srch-results').innerHTML = '';
+  document.getElementById('srch-lbl').textContent = 'Type to search';
+}
+
+document.getElementById('srch-close-btn').addEventListener('click', closeSearch);
+document.getElementById('search-overlay').addEventListener('click', function(e){ if(e.target===this) closeSearch(); });
+document.addEventListener('keydown', function(e){ if(e.key==='Escape' && document.getElementById('search-overlay').classList.contains('open')) closeSearch(); });
+
+document.getElementById('srch-input').addEventListener('input', function(){
+  clearTimeout(srchTimer);
+  const q = this.value.trim();
+  const res = document.getElementById('srch-results');
+  const lbl = document.getElementById('srch-lbl');
+  if(!q){ res.innerHTML=''; lbl.textContent='Type to search'; return; }
+  lbl.textContent='Searching…';
+  res.innerHTML='<div class="srch-spinner"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M10 2a8 8 0 0 1 8 8"/></svg> Searching…</div>';
+  srchTimer = setTimeout(function(){ srchDo(q); }, 360);
+});
+
+async function srchDo(q) {
+  const lbl = document.getElementById('srch-lbl');
+  try {
+    const r = await fetch('https://api.themoviedb.org/3/search/multi?api_key='+SKEY2+'&query='+encodeURIComponent(q)+'&language=en-US&include_adult=false');
+    const d = await r.json();
+    srchRender(d.results||[], q);
+  } catch(e) { lbl.textContent='Search error — try again'; }
+}
+
+function srchRender(items, q) {
+  const res = document.getElementById('srch-results');
+  const lbl = document.getElementById('srch-lbl');
+  const list = items.filter(function(r){ return (r.media_type==='movie'||r.media_type==='tv')&&(r.poster_path||r.backdrop_path); }).slice(0,20);
+  lbl.textContent = list.length ? list.length+' result'+(list.length!==1?'s':'')+' for "'+q+'"' : 'No results for "'+q+'"';
+  if(!list.length){
+    res.innerHTML='<div class="srch-empty"><svg width="52" height="52" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="22" cy="22" r="14"/><line x1="32" y1="32" x2="47" y2="47"/></svg><p>No matches for "'+q+'"</p></div>';
+    return;
+  }
+  res.innerHTML = list.map(function(r,i){
+    var title  = r.title||r.name||'';
+    var poster = r.poster_path ? SIMG2+'/w342'+r.poster_path : (r.backdrop_path ? SIMG2+'/w500'+r.backdrop_path : '');
+    var year   = (r.release_date||r.first_air_date||'').slice(0,4);
+    var url    = r.media_type==='tv' ? 'series-watch.html?id='+r.id : 'movie-watch.html?id='+r.id;
+    var type   = r.media_type==='tv' ? 'Series' : 'Movie';
+    var rating = r.vote_average>0 ? r.vote_average.toFixed(1) : null;
+    var num    = (i+1)<10 ? '0'+(i+1) : ''+(i+1);
+    return '<a href="'+url+'" class="sr-card" style="animation-delay:'+(i*25)+'ms">'
+      +'<div class="sr-poster">'
+      +(poster ? '<img src="'+poster+'" alt="'+title.replace(/"/g,'&quot;')+'" loading="lazy">' : '<div class="sr-poster-ph">🎬</div>')
+      +'<div class="sr-num-badge"><span class="sr-num-top">No.</span><span class="sr-num-val">'+num+'</span></div>'
+      +'<div class="sr-play-ov"><div class="sr-play-circ"><svg width="16" height="16" viewBox="0 0 16 16" fill="#000"><polygon points="4,2 13,8 4,14"/></svg></div></div>'
+      +'</div>'
+      +'<div class="sr-title">'+title+'</div>'
+      +'<div class="sr-meta">'
+      +(rating ? '<span class="sr-star">★</span><span>'+rating+'</span><span class="sr-dot">·</span>' : '')
+      +(year ? '<span>'+year+'</span><span class="sr-dot">·</span>' : '')
+      +'<span>'+type+'</span>'
+      +'</div></a>';
+  }).join('');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdBlueMedia Content Locker - Example</title>
+    
+    <!-- Bootstrap Icons (required for icons) -->
+    <link href="../css/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <!-- AdBlueMedia Content Locker CSS -->
+    <link rel="stylesheet" href="adbluemedia-locker.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #111;
+            color: #bbb;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .demo-container {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .demo-title {
+            color: #fff;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .demo-button {
+            background: #00acc1;
+            color: #fff;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px;
+        }
+        
+        .demo-button:hover {
+            background: #17a2b8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 172, 193, 0.3);
+        }
+        
+        .demo-info {
+            margin-top: 30px;
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">AdBlueMedia Content Locker</h1>
+        <p style="color: #bbb; margin-bottom: 30px;">Click the button below to show the content locker</p>
+        
+        <button class="demo-button" onclick="showLocker()">
+            Show Content Locker
+        </button>
+        
+        <div class="demo-info">
+            <p>This is a demo of the AdBlueMedia content locker.</p>
+            <p>The locker will automatically check for completed leads every 15 seconds.</p>
+            <p>Once a lead is completed, the content will unlock automatically.</p>
+        </div>
+    </div>
+    
+    <!-- AdBlueMedia Content Locker Configuration (load before locker script) -->
+    <script src="adblue-config.js"></script>
+    <!-- AdBlueMedia Content Locker JavaScript -->
+    <script src="adbluemedia-locker.js"></script>
+    
+    <script>
+        function showLocker() {
+            const locker = window.showAdBlueLocker();
+            
+            // Set callback for when content is unlocked
+            locker.onUnlock(function() {
+                console.log('Content unlocked!');
+                alert('Content unlocked! The locker will now hide.');
+            });
+        }
+        
+        // Optional: Auto-show locker on page load
+        // Uncomment the line below to auto-show the locker
+        // window.addEventListener('DOMContentLoaded', showLocker);
+    </script>
+</body>
+</html>
+

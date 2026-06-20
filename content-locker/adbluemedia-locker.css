@@ -1,0 +1,651 @@
+/* AdBlueMedia Content Locker Styles */
+/* Matches FILMLAN site theme: dark background (#111), cyan accent (#DC2626) */
+
+.adblue-locker-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-out;
+    overflow: hidden;
+    padding: 20px;
+}
+
+/* Backdrop blur effect for content preview - very subtle */
+.adblue-locker-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(0, 172, 193, 0.05) 0%, transparent 70%);
+    background-size: cover;
+    background-position: center;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.1;
+    filter: blur(40px);
+    transform: scale(1.3);
+}
+
+/* Dark overlay to ensure text readability */
+.adblue-locker-backdrop::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+/* Content preview image removed - now in header */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.adblue-locker-modal {
+    background: linear-gradient(135deg, #1c242c 0%, #111 100%);
+    border: 1px solid rgba(0, 172, 193, 0.2);
+    border-radius: 14px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 172, 193, 0.1);
+    animation: slideUp 0.4s ease-out;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.adblue-locker-modal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #DC2626, #DC2626, #DC2626);
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.adblue-locker-header {
+    text-align: center;
+    padding: 30px 25px 20px;
+    border-bottom: 1px solid rgba(0, 172, 193, 0.1);
+}
+
+.adblue-locker-icon {
+    width: 130px;
+    height: 195px;
+    margin: 0 auto 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(0, 172, 193, 0.3);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Poster container */
+.poster-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.poster-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Lock overlay with animation */
+.lock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    border-radius: 8px;
+    animation: lockOpenClose 3s ease-in-out infinite;
+}
+
+@keyframes lockOpenClose {
+    0%, 100% {
+        opacity: 1;
+        backdrop-filter: blur(5px);
+    }
+    45% {
+        opacity: 0.3;
+        backdrop-filter: blur(0px);
+    }
+    50% {
+        opacity: 0.3;
+        backdrop-filter: blur(0px);
+    }
+    55% {
+        opacity: 0.3;
+        backdrop-filter: blur(0px);
+    }
+}
+
+.lock-animation {
+    position: relative;
+    z-index: 3;
+}
+
+.lock-animation i {
+    font-size: 32px;
+    color: #DC2626;
+    animation: lockPulse 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 8px rgba(0, 172, 193, 0.8));
+}
+
+@keyframes lockPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    45% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    55% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+}
+
+/* Loading bubble animation */
+.loading-bubble {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(0, 172, 193, 0.1);
+    animation: bubblePulse 2s ease-in-out infinite;
+    z-index: 0;
+}
+
+@keyframes bubblePulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(0, 172, 193, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(0, 172, 193, 0);
+    }
+}
+
+.adblue-locker-icon i {
+    font-size: 32px;
+    color: #DC2626;
+}
+
+.adblue-locker-title {
+    font-size: 19px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 18px;
+    font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.5;
+    text-align: center;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content-name {
+    color: #DC2626;
+    font-weight: 700;
+}
+
+/* Progress indicator */
+.progress-indicator {
+    margin-top: 0;
+    padding: 0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(0, 172, 193, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #DC2626, #DC2626);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: progressShimmer 1.5s infinite;
+}
+
+@keyframes progressShimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.adblue-locker-content {
+    padding: 20px 25px;
+}
+
+/* Benefits removed for simplicity */
+
+.adblue-locker-offers-container {
+    margin-bottom: 0;
+}
+
+/* CTR Header removed */
+
+.offers-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 2px solid rgba(0, 172, 193, 0.2);
+    border-top-color: #DC2626;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.offers-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.offer-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 172, 193, 0.2);
+    border-radius: 10px;
+    padding: 16px 18px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+.offer-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 172, 193, 0.15), transparent);
+    transition: left 0.5s;
+}
+
+.offer-card:hover::before {
+    left: 100%;
+}
+
+.offer-card:hover {
+    background: rgba(0, 172, 193, 0.12);
+    border-color: #DC2626;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 172, 193, 0.25);
+}
+
+.offer-card:active {
+    transform: translateY(0);
+}
+
+.offer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+/* Thumbnail removed - more space for text */
+
+/* Offer info (title + requirement) - centered */
+.offer-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    text-align: center;
+}
+
+.offer-title {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.offer-requirement {
+    color: #bbb;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+    margin: 0;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.offers-error {
+    text-align: center;
+    padding: 30px 20px;
+    color: #dc3545;
+}
+
+.offers-error i {
+    font-size: 40px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.offers-error p {
+    margin: 0;
+    color: #bbb;
+    font-size: 14px;
+}
+
+/* Trust items removed for simplicity */
+
+.adblue-locker-footer {
+    padding: 15px 25px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(0, 172, 193, 0.1);
+}
+
+.footer-note {
+    margin: 0;
+    color: #bbb;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.footer-note i {
+    color: #DC2626;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+/* Unlock animation */
+.adblue-locker-overlay.unlocking {
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .adblue-locker-overlay {
+        overflow: hidden;
+        padding: 15px;
+    }
+    
+    .adblue-locker-modal {
+        margin: 0;
+        max-width: calc(100% - 30px);
+        border-radius: 10px;
+        max-height: calc(100vh - 30px);
+        overflow: hidden;
+    }
+    
+    .adblue-locker-header {
+        padding: 25px 20px 20px;
+    }
+    
+    .adblue-locker-icon {
+        width: 95px;
+        height: 142px;
+        margin: 0 auto 20px;
+    }
+    
+    .lock-animation i {
+        font-size: 26px;
+    }
+    
+    .loading-bubble {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .adblue-locker-title {
+        font-size: 17px;
+        margin: 0 0 20px;
+        line-height: 1.4;
+        padding: 0 5px;
+    }
+    
+    .adblue-locker-content {
+        padding: 20px;
+    }
+    
+    /* Ensure modal content is above backdrop */
+    .adblue-locker-modal {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .adblue-locker-header,
+    .adblue-locker-content,
+    .adblue-locker-footer {
+        position: relative;
+        z-index: 3;
+    }
+    
+    .footer-note {
+        font-size: 10px;
+    }
+    
+    .offer-card {
+        padding: 13px 15px;
+        margin-bottom: 8px;
+    }
+    
+    .offer-content {
+        text-align: center;
+    }
+    
+    .offer-title {
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+    
+    .offer-requirement {
+        font-size: 11px;
+    }
+    
+    .adblue-locker-offers-container {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .adblue-locker-overlay {
+        padding: 10px;
+        overflow: hidden;
+    }
+    
+    .adblue-locker-modal {
+        margin: 0;
+        max-width: calc(100% - 20px);
+        border-radius: 8px;
+        max-height: calc(100vh - 20px);
+        overflow: hidden;
+    }
+    
+    .adblue-locker-header {
+        padding: 20px 15px 15px;
+    }
+    
+    .adblue-locker-icon {
+        width: 75px;
+        height: 112px;
+        margin: 0 auto 15px;
+    }
+    
+    .lock-animation i {
+        font-size: 23px;
+    }
+    
+    .loading-bubble {
+        width: 33px;
+        height: 33px;
+    }
+    
+    .adblue-locker-title {
+        font-size: 15px;
+        margin: 0 0 15px;
+        line-height: 1.3;
+    }
+    
+    .adblue-locker-content {
+        padding: 15px;
+    }
+    
+    .offer-card {
+        padding: 12px 14px;
+        margin-bottom: 8px;
+    }
+    
+    .offer-title {
+        font-size: 13px;
+        margin-bottom: 4px;
+    }
+    
+    .offer-requirement {
+        font-size: 11px;
+    }
+    
+    .adblue-locker-offers-container {
+        gap: 8px;
+    }
+    
+    .footer-note {
+        font-size: 10px;
+    }
+}
+
