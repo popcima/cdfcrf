@@ -1,9 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Watch - Popcima</title>
+<meta name="description" content="Watch this movie free in HD on Popcima. No sign-up required.">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="author" content="Popcima">
+<meta name="theme-color" content="#DC2626">
+<link rel="canonical" id="seo-canonical" href="https://popcima.com/movie-watch.html">
+<meta property="og:site_name" content="Popcima">
+<meta property="og:type"      content="video.movie">
+<meta property="og:locale"    content="en_US">
+<meta id="seo-og-url"         property="og:url"         content="https://popcima.com/movie-watch.html">
+<meta id="seo-og-title"       property="og:title"       content="Watch Free Movies — Popcima">
+<meta id="seo-og-desc"        property="og:description" content="Watch this movie free in HD on Popcima.">
+<meta id="seo-og-image"       property="og:image"       content="https://popcima.com/og-image.jpg">
+<meta id="seo-og-image-w"     property="og:image:width" content="1200">
+<meta id="seo-og-image-h"     property="og:image:height" content="630">
+<meta id="seo-tw-card"        name="twitter:card"        content="summary_large_image">
+<meta name="twitter:site"     content="@popcima">
+<meta id="seo-tw-title"       name="twitter:title"       content="Watch Free Movies — Popcima">
+<meta id="seo-tw-desc"        name="twitter:description" content="Watch this movie free in HD on Popcima.">
+<meta id="seo-tw-image"       name="twitter:image"       content="https://popcima.com/og-image.jpg">
+<meta name="application-name"            content="Popcima">
+<meta name="apple-mobile-web-app-title"  content="Popcima">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="msapplication-TileColor"     content="#DC2626">
+<meta name="format-detection"            content="telephone=no">
+<link rel="dns-prefetch" href="https://api.themoviedb.org">
+<link rel="dns-prefetch" href="https://image.tmdb.org">
+<link rel="preconnect" href="https://api.themoviedb.org">
+<link rel="preconnect" href="https://image.tmdb.org" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -726,7 +755,69 @@ async function loadAll(){
       fetch(`${API}/movie/${MID}/watch/providers?api_key=${KEY}`).then(r=>r.json()),
     ]);
 
-    document.title=`${movie.title} — Popcima`;
+    document.title=`${movie.title} — Watch Free Online — Popcima`;
+
+    // Dynamic SEO meta tags
+    const seoDesc = movie.overview ? movie.overview.slice(0,160) : `Watch ${movie.title} free in HD on Popcima.`;
+    const seoImg  = movie.backdrop_path ? `${IMG}/w1280${movie.backdrop_path}` : 'https://popcima.com/og-image.jpg';
+    const seoUrl  = `https://popcima.com/movie-watch.html?id=${MID}`;
+    document.querySelector('meta[name="description"]').setAttribute('content', seoDesc);
+    document.getElementById('seo-canonical').setAttribute('href', seoUrl);
+    document.getElementById('seo-og-url').setAttribute('content', seoUrl);
+    document.getElementById('seo-og-title').setAttribute('content', `${movie.title} — Watch Free Online — Popcima`);
+    document.getElementById('seo-og-desc').setAttribute('content', seoDesc);
+    document.getElementById('seo-og-image').setAttribute('content', seoImg);
+    document.getElementById('seo-tw-title').setAttribute('content', `${movie.title} — Watch Free Online — Popcima`);
+    document.getElementById('seo-tw-desc').setAttribute('content', seoDesc);
+    document.getElementById('seo-tw-image').setAttribute('content', seoImg);
+    // JSON-LD: Movie
+    const ldMovie = document.createElement('script');
+    ldMovie.type = 'application/ld+json';
+    ldMovie.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Movie",
+      "name": movie.title,
+      "description": movie.overview || '',
+      "image": movie.poster_path ? `${IMG}/w500${movie.poster_path}` : '',
+      "datePublished": movie.release_date || '',
+      "genre": (movie.genres||[]).map(g=>g.name),
+      "aggregateRating": movie.vote_average ? {
+        "@type": "AggregateRating",
+        "ratingValue": movie.vote_average.toFixed(1),
+        "bestRating": "10",
+        "ratingCount": movie.vote_count || 0
+      } : undefined,
+      "url": seoUrl
+    });
+    document.head.appendChild(ldMovie);
+    // JSON-LD: VideoObject (Google video carousel)
+    const ldVideo = document.createElement('script');
+    ldVideo.type = 'application/ld+json';
+    ldVideo.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": `${movie.title} — Watch Free Online`,
+      "description": seoDesc,
+      "thumbnailUrl": seoImg,
+      "uploadDate": movie.release_date || new Date().toISOString().split('T')[0],
+      "embedUrl": seoUrl,
+      "contentUrl": seoUrl,
+      "publisher": { "@type": "Organization", "name": "Popcima", "url": "https://popcima.com/" }
+    });
+    document.head.appendChild(ldVideo);
+    // JSON-LD: BreadcrumbList
+    const ldCrumb = document.createElement('script');
+    ldCrumb.type = 'application/ld+json';
+    ldCrumb.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home",   "item": "https://popcima.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Movies", "item": "https://popcima.com/movies.html" },
+        { "@type": "ListItem", "position": 3, "name": movie.title, "item": seoUrl }
+      ]
+    });
+    document.head.appendChild(ldCrumb);
 
     // Expose for content locker
     window.currentSeries = {
