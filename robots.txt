@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
+Disallow: /content-locker/
+Disallow: /*.mp4$
+Disallow: /*.svg$
+
+User-agent: Googlebot
+Allow: /
+Disallow: /content-locker/
 
 Sitemap: https://popcima.com/sitemap.xml
