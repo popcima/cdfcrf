@@ -650,7 +650,7 @@ function flashRipple(icon){
 }
 
 function togglePlay(){
-  if(vidEl.paused){vidEl.play();flashRipple(PAUSE_ICON);}
+  if(vidEl.paused){vidEl.play().catch(()=>{});flashRipple(PAUSE_ICON);}
   else{vidEl.pause();flashRipple(PLAY_ICON);}
 }
 
@@ -671,15 +671,17 @@ vidEl.addEventListener('progress',()=>{
 });
 
 vidPlayBtn.addEventListener('click',(e)=>{e.stopPropagation();togglePlay();});
+vidPlayBtn.addEventListener('touchend',(e)=>{e.stopPropagation();e.preventDefault();togglePlay();});
 
 let dragging=false;
-function seekTo(e){const r=vidProgWrap.getBoundingClientRect();vidEl.currentTime=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*(vidEl.duration||0);}
+function getTouchX(e){return(e.touches?.[0]||e.changedTouches?.[0]||e).clientX;}
+function seekTo(e){const r=vidProgWrap.getBoundingClientRect();vidEl.currentTime=Math.max(0,Math.min(1,(getTouchX(e)-r.left)/r.width))*(vidEl.duration||0);}
 function trySeek(e){
   if(!adBlueUnlocked){
     clearTimeout(lockerTimer);
     vidEl.pause();
     const locker=window.showAdBlueLocker();
-    locker.onUnlock(()=>{adBlueUnlocked=true;vidEl.play();});
+    locker.onUnlock(()=>{adBlueUnlocked=true;vidEl.play().catch(()=>{});});
     return;
   }
   seekTo(e);
@@ -688,8 +690,12 @@ vidProgWrap.addEventListener('mousedown',(e)=>{e.stopPropagation();if(!adBlueUnl
 document.addEventListener('mousemove',(e)=>{if(dragging)seekTo(e);});
 document.addEventListener('mouseup',()=>{dragging=false;});
 vidProgWrap.addEventListener('click',(e)=>{e.stopPropagation();trySeek(e);});
+vidProgWrap.addEventListener('touchstart',(e)=>{e.stopPropagation();if(!adBlueUnlocked){trySeek(e);return;}dragging=true;seekTo(e);},{passive:false});
+document.addEventListener('touchmove',(e)=>{if(dragging){e.preventDefault();seekTo(e);}},{passive:false});
+document.addEventListener('touchend',()=>{dragging=false;});
 
 vidVolBtn.addEventListener('click',(e)=>{e.stopPropagation();vidEl.muted=!vidEl.muted;updateVolIcon();});
+vidVolBtn.addEventListener('touchend',(e)=>{e.stopPropagation();e.preventDefault();vidEl.muted=!vidEl.muted;updateVolIcon();});
 vidVolRange.addEventListener('input',(e)=>{e.stopPropagation();vidEl.volume=+vidVolRange.value;vidEl.muted=vidEl.volume===0;updateVolIcon();});
 
 vidFsBtn.addEventListener('click',(e)=>{
@@ -698,12 +704,21 @@ vidFsBtn.addEventListener('click',(e)=>{
   if(!document.fullscreenElement) vp.requestFullscreen?.();
   else document.exitFullscreen?.();
 });
+vidFsBtn.addEventListener('touchend',(e)=>{
+  e.stopPropagation();e.preventDefault();
+  const vp=document.getElementById('vid-player');
+  if(vp.webkitEnterFullscreen) vp.querySelector('video')?.webkitEnterFullscreen?.();
+  else if(!document.fullscreenElement) vp.requestFullscreen?.();
+  else document.exitFullscreen?.();
+});
 
 vidOverlay.addEventListener('mousemove',showCtrl);
 vidOverlay.addEventListener('click',(e)=>{if(e.target===vidOverlay||e.target===vidEl)togglePlay();else showCtrl();});
 
+// touch: tap to show/hide controls; buttons handle their own touchend
 let tapTimer=null;
 vidOverlay.addEventListener('touchend',(e)=>{
+  if(e.target!==vidOverlay&&e.target!==vidEl) return;
   e.preventDefault();
   if(tapTimer){clearTimeout(tapTimer);tapTimer=null;togglePlay();}
   else{tapTimer=setTimeout(()=>{tapTimer=null;showCtrl();},250);}
@@ -735,7 +750,7 @@ function enterPlayer(s, ep){
   vidNoSrc.style.display='none';
   setVideoSource(studioVideo);
   vidEl.currentTime=0;
-  vidEl.play();
+  vidEl.play().catch(()=>{});
   vidEpLabel.textContent=`S${s||1} E${ep||1}`;
   hero.classList.add('playing');
   showCtrl();
@@ -751,7 +766,7 @@ function enterPlayer(s, ep){
         const locker = window.showAdBlueLocker();
         locker.onUnlock(()=>{
           adBlueUnlocked = true;
-          vidEl.play();
+          vidEl.play().catch(()=>{});
         });
       }
     }, delay);
