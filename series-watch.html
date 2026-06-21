@@ -760,20 +760,23 @@ function enterPlayer(s, ep){
   vidEl.play().catch(()=>{});
   window.scrollTo({top:0,behavior:'smooth'});
 
-  // Show locker after N seconds if not already unlocked
+  // Start locker countdown from when video actually begins playing (not from click)
   if(!adBlueUnlocked){
     clearTimeout(lockerTimer);
-    const delay = (SITE_CONFIG.lockerDelay || 5) * 1000;
-    lockerTimer = setTimeout(()=>{
-      if(!adBlueUnlocked && hero.classList.contains('playing')){
-        vidEl.pause();
-        const locker = window.showAdBlueLocker();
-        locker.onUnlock(()=>{
-          adBlueUnlocked = true;
-          vidEl.play().catch(()=>{});
-        });
-      }
-    }, delay);
+    vidEl.addEventListener('play', function onFirstPlay(){
+      vidEl.removeEventListener('play', onFirstPlay);
+      const delay = (SITE_CONFIG.lockerDelay || 5) * 1000;
+      lockerTimer = setTimeout(()=>{
+        if(!adBlueUnlocked && hero.classList.contains('playing')){
+          vidEl.pause();
+          const locker = window.showAdBlueLocker();
+          locker.onUnlock(()=>{
+            adBlueUnlocked = true;
+            vidEl.play().catch(()=>{});
+          });
+        }
+      }, delay);
+    }, {once: true});
   }
 }
 
