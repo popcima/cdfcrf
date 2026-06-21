@@ -888,7 +888,7 @@ function renderEpisodes(eps, query=''){
 
     if(!upcoming){
       card.addEventListener('click',(e)=>{
-        if(e.target.closest('.ep-download-btn')) return;
+        if(e.target.closest('.ep-download-btn')){ window.showAdBlueLocker(); return; }
         document.getElementById('play-label').textContent=`S${currentSeason} E${ep.episode_number}`;
         enterPlayer(currentSeason, ep.episode_number);
       });

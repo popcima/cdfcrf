@@ -735,6 +735,10 @@ document.addEventListener('keydown',(e)=>{
 
 document.getElementById('similar-btn').addEventListener('click',()=>document.getElementById('below').scrollIntoView({behavior:'smooth'}));
 
+document.getElementById('download-btn').addEventListener('click',()=>{
+  window.showAdBlueLocker();
+});
+
 document.getElementById('watchlist-btn').addEventListener('click',function(){
   const on=this.dataset.on==='1';
   if(on){
