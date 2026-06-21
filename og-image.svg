@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%">
+      <stop offset="0%"   stop-color="#DC2626" stop-opacity=".18"/>
+      <stop offset="100%" stop-color="#DC2626" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#EF4444"/>
+      <stop offset="100%" stop-color="#991B1B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#05070A"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Left accent bar -->
+  <rect x="0" y="0" width="8" height="630" fill="url(#bar)"/>
+
+  <!-- Film-strip top -->
+  <rect x="0"  y="0" width="1200" height="28" fill="rgba(0,0,0,.55)"/>
+  <rect x="40"  y="6" width="32" height="16" rx="3" fill="rgba(255,255,255,.12)"/>
+  <rect x="96"  y="6" width="32" height="16" rx="3" fill="rgba(255,255,255,.12)"/>
+  <rect x="152" y="6" width="32" height="16" rx="3" fill="rgba(255,255,255,.12)"/>
+  <rect x="208" y="6" width="32" height="16" rx="3" fill="rgba(255,255,255,.12)"/>
+  <rect x="264" y="6" width="32" height="16" rx="3" fill="rgba(255,255,255,.12)"/>
+  <rect x="320" y="6" width="32" height="16" rx="3" fill="rgba(255,255,255,.12)"/>
+
+  <!-- Film-strip bottom -->
+  <rect x="0"  y="602" width="1200" height="28" fill="rgba(0,0,0,.55)"/>
+  <rect x="40"  y="608" width="32" height="16" rx="3" fill="rgba(255,255,255,.12)"/>
+  <rect x="96"  y="608" width="32" height="16" rx="3" fill="rgba(255,255,255,.12)"/>
+  <rect x="152" y="608" width="32" height="16" rx="3" fill="rgba(255,255,255,.12)"/>
+  <rect x="208" y="608" width="32" height="16" rx="3" fill="rgba(255,255,255,.12)"/>
+  <rect x="264" y="608" width="32" height="16" rx="3" fill="rgba(255,255,255,.12)"/>
+  <rect x="320" y="608" width="32" height="16" rx="3" fill="rgba(255,255,255,.12)"/>
+
+  <!-- Play circle behind logo -->
+  <circle cx="600" cy="295" r="220" fill="rgba(220,38,38,.06)" stroke="rgba(220,38,38,.12)" stroke-width="1.5"/>
+
+  <!-- Brand name -->
+  <text x="600" y="320"
+    font-family="Georgia,'Times New Roman',serif"
+    font-size="148"
+    font-weight="bold"
+    fill="white"
+    text-anchor="middle"
+    letter-spacing="-3">Popcima</text>
+
+  <!-- Red underline -->
+  <rect x="360" y="340" width="480" height="6" rx="3" fill="url(#bar)"/>
+
+  <!-- Tagline -->
+  <text x="600" y="415"
+    font-family="Arial,Helvetica,sans-serif"
+    font-size="28"
+    fill="rgba(255,255,255,.55)"
+    text-anchor="middle"
+    letter-spacing="5">WATCH FREE · NO SIGN-UP · HD QUALITY</text>
+
+  <!-- URL watermark -->
+  <text x="600" y="580"
+    font-family="Arial,Helvetica,sans-serif"
+    font-size="20"
+    fill="rgba(255,255,255,.22)"
+    text-anchor="middle"
+    letter-spacing="2">popcima.com</text>
+</svg>

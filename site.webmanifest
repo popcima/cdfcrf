@@ -1,0 +1,17 @@
+{
+  "name": "Popcima",
+  "short_name": "Popcima",
+  "description": "Watch free movies and TV series online in HD. No sign-up required.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05070A",
+  "theme_color": "#DC2626",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

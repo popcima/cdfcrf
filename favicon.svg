@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#DC2626"/>
+  <!-- film-strip notches -->
+  <rect x="2" y="4"  width="3" height="5" rx="1" fill="rgba(0,0,0,.35)"/>
+  <rect x="2" y="13" width="3" height="5" rx="1" fill="rgba(0,0,0,.35)"/>
+  <rect x="2" y="23" width="3" height="5" rx="1" fill="rgba(0,0,0,.35)"/>
+  <rect x="27" y="4"  width="3" height="5" rx="1" fill="rgba(0,0,0,.35)"/>
+  <rect x="27" y="13" width="3" height="5" rx="1" fill="rgba(0,0,0,.35)"/>
+  <rect x="27" y="23" width="3" height="5" rx="1" fill="rgba(0,0,0,.35)"/>
+  <!-- play triangle -->
+  <polygon points="12,9 24,16 12,23" fill="white"/>
+</svg>
