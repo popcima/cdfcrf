@@ -392,6 +392,10 @@ body{background:var(--bg);color:var(--hi);font-family:'Inter',system-ui,-apple-s
   .hero-actions{gap:8px}
   .btn-play-hero{font-size:14px;padding:8px 20px}
 }
+/* Touch: keep controls permanently visible */
+@media(hover:none){
+  .vid-overlay .vid-controls{opacity:1;transform:translateY(0);pointer-events:auto}
+}
 </style>
 </head>
 <body>
@@ -750,10 +754,10 @@ function enterPlayer(s, ep){
   vidNoSrc.style.display='none';
   setVideoSource(studioVideo);
   vidEl.currentTime=0;
-  vidEl.play().catch(()=>{});
   vidEpLabel.textContent=`S${s||1} E${ep||1}`;
   hero.classList.add('playing');
   showCtrl();
+  vidEl.play().catch(()=>{});
   window.scrollTo({top:0,behavior:'smooth'});
 
   // Show locker after N seconds if not already unlocked
