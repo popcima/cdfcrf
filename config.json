@@ -13,6 +13,7 @@
   },
 
   "trending": [
+     { "id": 30984,    "type": "tv"    },
     { "id": 1396,    "type": "tv"    },
     { "id": 1477317, "type": "movie" },
     { "id": 1399,    "type": "tv"    },
