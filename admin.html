@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Popcima Admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05060A;
+  --bg2:#0D0F15;
+  --bg3:#12151D;
+  --bg4:rgba(255,255,255,.045);
+  --acc:#F52238;
+  --acc-h:#FF3B4D;
+  --acc-d:#B80F24;
+  --acc-glow:rgba(245,34,56,.24);
+  --text:#F5F6F8;
+  --muted:#858D9E;
+  --border:rgba(255,255,255,.075);
+  --border2:rgba(255,255,255,.14);
+  --success:#2DD881;
+  --r:16px;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;overflow-x:hidden}
+
+/* ═══════════ GATE ═══════════ */
+#gate{
+  position:fixed;inset:0;z-index:9999;
+  background:
+    radial-gradient(ellipse 44% 30% at 50% 45%,rgba(52,7,12,.16),transparent 72%),
+    radial-gradient(ellipse 56% 78% at 50% 50%,#0a0b11 0%,#06070b 52%,#020307 100%);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+#gate::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 7% 46%,rgba(255,0,27,.09),transparent 18%),
+    radial-gradient(circle at 93% 46%,rgba(255,0,27,.09),transparent 18%);
+}
+#gate-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.gate-wrap{position:relative;z-index:2;width:min(100%,774px);padding:20px;transform:translateY(5px)}
+
+.gate-card{
+  height:min(980px,calc(100dvh - 48px));
+  min-height:680px;
+  padding:0 85px;
+  border:1.5px solid transparent;
+  border-radius:43px;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+  background:
+    linear-gradient(155deg,rgba(17,18,25,.98),rgba(8,10,15,.99) 58%,rgba(12,13,18,.99)) padding-box,
+    linear-gradient(180deg,rgba(255,38,56,.78) 0%,rgba(145,20,34,.62) 38%,rgba(42,43,52,.78) 100%) border-box;
+  box-shadow:
+    0 42px 110px rgba(0,0,0,.78),
+    0 0 52px rgba(116,0,17,.13),
+    inset 0 1px 0 rgba(255,255,255,.025);
+}
+.gate-card::before{
+  content:'';position:absolute;z-index:2;top:-2px;left:50%;transform:translateX(-50%);
+  width:78%;height:3px;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,34,53,.38) 22%,#ff3044 50%,rgba(255,34,53,.38) 78%,transparent 100%);
+  border-radius:50%;
+  box-shadow:0 0 11px #ff1d35,0 0 25px rgba(255,24,49,.72),0 0 55px rgba(255,15,42,.32);
+}
+.gate-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:250px;
+  background:
+    radial-gradient(ellipse 60% 120px at 50% 0%,rgba(255,30,48,.16),transparent 72%),
+    linear-gradient(110deg,rgba(255,255,255,.018),transparent 28%);
+  pointer-events:none;
+}
+
+.gate-content{position:relative;z-index:3;padding-top:221px}
+.gate-welcome{font-size:46px;font-weight:400;line-height:55px;color:#f7f7f9;text-align:center;margin-bottom:4px}
+.gate-master{
+  font-size:80px;font-weight:800;
+  color:#f12738;
+  text-align:center;margin-bottom:29px;
+  letter-spacing:-3.8px;line-height:76px;
+  display:flex;align-items:center;justify-content:center;gap:17px;
+  text-shadow:0 4px 5px rgba(0,0,0,.7),0 0 25px rgba(239,32,51,.26);
+}
+.gate-crown{width:67px;height:55px;flex:0 0 auto;overflow:visible;filter:drop-shadow(0 4px 4px rgba(0,0,0,.6))}
+.gate-crown path,.gate-crown circle{stroke:#f62d40}
+.gate-sub{font-size:27px;line-height:34px;font-weight:400;color:#8991a2;text-align:center;margin-bottom:78px}
+
+.gate-lbl{display:block;font-size:20px;line-height:24px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#9fa7b8;margin-bottom:16px}
+
+.gate-input-wrap{position:relative;height:94px;margin-bottom:34px}
+.gate-input-icon{position:absolute;left:31px;top:50%;transform:translateY(-50%);pointer-events:none;display:flex}
+.gate-input-icon svg{width:31px;height:35px;stroke:#ff3044;fill:none;stroke-width:1.8}
+.gate-eye{position:absolute;right:25px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#8d96aa;padding:8px;display:flex;align-items:center;transition:color .18s;z-index:2}
+.gate-eye:hover{color:#ff3044}
+.gate-eye svg{width:37px;height:37px;stroke:currentColor;fill:none;stroke-width:1.9}
+.gate-inp{
+  width:100%;height:100%;
+  background:rgba(7,8,13,.56);
+  border:1.5px solid rgba(239,26,48,.78);
+  border-radius:20px;
+  color:#fff;font-size:25px;
+  padding:0 80px 0 85px;
+  outline:none;
+  transition:border-color .2s,box-shadow .2s;
+  font-family:inherit;
+}
+.gate-inp:focus{border-color:#ff3044;box-shadow:0 0 0 3px rgba(255,36,57,.09),0 0 24px rgba(255,25,47,.08)}
+.gate-inp::placeholder{color:#626878;opacity:.9}
+
+.gate-btn{
+  position:relative;
+  width:100%;height:93px;
+  background:linear-gradient(108deg,#ff2638 0%,#f20f26 52%,#e6192d 100%);
+  color:#fff;font-size:29px;font-weight:700;
+  padding:0 28px;border:1.5px solid rgba(255,100,111,.72);border-radius:19px;
+  cursor:pointer;transition:transform .2s,filter .2s,box-shadow .2s;font-family:inherit;
+  display:flex;align-items:center;justify-content:center;gap:37px;
+  box-shadow:0 8px 25px rgba(241,16,38,.49),0 0 38px rgba(241,16,38,.29),inset 0 1px 0 rgba(255,255,255,.24);
+}
+.gate-btn::after{content:'';position:absolute;inset:11% 31%;background:rgba(255,255,255,.16);filter:blur(24px);pointer-events:none}
+.gate-btn:hover{filter:brightness(1.08);box-shadow:0 10px 31px rgba(241,16,38,.58),0 0 45px rgba(241,16,38,.33),inset 0 1px 0 rgba(255,255,255,.27);transform:translateY(-2px)}
+.gate-btn:active{transform:translateY(0)}
+.gate-btn-arrow{width:36px;height:36px;stroke:#fff;fill:none;stroke-width:2;position:relative;z-index:1}
+
+.gate-divider{border:none;border-top:1px solid rgba(100,104,118,.24);margin:52px -85px 0;position:relative;z-index:3}
+
+.gate-security{display:flex;align-items:center;gap:17px;margin-top:52px;position:relative;z-index:3}
+.gate-shield{
+  width:52px;height:52px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.gate-shield svg{width:47px;height:52px;stroke:#ff3044;fill:none;stroke-width:1.8}
+.gate-sec-title{font-size:23px;font-weight:500;color:#f1f2f5;line-height:29px}
+.gate-sec-sub{font-size:20px;line-height:28px;color:#8f97aa;margin-top:10px}
+
+.gate-err{position:absolute;top:774px;left:85px;right:85px;color:#ff7b87;font-size:14px;line-height:20px;text-align:center}
+
+/* ═══════════ LAYOUT ═══════════ */
+#app{display:none;min-height:100vh}
+.layout{display:flex;min-height:100vh}
+
+/* ═══════════ SIDEBAR ═══════════ */
+.sidebar{width:220px;flex-shrink:0;background:#070910;border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;z-index:200;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{display:flex;align-items:center;gap:10px;padding:22px 18px 18px;text-decoration:none}
+.sb-logo-icon{width:32px;height:32px;background:var(--acc);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px var(--acc-glow)}
+.sb-logo-icon svg{width:13px;height:13px;fill:#fff}
+.sb-logo-text{font-size:17px;font-weight:800;color:var(--text)}
+.sb-section{padding:0 12px;margin-bottom:2px}
+.sb-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);padding:14px 6px 6px;display:block}
+.sb-nav{display:flex;flex-direction:column;gap:2px}
+.sb-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:inherit;position:relative}
+.sb-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+.sb-item:hover{background:rgba(220,38,38,.1);color:var(--text)}
+.sb-item.active{background:var(--acc);color:#fff;font-weight:600;box-shadow:0 4px 14px var(--acc-glow)}
+.sb-item.active svg{stroke:#fff}
+.sb-badge{margin-left:auto;background:var(--acc);color:#fff;border-radius:99px;font-size:10px;font-weight:700;padding:2px 6px;line-height:1.4;min-width:18px;text-align:center}
+.sb-item.active .sb-badge{background:rgba(255,255,255,.2)}
+.sb-spacer{flex:1}
+.sb-promo{margin:14px;border-radius:14px;background:var(--acc);padding:18px;color:#fff;position:relative;overflow:hidden}
+.sb-promo::before{content:'';position:absolute;width:100px;height:100px;background:rgba(255,255,255,.07);border-radius:50%;bottom:-30px;right:-30px;pointer-events:none}
+.sb-promo-title{font-size:13px;font-weight:700;line-height:1.4;margin-bottom:4px}
+.sb-promo-sub{font-size:11px;color:rgba(255,255,255,.7);margin-bottom:12px}
+.sb-promo-btn{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.15);color:#fff;font-size:12px;font-weight:600;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;transition:background .2s;width:100%}
+.sb-promo-btn:hover{background:rgba(255,255,255,.25)}
+.sb-promo-btn svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2.5}
+
+/* ═══════════ MAIN ═══════════ */
+.main{margin-left:220px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+
+/* ═══════════ TOPBAR ═══════════ */
+.topbar{height:62px;background:#070910;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:10px;position:sticky;top:0;z-index:100}
+.tb-search{display:flex;align-items:center;gap:8px;background:var(--bg4);border:1.5px solid var(--border);border-radius:9px;padding:7px 12px;max-width:260px;flex:1;transition:border-color .2s}
+.tb-search:focus-within{border-color:rgba(220,38,38,.4)}
+.tb-search svg{width:14px;height:14px;stroke:var(--muted);fill:none;stroke-width:2;flex-shrink:0}
+.tb-search input{border:none;background:none;outline:none;font-size:13px;color:var(--text);width:100%;font-family:inherit}
+.tb-search input::placeholder{color:var(--muted)}
+.tb-kbd{background:rgba(255,255,255,.07);color:var(--muted);font-size:10px;padding:2px 6px;border-radius:4px;white-space:nowrap}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.tb-icon{width:36px;height:36px;background:var(--bg4);border:1.5px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;color:var(--muted)}
+.tb-icon:hover{border-color:rgba(220,38,38,.4);color:var(--acc)}
+.tb-icon svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+.tb-copy{display:flex;align-items:center;gap:6px;background:var(--bg4);border:1.5px solid var(--border);border-radius:9px;padding:8px 14px;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;transition:all .15s;font-family:inherit}
+.tb-copy:hover{border-color:rgba(220,38,38,.4);color:var(--acc-h)}
+.tb-copy svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+.tb-save{display:flex;align-items:center;gap:6px;background:var(--acc);border:none;border-radius:9px;padding:8px 16px;font-size:12px;font-weight:700;color:#fff;cursor:pointer;transition:background .2s;font-family:inherit;box-shadow:0 4px 14px var(--acc-glow)}
+.tb-save:hover{background:var(--acc-h)}
+.tb-save:disabled{opacity:.55;cursor:not-allowed}
+.tb-save svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;flex-shrink:0}
+.tb-div{width:1px;height:24px;background:var(--border)}
+.tb-user{display:flex;align-items:center;gap:9px;padding:4px 8px;border-radius:9px;cursor:pointer;transition:background .15s}
+.tb-user:hover{background:var(--bg4)}
+.tb-avatar{width:32px;height:32px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 2px 8px var(--acc-glow)}
+.tb-uname{font-size:12px;font-weight:600;color:var(--text);line-height:1.2}
+.tb-uemail{font-size:11px;color:var(--muted);line-height:1.2}
+.tb-caret{color:var(--muted)}
+.tb-caret svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* ═══════════ PANELS ═══════════ */
+.panels{flex:1;padding:24px;overflow-x:hidden}
+.panel{display:none}
+.panel.active{display:block}
+
+/* ═══════════ DASHBOARD HEADER ═══════════ */
+.dash-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;gap:16px}
+.dash-title{font-size:26px;font-weight:800;color:var(--text);letter-spacing:-.5px}
+.dash-sub{font-size:13px;color:var(--muted);margin-top:2px}
+.last-updated{display:flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--border);border-radius:99px;padding:6px 14px;font-size:12px;font-weight:500;color:var(--muted);white-space:nowrap}
+.last-updated-dot{width:7px;height:7px;border-radius:50%;background:var(--success);flex-shrink:0;box-shadow:0 0 6px rgba(34,197,94,.6)}
+
+/* ═══════════ STATS ROW ═══════════ */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.sc{border-radius:var(--r);padding:18px 18px 16px;position:relative;overflow:hidden;border:1px solid var(--border)}
+.sc-dark{background:var(--bg2)}
+.sc-red{background:var(--acc);border-color:transparent;box-shadow:0 8px 24px var(--acc-glow)}
+.sc-label{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:8px}
+.sc-red .sc-label{color:rgba(255,255,255,.75)}
+.sc-value{font-size:34px;font-weight:800;color:var(--text);letter-spacing:-1px;line-height:1}
+.sc-red .sc-value{color:#fff}
+.sc-footer{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:var(--muted)}
+.sc-red .sc-footer{color:rgba(255,255,255,.7)}
+.sc-dot{width:13px;height:13px;border-radius:50%;background:rgba(220,38,38,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sc-dot svg{width:7px;height:7px;stroke:var(--acc);fill:none;stroke-width:3}
+.sc-red .sc-dot{background:rgba(255,255,255,.2)}
+.sc-red .sc-dot svg{stroke:#fff}
+.sc-watermark{position:absolute;right:14px;top:50%;transform:translateY(-50%);opacity:.09;pointer-events:none}
+.sc-red .sc-watermark{opacity:.15}
+.sc-watermark svg{width:52px;height:52px;stroke:#fff;fill:none;stroke-width:1.2}
+.sc-red .sc-watermark svg{stroke:#fff}
+
+/* ═══════════ CARD ═══════════ */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.card-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);gap:10px}
+.card-title{font-size:14px;font-weight:700;color:var(--text)}
+.card-bd{padding:18px}
+.card-bd-flush{padding:0}
+
+/* ═══════════ GRID LAYOUTS ═══════════ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.g63{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;margin-bottom:18px}
+
+/* ═══════════ CHART CARD (Overview) ═══════════ */
+.chart-filters{display:flex;gap:8px}
+.chart-filter{display:flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:5px 10px;font-size:11px;font-weight:600;color:var(--muted);cursor:pointer}
+.chart-filter svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.5}
+.chart-wrap{padding:12px 18px 18px}
+#overview-chart{width:100%;height:160px;display:block}
+
+/* ═══════════ DONUT ═══════════ */
+.donut-wrap{display:flex;align-items:center;gap:24px;padding:20px 18px}
+.donut-svg-wrap{position:relative;flex-shrink:0}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.donut-center-val{font-size:20px;font-weight:800;color:var(--text);line-height:1}
+.donut-center-lbl{font-size:10px;color:var(--muted);font-weight:500}
+.donut-legend{flex:1;display:flex;flex-direction:column;gap:10px}
+.legend-item{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.legend-left{display:flex;align-items:center;gap:8px}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.legend-name{font-size:12px;font-weight:500;color:var(--text)}
+.legend-val{font-size:12px;color:var(--muted)}
+
+/* ═══════════ STEPPER (Quick Settings) ═══════════ */
+.page-header{margin-bottom:22px}
+.page-title{font-size:24px;font-weight:800;letter-spacing:-.4px}
+.page-sub{font-size:13px;color:var(--muted);margin-top:2px}
+.stepper-row{display:flex;align-items:center;gap:12px;margin-top:14px}
+.stepper{display:flex;align-items:center;gap:0;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;overflow:hidden}
+.stepper-btn{width:36px;height:36px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:inherit}
+.stepper-btn:hover{background:rgba(220,38,38,.1);color:var(--acc)}
+.stepper-val{width:44px;text-align:center;font-size:15px;font-weight:700;color:var(--text);background:none;border:none;border-left:1px solid var(--border);border-right:1px solid var(--border);outline:none;font-family:inherit;padding:0;height:36px}
+.stepper-val::-webkit-inner-spin-button,.stepper-val::-webkit-outer-spin-button{-webkit-appearance:none}
+.stepper-icon{width:36px;height:36px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.stepper-icon svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+.field-note{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.6}
+
+/* ═══════════ GH STATUS CARD ═══════════ */
+.gh-status-ok{display:flex;align-items:flex-start;gap:10px;background:rgba(34,197,94,.08);border:1.5px solid rgba(34,197,94,.25);border-radius:10px;padding:12px 14px;margin-bottom:14px}
+.gh-status-ok svg{width:18px;height:18px;stroke:var(--success);fill:none;stroke-width:2.5;flex-shrink:0;margin-top:1px}
+.gh-status-ok-title{font-size:13px;font-weight:600;color:var(--success)}
+.gh-status-ok-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.gh-status-none{font-size:13px;color:var(--muted);line-height:1.6;padding:4px 0}
+.gh-status-footer{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.gh-sync{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.gh-sync svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* ═══════════ BUTTONS ═══════════ */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .15s;line-height:1}
+.btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+.btn-red{background:var(--acc);color:#fff;box-shadow:0 4px 12px var(--acc-glow)}
+.btn-red:hover{background:var(--acc-h)}
+.btn-outline{background:var(--bg4);color:var(--text);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:rgba(220,38,38,.4);color:var(--acc-h)}
+.btn-ghost{background:var(--bg4);color:var(--muted);border:1.5px solid var(--border)}
+.btn-ghost:hover{background:rgba(220,38,38,.08);color:var(--acc-h);border-color:rgba(220,38,38,.3)}
+.btn-danger{background:rgba(248,113,113,.1);color:#f87171;border:1.5px solid rgba(248,113,113,.2)}
+.btn-danger:hover{background:rgba(248,113,113,.18)}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:8px}
+.btn-xs{padding:4px 9px;font-size:11px;border-radius:6px}
+.btn-icon{width:30px;height:30px;padding:0;justify-content:center;border-radius:7px}
+.btn-reconnect{background:var(--bg);border:1.5px solid var(--border);color:var(--text);font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.btn-reconnect:hover{border-color:var(--acc);color:var(--acc)}
+
+/* ═══════════ FORM ELEMENTS ═══════════ */
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px}
+.field input,.field select{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;padding:9px 12px;outline:none;transition:border-color .2s;font-family:inherit}
+.field input:focus,.field select:focus{border-color:rgba(220,38,38,.5)}
+.field input::placeholder{color:var(--muted)}
+.fgrid{display:grid;gap:14px}
+.fgrid.c2{grid-template-columns:1fr 1fr}
+.fgrid.c3{grid-template-columns:1fr 1fr 1fr}
+.fnote{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.5}
+
+/* ═══════════ VIDEO TABLE ═══════════ */
+.vtable{width:100%;border-collapse:collapse}
+.vtable th{text-align:left;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.vtable td{padding:11px 16px;border-bottom:1px solid var(--border);vertical-align:middle}
+.vtable tr:last-child td{border-bottom:none}
+.vtable tr:hover td{background:rgba(220,38,38,.03)}
+.id-cell{font-family:'Courier New',monospace;font-size:12px;color:var(--acc);font-weight:700}
+.url-cell{font-size:12px;color:var(--muted);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.title-cell{font-size:13px;font-weight:600;color:var(--text);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acts{display:flex;gap:5px}
+
+/* ═══════════ BADGES ═══════════ */
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:600}
+.badge-movie{background:rgba(139,92,246,.15);color:#c4b5fd}
+.badge-tv{background:rgba(20,184,166,.12);color:#2dd4bf}
+
+/* ═══════════ SORT LIST ═══════════ */
+.sort-list{display:flex;flex-direction:column;gap:7px}
+.sort-item{display:flex;align-items:center;gap:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;cursor:grab;user-select:none;transition:all .15s}
+.sort-item:hover{border-color:rgba(220,38,38,.35)}
+.sort-item.drag-over{border-color:var(--acc);background:rgba(220,38,38,.06)}
+.sort-item.dragging{opacity:.4}
+.drag-handle svg{width:14px;height:14px;stroke:var(--muted);fill:none;stroke-width:2}
+.sort-num{width:20px;text-align:center;font-size:12px;font-weight:800;color:var(--acc);flex-shrink:0}
+.sort-poster{width:36px;height:52px;object-fit:cover;border-radius:5px;flex-shrink:0}
+.sort-poster-ph{width:36px;height:52px;border-radius:5px;background:var(--bg4);border:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.sort-poster-ph svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5}
+.sort-info{flex:1;min-width:0}
+.sort-title{font-size:13px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:3px}
+.sort-meta{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted)}
+.sort-actions{margin-left:auto;flex-shrink:0}
+
+/* ═══════════ ADD FORM ═══════════ */
+.add-form{background:rgba(220,38,38,.05);border:1.5px dashed rgba(220,38,38,.25);border-radius:11px;padding:18px;margin-top:14px}
+.add-form-title{font-size:13px;font-weight:700;color:#f87171;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.add-form-title svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5}
+.add-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
+.add-form .field input,.add-form .field select{background:var(--bg2)}
+
+/* ═══════════ LOOKUP ═══════════ */
+.lookup-row{display:flex;gap:7px}
+.lookup-row input{flex:1}
+.lookup-result{margin-top:7px;padding:9px 12px;background:var(--bg);border:1.5px solid var(--border);border-left:3px solid var(--acc);border-radius:9px;display:none;align-items:center;gap:9px;font-size:12px}
+.lookup-result.show{display:flex}
+.lookup-result img{width:28px;height:42px;object-fit:cover;border-radius:4px;flex-shrink:0}
+.lookup-title{font-weight:600;color:var(--text)}
+.lookup-year{color:var(--muted);font-size:11px}
+
+/* ═══════════ TOKEN SECTION ═══════════ */
+.token-box{background:var(--bg);border:1.5px solid var(--border);border-radius:11px;padding:18px;margin-top:8px}
+.token-hd{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.token-hd svg{width:16px;height:16px;stroke:var(--acc);fill:none;stroke-width:2}
+.token-hd-title{font-size:13px;font-weight:700;color:var(--text)}
+.token-sub{font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.6}
+.token-row{display:flex;gap:8px}
+.token-row input{flex:1}
+
+/* ═══════════ INLINE EDIT ═══════════ */
+.iedit{display:flex;gap:6px;align-items:center}
+.iedit input{flex:1;font-size:12px;padding:5px 9px;background:var(--bg);border:1.5px solid var(--acc);border-radius:7px;outline:none;color:var(--text);font-family:inherit}
+
+/* ═══════════ JSON PREVIEW ═══════════ */
+.json-pre{background:#0a0d14;border-radius:10px;padding:18px;font-family:'Courier New',monospace;font-size:12px;color:#7dd3fc;line-height:1.75;overflow:auto;max-height:480px;white-space:pre;border:1px solid var(--border)}
+
+/* ═══════════ EMPTY STATE ═══════════ */
+.empty{text-align:center;padding:44px 20px;color:var(--muted)}
+.empty-icon{font-size:36px;opacity:.4;margin-bottom:8px}
+.empty-text{font-size:13px}
+
+/* ═══════════ TOAST ═══════════ */
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(6px);background:var(--bg3);border:1.5px solid var(--border2);border-radius:11px;padding:11px 18px;font-size:13px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:8px;z-index:9999;pointer-events:none;opacity:0;transition:opacity .22s,transform .22s;box-shadow:0 8px 32px rgba(0,0,0,.6);white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.success{border-left:3px solid var(--acc)}
+#toast.error{border-left:3px solid #f87171}
+.toast-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+#toast.success .toast-dot{background:var(--acc)}
+#toast.error .toast-dot{background:#f87171}
+
+/* ═══════════ MOBILE NAV ═══════════ */
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:60px;background:#070910;border-top:1px solid var(--border);z-index:200;align-items:stretch}
+.mn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border:none;background:none;color:var(--muted);font-family:inherit;transition:color .15s;position:relative;padding:6px 4px}
+.mn-item.active{color:var(--acc)}
+.mn-item svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+.mn-label{font-size:9px;font-weight:600}
+.mn-badge{position:absolute;top:6px;right:calc(50% - 14px);background:var(--acc);color:#fff;border-radius:99px;font-size:9px;font-weight:700;padding:1px 5px;line-height:1.4;min-width:16px;text-align:center}
+
+/* ═══════════ COMMAND CENTER REDESIGN ═══════════ */
+#app{
+  position:relative;
+  background:
+    radial-gradient(circle at 82% 4%,rgba(245,34,56,.085),transparent 27%),
+    radial-gradient(circle at 15% 88%,rgba(100,10,26,.07),transparent 28%),
+    linear-gradient(135deg,#05060a 0%,#080a0f 46%,#05060a 100%);
+}
+#app::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.32;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:linear-gradient(to bottom,black,transparent 78%);
+}
+.layout,.main{position:relative}
+.layout{display:block;z-index:1}
+
+.sidebar{
+  position:fixed;top:0;left:0;bottom:0;z-index:200;
+  width:252px;
+  background:linear-gradient(180deg,rgba(12,14,20,.98),rgba(6,7,11,.99));
+  border-right:1px solid rgba(255,255,255,.075);
+  box-shadow:22px 0 60px rgba(0,0,0,.24);
+  padding:0 10px 12px;
+}
+.sidebar::after{
+  content:'';position:absolute;top:0;right:-1px;width:1px;height:210px;
+  background:linear-gradient(to bottom,var(--acc),rgba(245,34,56,.18),transparent);
+  box-shadow:0 0 18px rgba(245,34,56,.32);
+}
+.sb-logo{gap:13px;padding:25px 14px 24px;margin:0 2px 9px;border-bottom:1px solid var(--border)}
+.sb-logo-icon{
+  width:43px;height:43px;border-radius:13px;color:var(--acc);
+  background:linear-gradient(145deg,rgba(245,34,56,.16),rgba(245,34,56,.035));
+  border:1px solid rgba(245,34,56,.28);
+  box-shadow:0 0 25px rgba(245,34,56,.12),inset 0 1px 0 rgba(255,255,255,.06);
+}
+.sb-logo-icon svg{width:29px;height:25px;fill:var(--acc);stroke:currentColor}
+.sb-logo-text{font-size:20px;line-height:1;color:var(--text);letter-spacing:-.5px}
+.sb-logo-text small{display:block;margin-top:7px;font-size:9px;line-height:1;font-weight:700;letter-spacing:1.25px;text-transform:uppercase;color:var(--muted)}
+.sb-section{padding:0 8px;margin-bottom:8px}
+.sb-lbl{padding:15px 10px 8px;font-size:9px;letter-spacing:1.6px;color:#626b7c}
+.sb-nav{gap:5px}
+.sb-item{
+  min-height:43px;gap:12px;padding:10px 12px;border-radius:12px;
+  font-size:12px;font-weight:600;color:#8991a2;border:1px solid transparent;
+}
+.sb-item svg{width:18px;height:18px;stroke-width:1.8}
+.sb-item:hover{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.055);color:#e8eaf0}
+.sb-item.active{
+  background:linear-gradient(100deg,rgba(245,34,56,.22),rgba(245,34,56,.065));
+  border-color:rgba(245,34,56,.25);color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.22),inset 3px 0 0 var(--acc);
+}
+.sb-item.active::after{content:'';position:absolute;right:12px;width:5px;height:5px;border-radius:50%;background:var(--acc);box-shadow:0 0 10px var(--acc)}
+.sb-item.active .sb-badge{background:var(--acc);box-shadow:0 0 12px rgba(245,34,56,.35)}
+.sb-badge{background:rgba(255,255,255,.065);color:#aeb5c2;border:1px solid rgba(255,255,255,.06);padding:2px 7px}
+.sb-promo{
+  margin:15px 8px 5px;padding:18px;border-radius:16px;
+  background:linear-gradient(145deg,rgba(245,34,56,.13),rgba(15,16,23,.96) 68%);
+  border:1px solid rgba(245,34,56,.19);box-shadow:0 15px 34px rgba(0,0,0,.28);
+}
+.sb-promo::before{width:120px;height:120px;right:-50px;bottom:-58px;background:rgba(245,34,56,.11);filter:blur(2px)}
+.sb-promo-title{font-size:13px;line-height:1.45}
+.sb-promo-sub{font-size:10.5px;line-height:1.55;color:#8991a2}
+.sb-promo-btn{background:rgba(245,34,56,.12);border:1px solid rgba(245,34,56,.2);border-radius:10px}
+.sb-promo-btn:hover{background:rgba(245,34,56,.21)}
+
+.main{margin-left:252px;min-width:0}
+.topbar{
+  height:76px;padding:0 30px;background:rgba(7,8,12,.78);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  box-shadow:0 12px 32px rgba(0,0,0,.13);
+}
+.mobile-brand{display:none;align-items:center;gap:8px;color:var(--acc);font-size:17px;font-weight:800;letter-spacing:-.4px}
+.mobile-brand svg{width:27px;height:23px;fill:currentColor}
+.tb-search{
+  max-width:330px;height:42px;padding:0 14px;gap:10px;border-radius:12px;
+  background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.075);
+}
+.tb-search:focus-within{border-color:rgba(245,34,56,.35);box-shadow:0 0 0 3px rgba(245,34,56,.06)}
+.tb-search svg{width:16px;height:16px}
+.tb-search input{font-size:12px}
+.tb-kbd{padding:3px 7px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.055);border-radius:6px}
+.tb-right{gap:9px}
+.tb-icon,.tb-copy{
+  height:40px;border-radius:11px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.075);
+}
+.tb-icon{width:40px}
+.tb-icon svg{width:16px;height:16px}
+.tb-icon:hover,.tb-copy:hover{background:rgba(245,34,56,.075);border-color:rgba(245,34,56,.28)}
+.tb-copy{padding:0 14px;white-space:nowrap}
+.tb-save{
+  min-height:40px;padding:0 17px;border-radius:11px;
+  background:linear-gradient(110deg,#ff2b3f,#e80f28);
+  border:1px solid rgba(255,108,120,.34);
+  box-shadow:0 7px 22px rgba(229,15,39,.27),inset 0 1px rgba(255,255,255,.16);
+  white-space:nowrap;
+}
+.tb-save:hover{background:linear-gradient(110deg,#ff4354,#ef1930);transform:translateY(-1px)}
+.tb-div{background:rgba(255,255,255,.09)}
+.tb-user{padding:5px 7px 5px 5px;border:1px solid transparent;border-radius:12px}
+.tb-user:hover{background:rgba(255,255,255,.035);border-color:var(--border)}
+.tb-avatar{
+  width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#ff3044,#ae0d21);
+  box-shadow:0 7px 18px rgba(245,34,56,.2);font-size:14px;
+}
+.tb-uname{font-size:11.5px}.tb-uemail{font-size:10px;margin-top:2px}
+
+.panels{width:100%;max-width:1600px;margin:0 auto;padding:34px 34px 48px}
+.panel.active{animation:panel-in .28s ease both}
+@keyframes panel-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.dash-header{align-items:center;margin-bottom:26px}
+.dash-title,.page-title{font-size:30px;line-height:1.15;font-weight:800;letter-spacing:-1.2px}
+.dash-title::before,.page-title::before{
+  content:'CONTROL CENTER';display:block;margin-bottom:9px;font-size:9px;line-height:1;font-weight:800;letter-spacing:2.2px;color:var(--acc);
+}
+.page-title::before{content:'CONTENT MANAGEMENT'}
+.dash-sub,.page-sub{font-size:12px;line-height:1.6;color:#7f8797;margin-top:7px}
+.last-updated{
+  padding:8px 13px;background:rgba(13,15,21,.78);border:1px solid var(--border);
+  border-radius:11px;font-size:10.5px;box-shadow:0 8px 20px rgba(0,0,0,.16);
+}
+.last-updated-dot{background:var(--success);box-shadow:0 0 9px rgba(45,216,129,.7)}
+
+.stats-row{gap:16px;margin-bottom:18px}
+.sc{
+  min-height:145px;padding:20px;border-radius:17px;
+  border:1px solid rgba(255,255,255,.075);
+  box-shadow:0 18px 44px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.018);
+}
+.sc::before{content:'';position:absolute;top:0;left:22px;right:22px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent)}
+.sc-dark{background:linear-gradient(145deg,rgba(16,18,25,.98),rgba(10,12,17,.98))}
+.sc-dark:hover{border-color:rgba(245,34,56,.17);transform:translateY(-2px)}
+.sc{transition:transform .2s,border-color .2s,box-shadow .2s}
+.sc-red{
+  background:linear-gradient(135deg,#fa263b 0%,#dc102b 58%,#a90d20 100%);
+  border-color:rgba(255,104,116,.26);box-shadow:0 20px 45px rgba(183,8,32,.27),0 0 30px rgba(245,34,56,.08);
+}
+.sc-red::after{content:'';position:absolute;width:150px;height:150px;right:-55px;bottom:-75px;border-radius:50%;background:rgba(255,255,255,.075)}
+.sc-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.sc-value{font-size:40px;line-height:1;margin-top:12px;letter-spacing:-1.8px}
+.sc-footer{margin-top:14px;font-size:10.5px}
+.sc-dot{width:18px;height:18px;background:rgba(245,34,56,.1);border:1px solid rgba(245,34,56,.12)}
+.sc-red .sc-dot{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.1)}
+.sc-watermark{right:17px;top:48%;opacity:.075}.sc-watermark svg{width:62px;height:62px}
+
+.card{
+  position:relative;background:linear-gradient(145deg,rgba(15,17,24,.98),rgba(9,11,16,.99));
+  border:1px solid rgba(255,255,255,.075);border-radius:17px;
+  box-shadow:0 20px 48px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.018);
+}
+.card::before{content:'';position:absolute;z-index:2;top:0;left:28px;right:28px;height:1px;background:linear-gradient(90deg,transparent,rgba(245,34,56,.35),transparent);pointer-events:none}
+.card-hd{min-height:58px;padding:15px 19px;border-color:rgba(255,255,255,.065)}
+.card-title{font-size:12px;letter-spacing:.1px}
+.card-bd{padding:20px}
+.g2,.g63{gap:16px;margin-bottom:18px}
+.chart-filter{padding:6px 9px;background:#090b10;border-color:var(--border);border-radius:8px;font-size:9.5px}
+.chart-wrap{padding:17px 20px 18px}
+#overview-chart{height:180px}
+.donut-wrap{min-height:214px;gap:26px;padding:25px 21px}
+.donut-svg-wrap{filter:drop-shadow(0 8px 18px rgba(0,0,0,.28))}
+.donut-center-val{font-size:24px}.donut-center-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1px}
+.donut-legend{gap:13px}.legend-dot{box-shadow:0 0 10px currentColor}.legend-name,.legend-val{font-size:11px}
+
+.page-header{margin-bottom:25px}
+.btn{
+  min-height:34px;border-radius:9px;padding:8px 13px;font-size:11px;
+  transition:transform .18s,background .18s,border-color .18s,color .18s,box-shadow .18s;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-red{background:linear-gradient(110deg,#ff2c40,#df102a);border:1px solid rgba(255,102,114,.25);box-shadow:0 7px 18px rgba(217,14,40,.18)}
+.btn-outline,.btn-ghost{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.085)}
+.btn-danger{color:#ff6d7a;background:rgba(245,34,56,.08);border-color:rgba(245,34,56,.16)}
+.btn-reconnect{height:35px;background:rgba(255,255,255,.03);border-color:var(--border);border-radius:9px}
+.field{margin-bottom:16px}
+.field label{font-size:9px;letter-spacing:1.1px;margin-bottom:8px;color:#8d95a5}
+.field input,.field select{
+  min-height:43px;padding:10px 13px;background:#080a0f;border-color:rgba(255,255,255,.085);border-radius:11px;font-size:12px;
+}
+.field input:focus,.field select:focus{border-color:rgba(245,34,56,.48);box-shadow:0 0 0 3px rgba(245,34,56,.055)}
+.stepper{background:#080a0f;border-color:var(--border);border-radius:11px}.stepper-btn,.stepper-val{height:42px}.stepper-btn{width:42px}.stepper-val{width:50px}
+.stepper-icon{width:42px;height:42px;background:#080a0f;border-color:var(--border);border-radius:11px}
+.field-note,.fnote{font-size:11px}
+.gh-status-ok{background:rgba(45,216,129,.065);border-color:rgba(45,216,129,.18);border-radius:11px}
+.gh-status-none{font-size:12px}
+.gh-status-footer{gap:12px}.gh-sync{font-size:10.5px}
+
+.card-bd-flush{overflow-x:auto;scrollbar-width:thin;scrollbar-color:rgba(245,34,56,.35) transparent}
+.vtable{min-width:720px}
+.vtable th{padding:12px 18px;font-size:9px;letter-spacing:1px;background:rgba(255,255,255,.017)}
+.vtable td{padding:13px 18px}.vtable tr:hover td{background:rgba(245,34,56,.028)}
+.id-cell{color:#ff5261}.url-cell{max-width:360px}.title-cell{max-width:190px}
+.badge{padding:4px 9px;border:1px solid transparent;font-size:9.5px;text-transform:uppercase;letter-spacing:.5px}
+.badge-movie{background:rgba(245,34,56,.1);border-color:rgba(245,34,56,.14);color:#ff6976}
+.badge-tv{background:rgba(80,150,255,.09);border-color:rgba(80,150,255,.13);color:#88b6ff}
+.sort-list{gap:9px}
+.sort-item{min-height:72px;padding:9px 13px;background:#090b10;border-color:rgba(255,255,255,.075);border-radius:12px}
+.sort-item:hover{border-color:rgba(245,34,56,.28);background:rgba(245,34,56,.025)}
+.sort-num{color:#ff4d5d}.sort-poster,.sort-poster-ph{border-radius:7px}.sort-title{font-size:12px}
+.add-form,.token-box{
+  padding:19px;background:linear-gradient(145deg,rgba(245,34,56,.055),rgba(8,10,15,.85));
+  border-color:rgba(245,34,56,.19);border-radius:13px;
+}
+.add-form-title{color:#ff5a68}
+.lookup-result{background:#080a0f;border-color:var(--border);border-left-color:var(--acc);border-radius:10px}
+.json-pre{background:#07090d;border-color:var(--border);border-radius:12px;color:#ff7c88}
+.empty{padding:55px 20px}.empty-icon{filter:grayscale(.35)}.empty-text{font-size:12px}
+#toast{background:rgba(16,18,25,.96);backdrop-filter:blur(16px);border-radius:12px}
+
+.mobile-nav{
+  height:72px;background:rgba(8,9,14,.94);border-top:1px solid rgba(255,255,255,.09);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  box-shadow:0 -16px 35px rgba(0,0,0,.35);
+}
+.mn-item{gap:5px;color:#737c8e}
+.mn-item::before{content:'';position:absolute;top:0;width:28px;height:2px;border-radius:0 0 2px 2px;background:transparent}
+.mn-item.active{color:#fff}
+.mn-item.active::before{background:var(--acc);box-shadow:0 0 12px var(--acc)}
+.mn-item.active svg{color:var(--acc);filter:drop-shadow(0 0 7px rgba(245,34,56,.32))}
+.mn-item svg{width:19px;height:19px;stroke-width:1.8}
+.mn-label{font-size:8.5px;letter-spacing:.1px}
+.mn-badge{top:7px;right:calc(50% - 18px);background:var(--acc);border:2px solid #090a0f}
+
+/* ═══════════ RESPONSIVE ═══════════ */
+@media(max-width:1100px){
+  .tb-search{display:none}
+  .tb-caret{display:none}
+  .tb-user{padding-right:5px}
+}
+@media(max-height:1100px){
+  .gate-wrap{width:min(100%,680px)}
+  .gate-card{height:min(800px,calc(100dvh - 32px));min-height:620px;padding:0 72px;border-radius:34px}
+  .gate-content{padding-top:clamp(88px,14dvh,142px)}
+  .gate-welcome{font-size:38px;line-height:45px}
+  .gate-master{font-size:67px;line-height:66px;margin-bottom:20px;gap:14px}
+  .gate-crown{width:56px;height:47px}
+  .gate-sub{font-size:21px;line-height:28px;margin-bottom:48px}
+  .gate-lbl{font-size:16px;line-height:20px;margin-bottom:11px}
+  .gate-input-wrap{height:72px;margin-bottom:24px}
+  .gate-input-icon{left:24px}.gate-input-icon svg{width:25px;height:29px}
+  .gate-eye{right:18px}.gate-eye svg{width:30px;height:30px}
+  .gate-inp{font-size:20px;padding-left:68px;padding-right:65px;border-radius:17px}
+  .gate-btn{height:72px;font-size:23px;border-radius:17px;gap:28px}
+  .gate-btn-arrow{width:30px;height:30px}
+  .gate-divider{margin:35px -72px 0}
+  .gate-security{margin-top:30px}
+  .gate-shield{width:45px;height:45px}.gate-shield svg{width:40px;height:45px}
+  .gate-sec-title{font-size:19px;line-height:24px}
+  .gate-sec-sub{font-size:16px;line-height:22px;margin-top:5px}
+  .gate-err{top:auto;bottom:132px;left:72px;right:72px;font-size:12px}
+}
+@media(max-width:1024px){
+  .sidebar{width:224px;padding-left:7px;padding-right:7px}
+  .main{margin-left:224px}
+  .sb-logo{padding-left:10px}.sb-logo-text{font-size:18px}
+  .panels{padding:28px 24px 42px}
+  .topbar{padding-left:24px;padding-right:24px}
+  .tb-search{max-width:220px}
+  .tb-copy{padding:0 11px}
+  .tb-save{padding:0 13px}
+  .tb-user{max-width:150px}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .g63{grid-template-columns:1fr}
+  .donut-wrap{justify-content:center}
+}
+@media(max-width:768px){
+  .sidebar{display:none}
+  .main{margin-left:0;padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+  .mobile-nav{display:flex}
+  .mobile-nav{height:calc(72px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom)}
+  .panels{padding:24px 18px 34px}
+  .topbar{height:64px;padding:0 14px;gap:8px}
+  .mobile-brand{display:flex}
+  .tb-search,.tb-uname,.tb-uemail,.tb-copy,.tb-div,.tb-caret{display:none}
+  .tb-right{margin-left:auto;gap:7px}
+  .tb-icon{width:38px;height:38px}
+  .tb-save{width:40px;min-height:38px;padding:0;justify-content:center}
+  .tb-save span{display:none}
+  .tb-user{padding:0;border:0}
+  .tb-avatar{width:38px;height:38px}
+  .stats-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-bottom:14px}
+  .sc{min-height:128px;padding:17px}
+  .sc-value{font-size:34px;margin-top:10px}
+  .sc-watermark svg{width:48px;height:48px}
+  .dash-header{align-items:flex-start;margin-bottom:21px}
+  .dash-title,.page-title{font-size:26px}
+  .dash-sub,.page-sub{font-size:11.5px}
+  .last-updated{padding:7px 9px;font-size:10px}
+  .last-updated span:last-child{font-size:10px}
+  .g2,.g63{grid-template-columns:1fr}
+  .fgrid.c2,.fgrid.c3{grid-template-columns:1fr}
+  .g2,.g63{gap:13px;margin-bottom:13px}
+  .card{border-radius:15px}
+  .card-hd{min-height:55px;padding:13px 15px}
+  .card-bd{padding:16px}
+  .chart-wrap{padding:15px 10px 14px}
+  .chart-filters{gap:5px}
+  .chart-filter:last-child{display:none}
+  .donut-wrap{min-height:190px;padding:20px 17px}
+  .page-header{margin-bottom:20px}
+  .add-actions{flex-wrap:wrap}
+  .token-row{flex-wrap:wrap}
+  .token-row input{flex-basis:100%}
+  .token-row .btn{flex:1}
+  .lookup-row{align-items:stretch}
+  .sort-item{padding:9px 10px}
+  .sort-meta{gap:5px;flex-wrap:wrap}
+  .url-cell{max-width:270px}
+  #toast{bottom:calc(82px + env(safe-area-inset-bottom));max-width:calc(100vw - 28px)}
+}
+@media(max-width:600px){
+  .gate-wrap{width:100%;padding:12px;transform:none}
+  .gate-card{height:min(680px,calc(100dvh - 24px));min-height:0;padding:0 clamp(24px,8vw,42px);border-radius:28px}
+  .gate-content{padding-top:clamp(66px,12dvh,100px)}
+  .gate-welcome{font-size:32px;line-height:39px;margin-bottom:2px}
+  .gate-master{font-size:54px;line-height:55px;letter-spacing:-2.6px;margin-bottom:17px;gap:10px}
+  .gate-crown{width:46px;height:39px}
+  .gate-sub{font-size:16px;line-height:22px;margin-bottom:40px}
+  .gate-lbl{font-size:13px;line-height:17px;margin-bottom:9px}
+  .gate-input-wrap{height:62px;margin-bottom:20px}
+  .gate-input-icon{left:19px}.gate-input-icon svg{width:22px;height:25px}
+  .gate-eye{right:13px}.gate-eye svg{width:27px;height:27px}
+  .gate-inp{font-size:17px;padding-left:56px;padding-right:55px;border-radius:15px}
+  .gate-btn{height:62px;font-size:20px;border-radius:15px;gap:22px}
+  .gate-btn-arrow{width:26px;height:26px}
+  .gate-divider{margin:30px calc(clamp(24px,8vw,42px) * -1) 0}
+  .gate-security{margin-top:26px;gap:12px}
+  .gate-shield{width:39px;height:42px}.gate-shield svg{width:36px;height:42px}
+  .gate-sec-title{font-size:16px;line-height:21px}
+  .gate-sec-sub{font-size:13px;line-height:18px;margin-top:4px}
+  .gate-err{top:auto;bottom:112px;left:24px;right:24px;font-size:11px}
+}
+@media(max-width:480px){
+  .panels{padding:21px 13px 30px}
+  .topbar{padding:0 11px}
+  .mobile-brand{font-size:16px}
+  .mobile-brand svg{width:25px;height:21px}
+  .tb-right{gap:5px}
+  .tb-icon,.tb-avatar,.tb-save{width:36px;height:36px;min-height:36px}
+  .stats-row{gap:9px}
+  .sc{min-height:119px;padding:14px}
+  .sc-label{font-size:8.5px;letter-spacing:.7px}
+  .sc-value{font-size:31px}
+  .sc-footer{font-size:9px;margin-top:12px;gap:5px}
+  .sc-dot{width:15px;height:15px}
+  .sc-watermark{right:10px}.sc-watermark svg{width:42px;height:42px}
+  .dash-header{gap:8px}
+  .dash-title,.page-title{font-size:24px}
+  .dash-title::before,.page-title::before{font-size:8px;letter-spacing:1.7px;margin-bottom:7px}
+  .dash-sub{max-width:245px}
+  .card-hd{align-items:center;flex-wrap:wrap}
+  .card-title{font-size:11.5px}
+  .card-bd{padding:14px}
+  .donut-wrap{gap:14px;justify-content:flex-start}
+  .donut-svg-wrap{transform:scale(.88);margin:-8px}
+  .donut-legend{gap:10px}
+  .legend-item{align-items:flex-start;flex-direction:column;gap:3px}
+  .btn-sm{padding:7px 10px}
+  .add-form,.token-box{padding:14px}
+  .sort-poster,.sort-poster-ph{width:32px;height:47px}
+  .sort-num{width:16px}
+  .sort-actions .btn{width:30px}
+  .mn-label{font-size:8px}
+  .mn-item svg{width:18px;height:18px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ GATE ═══════════════ -->
+<div id="gate">
+  <canvas id="gate-canvas"></canvas>
+  <div class="gate-wrap">
+    <div class="gate-card">
+      <div class="gate-content">
+        <p class="gate-welcome">Welcome</p>
+        <h1 class="gate-master">
+          <span>Master</span>
+          <svg class="gate-crown" viewBox="0 0 68 54" aria-hidden="true">
+            <path d="M8 42h52M11 47h46M13 36 8 14l16 13L34 8l10 19 16-13-5 22H13Z" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="8" cy="10" r="4" fill="#f62d40" stroke="none"/>
+            <circle cx="34" cy="5" r="4" fill="#f62d40" stroke="none"/>
+            <circle cx="60" cy="10" r="4" fill="#f62d40" stroke="none"/>
+          </svg>
+        </h1>
+        <p class="gate-sub">Admin access — Sign in to continue</p>
+
+        <label class="gate-lbl" for="pw-input">Password</label>
+        <div class="gate-input-wrap">
+          <span class="gate-input-icon">
+            <svg viewBox="0 0 24 28"><rect x="3" y="11" width="18" height="15" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><path d="M12 17v4"/></svg>
+          </span>
+          <input class="gate-inp" id="pw-input" type="password" placeholder="Enter password" autocomplete="current-password">
+          <button class="gate-eye" id="gate-eye-btn" onclick="toggleGateEye()" tabindex="-1" type="button" aria-label="Show password">
+            <svg id="gate-eye-icon" viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z"/><circle cx="12" cy="12" r="3.2"/></svg>
+          </button>
+        </div>
+
+        <button class="gate-btn" onclick="checkPassword()">
+          <span>Sign In</span>
+          <svg class="gate-btn-arrow" viewBox="0 0 36 36" aria-hidden="true"><path d="M5 18h25M21 9l9 9-9 9"/></svg>
+        </button>
+        <p class="gate-err" id="gate-err"></p>
+      </div>
+
+      <hr class="gate-divider">
+
+      <div class="gate-security">
+        <div class="gate-shield">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <div>
+          <div class="gate-sec-title">Secure Admin Access</div>
+          <div class="gate-sec-sub">Your access is protected and encrypted</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ APP ═══════════════ -->
+<div id="app">
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <a class="sb-logo" href="#">
+    <div class="sb-logo-icon">
+      <svg viewBox="0 0 68 54" aria-hidden="true">
+        <path d="M8 42h52M11 47h46M13 36 8 14l16 13L34 8l10 19 16-13-5 22H13Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="8" cy="10" r="4"/><circle cx="34" cy="5" r="4"/><circle cx="60" cy="10" r="4"/>
+      </svg>
+    </div>
+    <span class="sb-logo-text">Master<small>Popcima Admin</small></span>
+  </a>
+
+  <div class="sb-section">
+    <span class="sb-lbl">Menu</span>
+    <nav class="sb-nav">
+      <button class="sb-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        Dashboard
+      </button>
+      <button class="sb-item" data-tab="videos" onclick="switchTab('videos')">
+        <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        Videos
+        <span class="sb-badge" id="videos-count">0</span>
+      </button>
+      <button class="sb-item" data-tab="trending" onclick="switchTab('trending')">
+        <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        Trending
+        <span class="sb-badge" id="trending-count">0</span>
+      </button>
+      <button class="sb-item" data-tab="top10" onclick="switchTab('top10')">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Top 10
+        <span class="sb-badge" id="top10-count">0</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="sb-section">
+    <span class="sb-lbl">General</span>
+    <nav class="sb-nav">
+      <button class="sb-item" data-tab="settings" onclick="switchTab('settings')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
+        Settings
+      </button>
+      <button class="sb-item" data-tab="preview" onclick="switchTab('preview')">
+        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        JSON Preview
+      </button>
+      <button class="sb-item" onclick="logout()">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Logout
+      </button>
+    </nav>
+  </div>
+
+  <div class="sb-spacer"></div>
+
+  <div class="sb-promo">
+    <div class="sb-promo-title">Save changes<br>directly to GitHub</div>
+    <p class="sb-promo-sub">Add your GitHub token in Settings to enable one-click saves.</p>
+    <button class="sb-promo-btn" onclick="switchTab('settings')">
+      Open Settings
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="mobile-brand">
+      <svg viewBox="0 0 68 54" aria-hidden="true"><path d="M8 42h52M11 47h46M13 36 8 14l16 13L34 8l10 19 16-13-5 22H13Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="10" r="4"/><circle cx="34" cy="5" r="4"/><circle cx="60" cy="10" r="4"/></svg>
+      <span>Master</span>
+    </div>
+    <div class="tb-search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search…" readonly onclick="switchTab('videos')">
+      <span class="tb-kbd">⌘K</span>
+    </div>
+    <div class="tb-right">
+      <button class="tb-icon" onclick="loadConfig()" title="Reload from GitHub">
+        <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      </button>
+      <button class="tb-copy" onclick="copyJSON()">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy JSON
+      </button>
+      <button class="tb-save" id="github-save-btn" onclick="saveToGitHub()">
+        <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        <span id="save-btn-label">Save to GitHub</span>
+      </button>
+      <div class="tb-div"></div>
+      <div class="tb-user" onclick="switchTab('settings')">
+        <div class="tb-avatar">P</div>
+        <div>
+          <div class="tb-uname">Popcima Admin</div>
+          <div class="tb-uemail">peack149@gmail.com</div>
+        </div>
+        <span class="tb-caret"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- PANELS -->
+  <div class="panels">
+
+    <!-- ── DASHBOARD ── -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="dash-header">
+        <div>
+          <h1 class="dash-title">Dashboard</h1>
+          <p class="dash-sub">Manage your config.json — videos, trending, and top 10.</p>
+        </div>
+        <div class="last-updated">
+          <span class="last-updated-dot"></span>
+          <span>Last updated: <span id="last-updated-time">—</span></span>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="sc sc-red">
+          <div class="sc-label">Total Videos</div>
+          <div class="sc-value" id="stat-total">0</div>
+          <div class="sc-footer">
+            <span class="sc-dot"><svg viewBox="0 0 12 12"><polyline points="2 9 5 6 7 8 10 4"/></svg></span>
+            Movies + TV shows
+          </div>
+          <div class="sc-watermark"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div>
+        </div>
+        <div class="sc sc-dark">
+          <div class="sc-label">Movie Videos</div>
+          <div class="sc-value" id="stat-movies">0</div>
+          <div class="sc-footer">
+            <span class="sc-dot"><svg viewBox="0 0 12 12"><polyline points="2 9 5 6 7 8 10 4"/></svg></span>
+            Linked movies
+          </div>
+          <div class="sc-watermark"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M17 2v20M2 12h20M2 7h5M17 7h5M2 17h5M17 17h5"/></svg></div>
+        </div>
+        <div class="sc sc-dark">
+          <div class="sc-label">Trending Items</div>
+          <div class="sc-value" id="stat-trending">0</div>
+          <div class="sc-footer">
+            <span class="sc-dot"><svg viewBox="0 0 12 12"><polyline points="2 9 5 6 7 8 10 4"/></svg></span>
+            On homepage
+          </div>
+          <div class="sc-watermark"><svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
+        </div>
+        <div class="sc sc-dark">
+          <div class="sc-label">Top 10 Items</div>
+          <div class="sc-value" id="stat-top10">0</div>
+          <div class="sc-footer">
+            <span class="sc-dot"><svg viewBox="0 0 12 12"><polyline points="2 9 5 6 7 8 10 4"/></svg></span>
+            Max 10 allowed
+          </div>
+          <div class="sc-watermark"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        </div>
+      </div>
+
+      <!-- OVERVIEW CHART + DONUT -->
+      <div class="g63">
+        <div class="card">
+          <div class="card-hd">
+            <span class="card-title">Overview</span>
+            <div class="chart-filters">
+              <div class="chart-filter">Last 7 days <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+              <div class="chart-filter">All Content <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="overview-chart"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><span class="card-title">Content Breakdown</span></div>
+          <div class="donut-wrap">
+            <div class="donut-svg-wrap">
+              <svg id="donut-svg" width="130" height="130" viewBox="0 0 130 130"></svg>
+              <div class="donut-center">
+                <div class="donut-center-val" id="donut-total">0</div>
+                <div class="donut-center-lbl">Total</div>
+              </div>
+            </div>
+            <div class="donut-legend">
+              <div class="legend-item">
+                <div class="legend-left">
+                  <div class="legend-dot" style="background:var(--acc)"></div>
+                  <span class="legend-name">Movies</span>
+                </div>
+                <span class="legend-val" id="legend-movies">0 (0%)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-left">
+                  <div class="legend-dot" style="background:#374151"></div>
+                  <span class="legend-name">TV Shows</span>
+                </div>
+                <span class="legend-val" id="legend-tv">0 (0%)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK SETTINGS + GITHUB STATUS -->
+      <div class="g2">
+        <div class="card">
+          <div class="card-hd"><span class="card-title">Quick Settings</span></div>
+          <div class="card-bd">
+            <div class="field">
+              <label>Locker Delay (seconds)</label>
+              <div class="stepper-row">
+                <div class="stepper">
+                  <button class="stepper-btn" onclick="stepDelay(-1)">−</button>
+                  <input class="stepper-val" type="number" id="locker-delay" value="5" min="0" max="60" oninput="markDirty()">
+                  <button class="stepper-btn" onclick="stepDelay(1)">+</button>
+                </div>
+                <div class="stepper-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              </div>
+              <p class="field-note">How many seconds before the content locker unlocks.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><span class="card-title">GitHub Status</span></div>
+          <div class="card-bd">
+            <div id="gh-status-card">
+              <p class="gh-status-none">No GitHub token configured. Go to <strong style="color:var(--acc-h);cursor:pointer" onclick="switchTab('settings')">Settings</strong> to enable one-click saves to your live site.</p>
+            </div>
+            <div class="gh-status-footer">
+              <div class="gh-sync">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Last sync: <span id="gh-last-sync">Never</span>
+              </div>
+              <button class="btn-reconnect" onclick="loadConfig()">Reconnect</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── VIDEOS ── -->
+    <div class="panel" id="panel-videos">
+      <div class="page-header">
+        <h1 class="page-title">Videos</h1>
+        <p class="page-sub">Manage video URLs linked to TMDB IDs.</p>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-hd">
+          <span class="card-title">Movie Videos</span>
+          <button class="btn btn-red btn-sm" onclick="showAddVideoForm('movie')">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Movie
+          </button>
+        </div>
+        <div class="card-bd-flush">
+          <table class="vtable"><thead><tr><th>TMDB ID</th><th>Title</th><th>Type</th><th>Video URL</th><th style="width:80px">Actions</th></tr></thead>
+          <tbody id="movie-tbody"></tbody></table>
+          <div id="movie-empty" class="empty" style="display:none"><div class="empty-icon">🎬</div><div class="empty-text">No movie videos yet.</div></div>
+        </div>
+        <div id="add-video-movie-form" style="display:none;padding:16px;border-top:1px dashed rgba(220,38,38,.25);background:rgba(220,38,38,.03)">
+          <div class="add-form-title"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Movie Video</div>
+          <div class="fgrid c2">
+            <div class="field">
+              <label>TMDB Movie ID</label>
+              <div class="lookup-row"><input type="number" id="add-movie-id" placeholder="e.g. 27205" oninput="clearLookup('add-movie')"><button class="btn btn-outline btn-sm" onclick="lookupTitle('movie','add-movie')">Lookup</button></div>
+              <div class="lookup-result" id="add-movie-lookup"></div>
+            </div>
+            <div class="field"><label>Video URL</label><input type="url" id="add-movie-url" placeholder="https://…/video.mp4"></div>
+          </div>
+          <div class="add-actions"><button class="btn btn-ghost btn-sm" onclick="hideAddVideoForm('movie')">Cancel</button><button class="btn btn-red btn-sm" onclick="addVideo('movie')">Add Movie</button></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hd">
+          <span class="card-title">TV Show Videos</span>
+          <button class="btn btn-red btn-sm" onclick="showAddVideoForm('tv')">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add TV Show
+          </button>
+        </div>
+        <div class="card-bd-flush">
+          <table class="vtable"><thead><tr><th>TMDB ID</th><th>Title</th><th>Type</th><th>Video URL</th><th style="width:80px">Actions</th></tr></thead>
+          <tbody id="tv-tbody"></tbody></table>
+          <div id="tv-empty" class="empty" style="display:none"><div class="empty-icon">📺</div><div class="empty-text">No TV show videos yet.</div></div>
+        </div>
+        <div id="add-video-tv-form" style="display:none;padding:16px;border-top:1px dashed rgba(220,38,38,.25);background:rgba(220,38,38,.03)">
+          <div class="add-form-title"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add TV Show Video</div>
+          <div class="fgrid c2">
+            <div class="field">
+              <label>TMDB TV ID</label>
+              <div class="lookup-row"><input type="number" id="add-tv-id" placeholder="e.g. 1396" oninput="clearLookup('add-tv')"><button class="btn btn-outline btn-sm" onclick="lookupTitle('tv','add-tv')">Lookup</button></div>
+              <div class="lookup-result" id="add-tv-lookup"></div>
+            </div>
+            <div class="field"><label>Video URL</label><input type="url" id="add-tv-url" placeholder="https://…/stream.m3u8"></div>
+          </div>
+          <div class="add-actions"><button class="btn btn-ghost btn-sm" onclick="hideAddVideoForm('tv')">Cancel</button><button class="btn btn-red btn-sm" onclick="addVideo('tv')">Add TV Show</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TRENDING ── -->
+    <div class="panel" id="panel-trending">
+      <div class="page-header"><h1 class="page-title">Trending</h1><p class="page-sub">Drag to reorder. Reflects on the homepage hero section.</p></div>
+      <div class="card">
+        <div class="card-hd">
+          <span class="card-title">Trending List</span>
+          <button class="btn btn-red btn-sm" onclick="showAddItemForm('trending')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Item</button>
+        </div>
+        <div class="card-bd">
+          <div class="sort-list" id="trending-list"></div>
+          <div id="trending-empty" class="empty" style="display:none"><div class="empty-icon">📈</div><div class="empty-text">No trending items.</div></div>
+          <div class="add-form" id="add-item-trending-form" style="display:none">
+            <div class="add-form-title"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Trending Item</div>
+            <div class="fgrid c3">
+              <div class="field"><label>Type</label><select id="add-trending-type" onchange="clearLookup('add-trending')"><option value="movie">Movie</option><option value="tv">TV Show</option></select></div>
+              <div class="field"><label>TMDB ID</label><div class="lookup-row"><input type="number" id="add-trending-id" placeholder="e.g. 550" oninput="clearLookup('add-trending')"><button class="btn btn-outline btn-sm" onclick="lookupTitle(document.getElementById('add-trending-type').value,'add-trending')">Lookup</button></div></div>
+              <div class="field" style="display:flex;align-items:flex-end"><div class="lookup-result" id="add-trending-lookup" style="flex:1"></div></div>
+            </div>
+            <div class="add-actions"><button class="btn btn-ghost btn-sm" onclick="hideAddItemForm('trending')">Cancel</button><button class="btn btn-red btn-sm" onclick="addListItem('trending')">Add to Trending</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TOP 10 ── -->
+    <div class="panel" id="panel-top10">
+      <div class="page-header"><h1 class="page-title">Top 10</h1><p class="page-sub">Max 10 items. Drag to reorder rankings.</p></div>
+      <div class="card">
+        <div class="card-hd">
+          <span class="card-title">Top 10 List</span>
+          <button class="btn btn-red btn-sm" onclick="showAddItemForm('top10')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Item</button>
+        </div>
+        <div class="card-bd">
+          <div class="sort-list" id="top10-list"></div>
+          <div id="top10-empty" class="empty" style="display:none"><div class="empty-icon">🏆</div><div class="empty-text">No top 10 items.</div></div>
+          <div class="add-form" id="add-item-top10-form" style="display:none">
+            <div class="add-form-title"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Top 10 Item</div>
+            <div class="fgrid c3">
+              <div class="field"><label>Type</label><select id="add-top10-type" onchange="clearLookup('add-top10')"><option value="movie">Movie</option><option value="tv">TV Show</option></select></div>
+              <div class="field"><label>TMDB ID</label><div class="lookup-row"><input type="number" id="add-top10-id" placeholder="e.g. 238" oninput="clearLookup('add-top10')"><button class="btn btn-outline btn-sm" onclick="lookupTitle(document.getElementById('add-top10-type').value,'add-top10')">Lookup</button></div></div>
+              <div class="field" style="display:flex;align-items:flex-end"><div class="lookup-result" id="add-top10-lookup" style="flex:1"></div></div>
+            </div>
+            <div class="add-actions"><button class="btn btn-ghost btn-sm" onclick="hideAddItemForm('top10')">Cancel</button><button class="btn btn-red btn-sm" onclick="addListItem('top10')">Add to Top 10</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SETTINGS ── -->
+    <div class="panel" id="panel-settings">
+      <div class="page-header"><h1 class="page-title">Settings</h1><p class="page-sub">Configure GitHub integration for live saves.</p></div>
+      <div class="card">
+        <div class="card-hd">
+          <span class="card-title">GitHub Integration</span>
+          <a href="https://github.com/settings/tokens/new?description=Popcima+Admin&scopes=repo" target="_blank" rel="noopener" class="btn btn-outline btn-sm" style="text-decoration:none">Create Token →</a>
+        </div>
+        <div class="card-bd">
+          <div class="token-box">
+            <div class="token-hd">
+              <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              <span class="token-hd-title">Personal Access Token</span>
+            </div>
+            <p class="token-sub">Needs <strong style="color:var(--text)">Contents: Read &amp; Write</strong>. Stored in localStorage only — never sent anywhere except GitHub's API.</p>
+            <div class="field">
+              <label>GitHub Token</label>
+              <div class="token-row">
+                <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" oninput="saveTokenToStorage()">
+                <button class="btn btn-outline btn-sm" onclick="toggleTokenVisibility()" id="token-eye-btn" style="flex-shrink:0;white-space:nowrap">Show</button>
+                <button class="btn btn-red btn-sm" onclick="loadConfig()" style="flex-shrink:0;white-space:nowrap">Reload</button>
+              </div>
+              <div id="token-status" style="font-size:11px;margin-top:5px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── JSON PREVIEW ── -->
+    <div class="panel" id="panel-preview">
+      <div class="page-header"><h1 class="page-title">JSON Preview</h1><p class="page-sub">Live view of your current config.json.</p></div>
+      <div class="card">
+        <div class="card-hd"><span class="card-title">config.json</span><button class="btn btn-outline btn-sm" onclick="refreshPreview()">Refresh</button></div>
+        <div class="card-bd"><pre class="json-pre" id="json-preview-content"></pre></div>
+      </div>
+    </div>
+
+  </div><!-- /panels -->
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav" id="mobile-nav">
+  <button class="mn-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    <span class="mn-label">Dashboard</span>
+  </button>
+  <button class="mn-item" data-tab="videos" onclick="switchTab('videos')">
+    <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+    <span class="mn-label">Videos</span>
+    <span class="mn-badge" id="mn-videos-count">0</span>
+  </button>
+  <button class="mn-item" data-tab="trending" onclick="switchTab('trending')">
+    <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+    <span class="mn-label">Trending</span>
+    <span class="mn-badge" id="mn-trending-count">0</span>
+  </button>
+  <button class="mn-item" data-tab="top10" onclick="switchTab('top10')">
+    <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    <span class="mn-label">Top 10</span>
+    <span class="mn-badge" id="mn-top10-count">0</span>
+  </button>
+  <button class="mn-item" data-tab="settings" onclick="switchTab('settings')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
+    <span class="mn-label">Settings</span>
+  </button>
+</nav>
+
+</div><!-- /app -->
+
+<div id="toast"><span class="toast-dot"></span><span id="toast-msg"></span></div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────
+const PASSWORD  = 'admin123';
+const TMDB_KEY  = '893e1103dea135f74d571b3ae1794603';
+const TMDB_API  = 'https://api.themoviedb.org/3';
+const TMDB_IMG  = 'https://image.tmdb.org/t/p/w92';
+const GH_REPO   = 'popcima/cdfcrf';
+const GH_FILE   = 'config.json';
+const GH_BRANCH = 'main';
+
+// ── STATE ────────────────────────────────────────────────────────────
+let cfg = { lockerDelay: 5, videos: { movie: {}, tv: {} }, trending: [], top10: [] };
+let tmdbCache = {};
+let dirty = false;
+let currentFileSHA = '';
+
+// ── AUTH ──────────────────────────────────────────────────────────────
+function checkPassword() {
+  const val = document.getElementById('pw-input').value;
+  if (val === PASSWORD) {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    loadTokenFromStorage();
+    loadConfig();
+  } else {
+    document.getElementById('gate-err').textContent = 'Incorrect password. Try again.';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
+
+function logout() {
+  document.getElementById('gate').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('pw-input').value = '';
+  document.getElementById('gate-err').textContent = '';
+}
+
+// ── TOKEN STORAGE ────────────────────────────────────────────────────
+function loadTokenFromStorage() {
+  const saved = localStorage.getItem('popcima_gh_token');
+  if (saved) {
+    document.getElementById('gh-token').value = saved;
+    updateTokenStatus('Token loaded.', 'ok');
+    renderGHStatus(true);
+  }
+}
+function saveTokenToStorage() {
+  const val = document.getElementById('gh-token').value.trim();
+  if (val) { localStorage.setItem('popcima_gh_token', val); updateTokenStatus('Token saved.','ok'); renderGHStatus(true); }
+  else { localStorage.removeItem('popcima_gh_token'); updateTokenStatus('',''); renderGHStatus(false); }
+}
+function updateTokenStatus(msg, type) {
+  const el = document.getElementById('token-status');
+  if (!msg) { el.textContent = ''; return; }
+  el.style.color = type === 'ok' ? '#f87171' : '#f87171';
+  el.textContent = msg;
+}
+function toggleTokenVisibility() {
+  const inp = document.getElementById('gh-token');
+  const btn = document.getElementById('token-eye-btn');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  btn.textContent = inp.type === 'password' ? 'Show' : 'Hide';
+}
+function renderGHStatus(hasToken) {
+  const el = document.getElementById('gh-status-card');
+  if (!el) return;
+  if (hasToken) {
+    el.innerHTML = `<div class="gh-status-ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><div><div class="gh-status-ok-title">GitHub token configured</div><div class="gh-status-ok-sub">Click "Save to GitHub" to push changes live.</div></div></div>`;
+  } else {
+    el.innerHTML = `<p class="gh-status-none">No GitHub token. Go to <strong style="color:var(--acc-h);cursor:pointer" onclick="switchTab('settings')">Settings</strong> to add your token.</p>`;
+  }
+}
+
+// ── LOAD CONFIG ──────────────────────────────────────────────────────
+async function loadConfig() {
+  const token = document.getElementById('gh-token').value.trim();
+  if (token) {
+    try {
+      const r = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`,
+        { headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github.v3+json' } });
+      if (r.ok) {
+        const data = await r.json();
+        currentFileSHA = data.sha;
+        cfg = JSON.parse(atob(data.content.replace(/\n/g,'')));
+        normCfg(); renderAll();
+        setLastUpdated(); setGHSync();
+        toast('Config loaded from GitHub','success'); return;
+      }
+    } catch(e) {}
+  }
+  try {
+    const r = await fetch('./' + GH_FILE + '?_=' + Date.now());
+    if (!r.ok) throw new Error();
+    cfg = await r.json();
+    normCfg(); renderAll();
+    setLastUpdated();
+    toast('Config loaded (add GitHub token to enable saving)','success');
+  } catch(e) {
+    toast('Could not load config.json — starting from blank','error');
+    normCfg(); renderAll();
+  }
+}
+
+function normCfg() {
+  if (!cfg.videos) cfg.videos = {};
+  if (!cfg.videos.movie) cfg.videos.movie = {};
+  if (!cfg.videos.tv) cfg.videos.tv = {};
+  if (!cfg.trending) cfg.trending = [];
+  if (!cfg.top10) cfg.top10 = [];
+}
+
+function renderAll() {
+  document.getElementById('locker-delay').value = cfg.lockerDelay ?? 5;
+  renderVideoTable('movie');
+  renderVideoTable('tv');
+  renderSortList('trending');
+  renderSortList('top10');
+  updateCounts();
+  renderCharts();
+}
+
+function setLastUpdated() {
+  const el = document.getElementById('last-updated-time');
+  if (el) el.textContent = 'Just now';
+}
+function setGHSync() {
+  const el = document.getElementById('gh-last-sync');
+  if (el) el.textContent = 'Just now';
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+  if (name === 'preview') refreshPreview();
+}
+
+// ── COUNTS ───────────────────────────────────────────────────────────
+function updateCounts() {
+  const mv = Object.keys(cfg.videos.movie || {}).length;
+  const tv = Object.keys(cfg.videos.tv || {}).length;
+  const total = mv + tv;
+  ['videos-count','mn-videos-count'].forEach(id => { const e = document.getElementById(id); if(e) e.textContent = total; });
+  ['trending-count','mn-trending-count'].forEach(id => { const e = document.getElementById(id); if(e) e.textContent = cfg.trending.length; });
+  ['top10-count','mn-top10-count'].forEach(id => { const e = document.getElementById(id); if(e) e.textContent = cfg.top10.length; });
+  setEl('stat-total', total);
+  setEl('stat-movies', mv);
+  setEl('stat-trending', cfg.trending.length);
+  setEl('stat-top10', cfg.top10.length);
+}
+function setEl(id, val) { const e = document.getElementById(id); if(e) e.textContent = val; }
+
+function markDirty() {
+  dirty = true;
+  cfg.lockerDelay = parseInt(document.getElementById('locker-delay').value) || 0;
+  updateCounts();
+}
+
+function stepDelay(delta) {
+  const inp = document.getElementById('locker-delay');
+  const val = Math.max(0, Math.min(60, (parseInt(inp.value) || 0) + delta));
+  inp.value = val;
+  markDirty();
+}
+
+// ── CHARTS ───────────────────────────────────────────────────────────
+function renderCharts() {
+  renderOverviewChart();
+  renderDonutChart();
+}
+
+function renderOverviewChart() {
+  const canvas = document.getElementById('overview-chart');
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.parentElement.clientWidth || 500;
+  const H = 160;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const padL = 36, padR = 16, padT = 10, padB = 36;
+  const cW = W - padL - padR;
+  const cH = H - padT - padB;
+
+  // decorative data
+  const data = [3, 5, 5, 6, 15, 8, 9, 14];
+  const labels = ['May 7','May 8','May 9','May 10','May 11','May 12','May 13'];
+  const maxVal = 20;
+  const pts = data.slice(0, labels.length).map((v, i) => ({
+    x: padL + (i / (labels.length - 1)) * cW,
+    y: padT + (1 - v / maxVal) * cH
+  }));
+
+  // grid lines
+  ctx.strokeStyle = 'rgba(255,255,255,.05)';
+  ctx.lineWidth = 1;
+  [0, 5, 10, 15, 20].forEach(v => {
+    const y = padT + (1 - v / maxVal) * cH;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(padL + cW, y); ctx.stroke();
+    ctx.fillStyle = 'rgba(123,132,148,.6)';
+    ctx.font = '10px Inter,sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(v, padL - 6, y + 3.5);
+  });
+
+  // gradient fill
+  const grad = ctx.createLinearGradient(0, padT, 0, padT + cH);
+  grad.addColorStop(0, 'rgba(220,38,38,.35)');
+  grad.addColorStop(1, 'rgba(220,38,38,.01)');
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, padT + cH);
+  ctx.lineTo(pts[0].x, pts[0].y);
+  for (let i = 1; i < pts.length; i++) {
+    const cp1x = (pts[i-1].x + pts[i].x) / 2;
+    ctx.bezierCurveTo(cp1x, pts[i-1].y, cp1x, pts[i].y, pts[i].x, pts[i].y);
+  }
+  ctx.lineTo(pts[pts.length-1].x, padT + cH);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // line
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, pts[0].y);
+  for (let i = 1; i < pts.length; i++) {
+    const cp1x = (pts[i-1].x + pts[i].x) / 2;
+    ctx.bezierCurveTo(cp1x, pts[i-1].y, cp1x, pts[i].y, pts[i].x, pts[i].y);
+  }
+  ctx.shadowColor = 'rgba(245,34,56,.32)';
+  ctx.shadowBlur = 10;
+  ctx.strokeStyle = '#F52238';
+  ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+
+  // dots
+  pts.forEach(p => {
+    ctx.beginPath(); ctx.arc(p.x, p.y, 3.5, 0, Math.PI*2);
+    ctx.fillStyle = '#F52238'; ctx.fill();
+    ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2);
+    ctx.fillStyle = '#0D0F15'; ctx.fill();
+  });
+
+  // x labels
+  ctx.fillStyle = 'rgba(123,132,148,.8)';
+  ctx.font = '10px Inter,sans-serif';
+  ctx.textAlign = 'center';
+  labels.forEach((l, i) => {
+    ctx.fillText(l, pts[i].x, H - 8);
+  });
+}
+
+function renderDonutChart() {
+  const svg = document.getElementById('donut-svg');
+  const totalEl = document.getElementById('donut-total');
+  const legendMovies = document.getElementById('legend-movies');
+  const legendTV = document.getElementById('legend-tv');
+  if (!svg) return;
+
+  const mv = Object.keys(cfg.videos.movie || {}).length;
+  const tv = Object.keys(cfg.videos.tv || {}).length;
+  const total = mv + tv;
+
+  if (totalEl) totalEl.textContent = total;
+
+  const cx = 65, cy = 65, r = 48, sw = 14;
+  const circumference = 2 * Math.PI * r;
+
+  if (total === 0) {
+    svg.innerHTML = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="${sw}"/>`;
+    if (legendMovies) legendMovies.textContent = '0 (0%)';
+    if (legendTV) legendTV.textContent = '0 (0%)';
+    return;
+  }
+
+  const mvPct = mv / total;
+  const tvPct = tv / total;
+  const mvDash = mvPct * circumference;
+  const tvDash = tvPct * circumference;
+
+  // start from top (-90deg = -PI/2 rotation)
+  svg.innerHTML = `
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="${sw}"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#374151" stroke-width="${sw}"
+      stroke-dasharray="${circumference}" stroke-dashoffset="0"
+      transform="rotate(-90 ${cx} ${cy})"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#F52238" stroke-width="${sw}"
+      stroke-dasharray="${mvDash} ${circumference - mvDash}" stroke-dashoffset="0"
+      stroke-linecap="round"
+      transform="rotate(-90 ${cx} ${cy})"/>`;
+
+  if (legendMovies) legendMovies.textContent = `${mv} (${Math.round(mvPct*100)}%)`;
+  if (legendTV) legendTV.textContent = `${tv} (${Math.round(tvPct*100)}%)`;
+}
+
+// ── TMDB LOOKUP ──────────────────────────────────────────────────────
+async function fetchTMDB(type, id) {
+  const key = type + ':' + id;
+  if (tmdbCache[key]) return tmdbCache[key];
+  try {
+    const r = await fetch(`${TMDB_API}/${type}/${id}?api_key=${TMDB_KEY}&language=en-US`);
+    if (!r.ok) return null;
+    const d = await r.json();
+    const info = { title: d.title||d.name||'Unknown', year:(d.release_date||d.first_air_date||'').slice(0,4), poster: d.poster_path ? TMDB_IMG+d.poster_path : null };
+    tmdbCache[key] = info; return info;
+  } catch { return null; }
+}
+
+async function lookupTitle(type, prefix) {
+  const idEl = document.getElementById(prefix+'-id');
+  const res = document.getElementById(prefix+'-lookup');
+  const id = parseInt(idEl.value);
+  if (!id) { toast('Enter a TMDB ID first','error'); return; }
+  res.innerHTML = '<span style="color:var(--muted);font-size:12px">Looking up…</span>';
+  res.classList.add('show');
+  const info = await fetchTMDB(type, id);
+  if (!info) { res.innerHTML = '<span style="color:#f87171;font-size:12px">Not found on TMDB</span>'; return; }
+  res.innerHTML = `${info.poster?`<img src="${info.poster}" alt="">`:''}
+    <div><div class="lookup-title">${esc(info.title)}</div><div class="lookup-year">${info.year||'—'}</div></div>`;
+}
+
+function clearLookup(prefix) {
+  const el = document.getElementById(prefix+'-lookup');
+  if (el) { el.classList.remove('show'); el.innerHTML = ''; }
+}
+
+// ── VIDEO TABLE ──────────────────────────────────────────────────────
+async function renderVideoTable(mt) {
+  const tbody = document.getElementById(mt+'-tbody');
+  const empty = document.getElementById(mt+'-empty');
+  const entries = Object.entries(cfg.videos[mt]||{});
+  if (!entries.length) { tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  tbody.innerHTML = entries.map(([id,url]) => `
+    <tr id="vrow-${mt}-${id}">
+      <td class="id-cell">${esc(id)}</td>
+      <td class="title-cell" id="vtitle-${mt}-${id}"><span style="color:var(--muted)">—</span></td>
+      <td><span class="badge badge-${mt}">${mt==='movie'?'Movie':'TV'}</span></td>
+      <td class="url-cell" title="${esc(url)}">${esc(url)}</td>
+      <td class="acts">
+        <button class="btn btn-ghost btn-xs btn-icon" onclick="editVideoURL('${mt}','${esc(id)}')" title="Edit">
+          <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="btn btn-danger btn-xs btn-icon" onclick="deleteVideo('${mt}','${esc(id)}')" title="Delete">
+          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        </button>
+      </td>
+    </tr>`).join('');
+  entries.forEach(([id]) => fetchTMDB(mt,''+id).then(info => {
+    const el = document.getElementById('vtitle-'+mt+'-'+id);
+    if (el && info) el.textContent = info.title;
+  }));
+}
+
+function editVideoURL(mt, id) {
+  const url = cfg.videos[mt][id];
+  const row = document.getElementById('vrow-'+mt+'-'+id);
+  if (!row) return;
+  row.cells[3].innerHTML = `<div class="iedit"><input type="url" id="eu-${mt}-${id}" value="${esc(url)}"><button class="btn btn-red btn-xs" onclick="saveVideoURL('${mt}','${id}')">Save</button><button class="btn btn-ghost btn-xs" onclick="renderVideoTable('${mt}')">✕</button></div>`;
+  document.getElementById('eu-'+mt+'-'+id).focus();
+}
+function saveVideoURL(mt, id) {
+  const v = document.getElementById('eu-'+mt+'-'+id).value.trim();
+  if (!v) { toast('URL cannot be empty','error'); return; }
+  cfg.videos[mt][id] = v; markDirty(); renderVideoTable(mt); toast('URL updated','success');
+}
+function deleteVideo(mt, id) {
+  if (!confirm(`Delete ${mt} ID ${id}?`)) return;
+  delete cfg.videos[mt][id]; markDirty(); renderVideoTable(mt); renderDonutChart(); toast('Deleted','success');
+}
+function showAddVideoForm(mt) { document.getElementById('add-video-'+mt+'-form').style.display='block'; document.getElementById('add-'+mt+'-id').focus(); }
+function hideAddVideoForm(mt) { document.getElementById('add-video-'+mt+'-form').style.display='none'; document.getElementById('add-'+mt+'-id').value=''; document.getElementById('add-'+mt+'-url').value=''; clearLookup('add-'+mt); }
+function addVideo(mt) {
+  const id = document.getElementById('add-'+mt+'-id').value.trim();
+  const url = document.getElementById('add-'+mt+'-url').value.trim();
+  if (!id) { toast('Enter a TMDB ID','error'); return; }
+  if (!url) { toast('Enter a video URL','error'); return; }
+  if (cfg.videos[mt][id] && !confirm('ID '+id+' exists. Overwrite?')) return;
+  cfg.videos[mt][id] = url; markDirty(); hideAddVideoForm(mt); renderVideoTable(mt); renderDonutChart(); toast('Video added','success');
+}
+
+// ── SORT LIST ────────────────────────────────────────────────────────
+async function renderSortList(listName) {
+  const list = document.getElementById(listName+'-list');
+  const empty = document.getElementById(listName+'-empty');
+  const items = cfg[listName];
+  if (!items.length) { list.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  list.innerHTML = items.map((item, i) => `
+    <div class="sort-item" id="si-${listName}-${i}" draggable="true"
+         ondragstart="dragStart(event,'${listName}',${i})"
+         ondragover="dragOver(event,'${listName}',${i})"
+         ondrop="dragDrop(event,'${listName}',${i})"
+         ondragend="dragEnd('${listName}')">
+      <span class="drag-handle"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span>
+      <span class="sort-num">${i+1}</span>
+      <div class="sort-poster-ph" id="poster-${listName}-${i}"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+      <div class="sort-info">
+        <div class="sort-title" id="stitle-${listName}-${i}">${item.id}</div>
+        <div class="sort-meta"><span class="badge badge-${item.type}" style="font-size:10px;padding:2px 6px">${item.type==='movie'?'Movie':'TV'}</span><span>ID: ${item.id}</span></div>
+      </div>
+      <div class="sort-actions"><button class="btn btn-danger btn-xs" onclick="removeListItem('${listName}',${i})">Remove</button></div>
+    </div>`).join('');
+  items.forEach((item, i) => fetchTMDB(item.type, item.id).then(info => {
+    if (!info) return;
+    const t = document.getElementById('stitle-'+listName+'-'+i);
+    const p = document.getElementById('poster-'+listName+'-'+i);
+    if (t) t.textContent = info.title;
+    if (p && info.poster) p.outerHTML = `<img class="sort-poster" id="poster-${listName}-${i}" src="${info.poster}" alt="" loading="lazy">`;
+  }));
+}
+
+function removeListItem(ln, idx) { cfg[ln].splice(idx,1); markDirty(); renderSortList(ln); renderDonutChart(); toast('Removed','success'); }
+function showAddItemForm(ln) { document.getElementById('add-item-'+ln+'-form').style.display='block'; document.getElementById('add-'+ln+'-id').focus(); }
+function hideAddItemForm(ln) { document.getElementById('add-item-'+ln+'-form').style.display='none'; document.getElementById('add-'+ln+'-id').value=''; document.getElementById('add-'+ln+'-type').value='movie'; clearLookup('add-'+ln); }
+function addListItem(ln) {
+  if (ln==='top10' && cfg.top10.length>=10) { toast('Top 10 is full. Remove one first.','error'); return; }
+  const id = parseInt(document.getElementById('add-'+ln+'-id').value);
+  const type = document.getElementById('add-'+ln+'-type').value;
+  if (!id) { toast('Enter a valid TMDB ID','error'); return; }
+  if (cfg[ln].some(x => x.id===id && x.type===type)) { toast('Already in list','error'); return; }
+  cfg[ln].push({id,type}); markDirty(); hideAddItemForm(ln); renderSortList(ln); toast('Item added','success');
+}
+
+// ── DRAG & DROP ──────────────────────────────────────────────────────
+let dragSrc=null;
+function dragStart(e,ln,i){ dragSrc={ln,i}; e.dataTransfer.effectAllowed='move'; document.getElementById('si-'+ln+'-'+i).classList.add('dragging'); }
+function dragOver(e,ln,i){ if(!dragSrc||dragSrc.ln!==ln) return; e.preventDefault(); document.querySelectorAll('.sort-item').forEach(el=>el.classList.remove('drag-over')); document.getElementById('si-'+ln+'-'+i).classList.add('drag-over'); }
+function dragDrop(e,ln,i){ e.preventDefault(); if(!dragSrc||dragSrc.ln!==ln||dragSrc.i===i) return; const a=cfg[ln]; a.splice(i,0,a.splice(dragSrc.i,1)[0]); markDirty(); renderSortList(ln); }
+function dragEnd(ln){ dragSrc=null; document.querySelectorAll('.sort-item').forEach(el=>{el.classList.remove('dragging');el.classList.remove('drag-over');}); }
+
+// ── GITHUB SAVE ──────────────────────────────────────────────────────
+function buildConfig() {
+  cfg.lockerDelay = parseInt(document.getElementById('locker-delay').value) || 0;
+  return JSON.stringify(cfg, null, 2);
+}
+async function saveToGitHub() {
+  const token = document.getElementById('gh-token').value.trim();
+  if (!token) { toast('Add a GitHub token in Settings first','error'); switchTab('settings'); return; }
+  const btn = document.getElementById('github-save-btn');
+  const lbl = document.getElementById('save-btn-label');
+  btn.disabled=true; lbl.textContent='Saving…';
+  const base64 = btoa(unescape(encodeURIComponent(buildConfig())));
+  try {
+    if (!currentFileSHA) {
+      const c = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`,
+        { headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json'} });
+      if (c.ok) { currentFileSHA = (await c.json()).sha; }
+    }
+    const body = { message:'Update config.json via admin dashboard', content:base64, branch:GH_BRANCH };
+    if (currentFileSHA) body.sha = currentFileSHA;
+    const r = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, {
+      method:'PUT', body:JSON.stringify(body),
+      headers:{Authorization:'token '+token,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'}
+    });
+    const result = await r.json();
+    if (r.ok) {
+      currentFileSHA = result.content.sha; dirty=false;
+      lbl.textContent='Saved!'; setGHSync();
+      toast('Saved to GitHub — site updates in ~30 sec','success');
+      setTimeout(()=>{ lbl.textContent='Save to GitHub'; btn.disabled=false; }, 3000); return;
+    }
+    toast('GitHub error: '+(result.message||'Unknown'),'error');
+  } catch(e) { toast('Network error: '+e.message,'error'); }
+  lbl.textContent='Save to GitHub'; btn.disabled=false;
+}
+
+async function copyJSON() {
+  try { await navigator.clipboard.writeText(buildConfig()); toast('JSON copied','success'); }
+  catch { toast('Copy failed — use JSON Preview tab','error'); }
+}
+function refreshPreview() { document.getElementById('json-preview-content').textContent = buildConfig(); }
+
+// ── TOAST ────────────────────────────────────────────────────────────
+let toastT;
+function toast(msg, type='success') {
+  const el=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  el.className='show '+type;
+  clearTimeout(toastT);
+  toastT=setTimeout(()=>el.classList.remove('show'),3500);
+}
+
+// ── UTIL ─────────────────────────────────────────────────────────────
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// redraw chart on resize
+window.addEventListener('resize', ()=>{ clearTimeout(window._rz); window._rz=setTimeout(renderOverviewChart,150); });
+
+// ── EYE TOGGLE ───────────────────────────────────────────────────────
+function toggleGateEye() {
+  const inp = document.getElementById('pw-input');
+  const icon = document.getElementById('gate-eye-icon');
+  const button = document.getElementById('gate-eye-btn');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
+    button.setAttribute('aria-label','Hide password');
+  } else {
+    inp.type = 'password';
+    icon.innerHTML = '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z"/><circle cx="12" cy="12" r="3.2"/>';
+    button.setAttribute('aria-label','Show password');
+  }
+}
+
+// ── GATE BACKGROUND — DOTTED PARTICLE FANS ──────────────────────────
+(function () {
+  const canvas = document.getElementById('gate-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const card = document.querySelector('.gate-card');
+  let W = 0, H = 0, dpr = 1, t = 0;
+
+  function resize() {
+    W = window.innerWidth;
+    H = window.innerHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function pointOnQuadratic(p0, p1, p2, p) {
+    const q = 1 - p;
+    return {
+      x:q*q*p0.x + 2*q*p*p1.x + p*p*p2.x,
+      y:q*q*p0.y + 2*q*p*p1.y + p*p*p2.y
+    };
+  }
+
+  function drawFan(side, edgeX, focusY) {
+    const direction = side === 'left' ? 1 : -1;
+    const outerX = side === 'left' ? -26 : W + 26;
+    const spread = Math.min(H * .18, 285);
+    const strandCount = W < 620 ? 28 : 38;
+    const dotsPerStrand = W < 620 ? 38 : 52;
+
+    const glow = ctx.createRadialGradient(edgeX,focusY,0,edgeX,focusY,Math.min(W*.25,250));
+    glow.addColorStop(0,'rgba(255,18,42,.17)');
+    glow.addColorStop(.38,'rgba(220,8,30,.055)');
+    glow.addColorStop(1,'rgba(150,0,22,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(side === 'left' ? 0 : edgeX-Math.min(W*.25,250),focusY-spread,Math.min(W*.25,250),spread*2);
+
+    for (let i = 0; i < strandCount; i++) {
+      const n = (i / (strandCount - 1)) * 2 - 1;
+      const start = {x:outerX,y:focusY + n * spread};
+      const control = {
+        x:outerX + direction * Math.abs(edgeX - outerX) * (.38 + Math.abs(n) * .09),
+        y:focusY + n * spread * .88 + Math.sin(i * .72 + t) * 8
+      };
+      const end = {x:edgeX + direction * 5,y:focusY + n * 9};
+      const strandStrength = .34 + (1 - Math.abs(n)) * .58;
+
+      for (let j = 0; j < dotsPerStrand; j++) {
+        const p = j / (dotsPerStrand - 1);
+        const pos = pointOnQuadratic(start,control,end,p);
+        pos.y += Math.sin(p * 10 + i * .54 + t * .7) * (1-p) * 3.2;
+        const twinkle = .76 + Math.sin(i * 1.7 + j * .8 + t * 1.2) * .16;
+        const alpha = strandStrength * (.28 + p * .72) * twinkle;
+        const dotR = .75 + p * .72 + (i % 5 === 0 ? .18 : 0);
+        ctx.beginPath();
+        ctx.arc(pos.x,pos.y,dotR,0,Math.PI*2);
+        ctx.fillStyle = `rgba(244,17,40,${alpha.toFixed(3)})`;
+        ctx.fill();
+      }
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    t += .012;
+
+    const rect = card.getBoundingClientRect();
+    const focusY = rect.top + rect.height * .435;
+    drawFan('left',rect.left,focusY);
+    drawFan('right',rect.right,focusY);
+
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+})();
+</script>
+</body>
+</html>
