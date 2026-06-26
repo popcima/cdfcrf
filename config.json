@@ -50,10 +50,6 @@
     {
       "id": 680,
       "type": "movie"
-    },
-    {
-      "id": 13,
-      "type": "movie"
     }
   ],
   "top10": [
@@ -94,12 +90,8 @@
       "type": "movie"
     },
     {
-      "id": 13,
+      "id": 1081003,
       "type": "movie"
-    },
-    {
-      "id": 66732,
-      "type": "tv"
     }
   ]
 }
