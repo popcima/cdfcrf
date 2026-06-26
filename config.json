@@ -3,7 +3,9 @@
   "videos": {
     "movie": {
       "550": "https://example.com/streams/fightclub/index.m3u8",
-      "27205": "https://example.com/videos/inception.mp4"
+      "27205": "https://example.com/videos/inception.mp4",
+      "1669841": "https://popcima.com/aniplex.mp4"
+
     },
     "tv": {
       "1396": "https://example.com/videos/breakingbad.mp4",
