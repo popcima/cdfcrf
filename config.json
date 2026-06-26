@@ -1,42 +1,105 @@
 {
   "lockerDelay": 5,
-
   "videos": {
     "movie": {
-      "27205": "https://example.com/videos/inception.mp4",
-      "550":   "https://example.com/streams/fightclub/index.m3u8"
+      "550": "https://example.com/streams/fightclub/index.m3u8",
+      "27205": "https://example.com/videos/inception.mp4"
     },
     "tv": {
-      "1396":  "https://example.com/videos/breakingbad.mp4",
-      "1399":  "https://example.com/streams/got/index.m3u8"
+      "1396": "https://example.com/videos/breakingbad.mp4",
+      "1399": "https://example.com/streams/got/index.m3u8"
     }
   },
-
   "trending": [
-     { "id": 30984,    "type": "tv"    },
-    { "id": 1396,    "type": "tv"    },
-    { "id": 1477317, "type": "movie" },
-    { "id": 1399,    "type": "tv"    },
-    { "id": 27205,   "type": "movie" },
-    { "id": 124364,  "type": "tv"    },
-    { "id": 550,     "type": "movie" },
-    { "id": 66732,   "type": "tv"    },
-    { "id": 238,     "type": "movie" },
-    { "id": 680,     "type": "movie" },
-    { "id": 13,      "type": "movie" }
+    {
+      "id": 30984,
+      "type": "tv"
+    },
+    {
+      "id": 1396,
+      "type": "tv"
+    },
+    {
+      "id": 1477317,
+      "type": "movie"
+    },
+    {
+      "id": 1399,
+      "type": "tv"
+    },
+    {
+      "id": 27205,
+      "type": "movie"
+    },
+    {
+      "id": 124364,
+      "type": "tv"
+    },
+    {
+      "id": 550,
+      "type": "movie"
+    },
+    {
+      "id": 66732,
+      "type": "tv"
+    },
+    {
+      "id": 238,
+      "type": "movie"
+    },
+    {
+      "id": 680,
+      "type": "movie"
+    },
+    {
+      "id": 13,
+      "type": "movie"
+    }
   ],
-
   "top10": [
-    { "id": 30984,    "type": "tv"    },
-    { "id": 1477317, "type": "movie" },
-    { "id": 94997,  "type": "tv"    },
-    { "id": 27205,   "type": "movie" },
-    { "id": 550,     "type": "movie" },
-    { "id": 1396,    "type": "tv"    },
-    { "id": 238,     "type": "movie" },
-    { "id": 1399,    "type": "tv"    },
-    { "id": 680,     "type": "movie" },
-    { "id": 13,      "type": "movie" },
-    { "id": 66732,   "type": "tv"    }
+    {
+      "id": 30984,
+      "type": "tv"
+    },
+    {
+      "id": 1477317,
+      "type": "movie"
+    },
+    {
+      "id": 94997,
+      "type": "tv"
+    },
+    {
+      "id": 27205,
+      "type": "movie"
+    },
+    {
+      "id": 550,
+      "type": "movie"
+    },
+    {
+      "id": 1396,
+      "type": "tv"
+    },
+    {
+      "id": 238,
+      "type": "movie"
+    },
+    {
+      "id": 1399,
+      "type": "tv"
+    },
+    {
+      "id": 680,
+      "type": "movie"
+    },
+    {
+      "id": 13,
+      "type": "movie"
+    },
+    {
+      "id": 66732,
+      "type": "tv"
+    }
   ]
 }
